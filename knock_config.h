@@ -5,7 +5,7 @@
 #pragma once
 
 // Knock is on ADC1 (PA6 is available on ADC1)
-#define KNOCK_ADC ADCD1
+#define KNOCK_ADC ADCD2
 
 // knock 1 - pin PA6
 #define KNOCK_ADC_CH1 ADC_CHANNEL_IN6

@@ -14,6 +14,25 @@ static void setSdCardSpi3() {
 	engineConfiguration->sdCardCsPin = Gpio::D2;
 }
 
+static void setupEtb() {
+	// TLE9201 driver
+	// This chip has three control pins:
+	// DIR - sets direction of the motor
+	// PWM - pwm control (enable high, coast low)
+	// DIS - disables motor (enable low)
+
+	// Throttle #1
+	// PWM pin
+	engineConfiguration->etbIo[0].controlPin = Gpio::A8;
+	// DIR pin
+	engineConfiguration->etbIo[0].directionPin1 = Gpio::B8;
+	// Disable pin
+	engineConfiguration->etbIo[0].disablePin = Gpio::B9;
+
+	// we only have pwm/dir, no dira/dirb
+	engineConfiguration->etb_use_two_wires = false;
+}
+
 static void setBoard_04_pinout() {
 	engineConfiguration->injectionPins[0] = Gpio::B15;
 	engineConfiguration->injectionPins[1] = Gpio::B14;
@@ -111,6 +130,7 @@ static void setBoard_mini_pinout() {
 	engineConfiguration->clutchDownPin = Gpio::E12;
 	engineConfiguration->clutchDownPinMode = PI_INVERTED_PULLUP;
 	setSdCardSpi3();
+	setupEtb();
 }
 
 

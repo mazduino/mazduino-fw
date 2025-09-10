@@ -13,6 +13,8 @@ Gpio getWarningLedPin() {
 	return Gpio::Unassigned;
 }
 
+
+
 // board-specific configuration setup
 static void customBoardDefaultConfiguration() {
     // engineConfiguration->injectionPins[0] = Gpio::F13;
@@ -49,7 +51,8 @@ static void customBoardDefaultConfiguration() {
 	engineConfiguration->spi3sckPin = Gpio::C10;
 	engineConfiguration->is_enabled_spi_3 = true;
 	engineConfiguration->sdCardCsPin = Gpio::D2;
-
+	engineConfiguration->canTxPin = Gpio::D1;
+	engineConfiguration->canRxPin = Gpio::D0;
 
 
 }
