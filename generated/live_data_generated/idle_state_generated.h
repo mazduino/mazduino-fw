@@ -30,6 +30,7 @@ struct idle_state_s {
 	bool mightResetPid : 1 {};
 	/**
 	 * Idle: shouldResetPid
+	 * This is used when the PID configuration is changed, to guarantee the reset
 	offset 12 bit 1 */
 	bool shouldResetPid : 1 {};
 	/**
@@ -38,48 +39,47 @@ struct idle_state_s {
 	offset 12 bit 2 */
 	bool wasResetPid : 1 {};
 	/**
-	 * Idle: mustResetPid
-	 * This is used when the PID configuration is changed, to guarantee the reset
-	offset 12 bit 3 */
-	bool mustResetPid : 1 {};
-	/**
 	 * Idle: cranking
-	offset 12 bit 4 */
+	offset 12 bit 3 */
 	bool isCranking : 1 {};
 	/**
-	offset 12 bit 5 */
+	offset 12 bit 4 */
 	bool isIacTableForCoasting : 1 {};
 	/**
 	 * Idle: reset
-	offset 12 bit 6 */
+	offset 12 bit 5 */
 	bool needReset : 1 {};
 	/**
 	 * Idle: dead zone
-	offset 12 bit 7 */
+	offset 12 bit 6 */
 	bool isInDeadZone : 1 {};
 	/**
-	offset 12 bit 8 */
+	offset 12 bit 7 */
 	bool isBlipping : 1 {};
 	/**
-	offset 12 bit 9 */
+	offset 12 bit 8 */
 	bool badTps : 1 {};
 	/**
-	offset 12 bit 10 */
+	offset 12 bit 9 */
 	bool looksLikeRunning : 1 {};
 	/**
-	offset 12 bit 11 */
+	offset 12 bit 10 */
 	bool looksLikeCoasting : 1 {};
 	/**
-	offset 12 bit 12 */
+	offset 12 bit 11 */
 	bool looksLikeCrankToIdle : 1 {};
 	/**
 	 * Idle: coasting
-	offset 12 bit 13 */
+	offset 12 bit 12 */
 	bool isIdleCoasting : 1 {};
 	/**
 	 * Idle: Closed loop active
-	offset 12 bit 14 */
+	offset 12 bit 13 */
 	bool isIdleClosedLoop : 1 {};
+	/**
+	 * Idle: idling
+	offset 12 bit 14 */
+	bool isIdling : 1 {};
 	/**
 	offset 12 bit 15 */
 	bool unusedBit_18_15 : 1 {};
@@ -135,56 +135,72 @@ struct idle_state_s {
 	 * Idle: Target RPM
 	 * offset 16
 	 */
-	int idleTarget = (int)0;
+	uint16_t idleTarget = (uint16_t)0;
+	/**
+	 * Idle: Entry threshold
+	 * offset 18
+	 */
+	uint16_t idleEntryRpm = (uint16_t)0;
+	/**
+	 * Idle: Exit threshold
+	 * offset 20
+	 */
+	uint16_t idleExitRpm = (uint16_t)0;
+	/**
+	 * need 4 byte alignment
+	 * units: units
+	 * offset 22
+	 */
+	uint8_t alignmentFill_at_22[2] = {};
 	/**
 	 * Idle: Target RPM base
-	 * offset 20
+	 * offset 24
 	 */
 	int targetRpmByClt = (int)0;
 	/**
 	 * Idle: Target A/C RPM
-	 * offset 24
+	 * offset 28
 	 */
 	int targetRpmAc = (int)0;
 	/**
 	 * idle: iacByRpmTaper portion
-	 * offset 28
+	 * offset 32
 	 */
 	percent_t iacByRpmTaper = (percent_t)0;
 	/**
 	 * idle: Lua Adder
-	 * offset 32
+	 * offset 36
 	 */
 	percent_t luaAdd = (percent_t)0;
 	/**
-	 * offset 36
+	 * offset 40
 	 */
 	int m_lastTargetRpm = (int)0;
 	/**
 	 * Closed loop
-	 * offset 40
+	 * offset 44
 	 */
 	percent_t idleClosedLoop = (percent_t)0;
 	/**
 	 * @@GAUGE_NAME_IAC@@
 	 * units: %
-	 * offset 44
+	 * offset 48
 	 */
 	percent_t currentIdlePosition = (percent_t)0;
 	/**
 	 * Target airmass
 	 * units: mg
-	 * offset 48
+	 * offset 52
 	 */
 	uint16_t idleTargetAirmass = (uint16_t)0;
 	/**
 	 * Target airflow
 	 * units: kg/h
-	 * offset 50
+	 * offset 54
 	 */
 	scaled_channel<uint16_t, 100, 1> idleTargetFlow = (uint16_t)0;
 };
-static_assert(sizeof(idle_state_s) == 52);
+static_assert(sizeof(idle_state_s) == 56);
 
 // end
 // this section was generated automatically by rusEFI tool config_definition_base-all.jar based on (unknown script) controllers/actuators/idle_state.txt
