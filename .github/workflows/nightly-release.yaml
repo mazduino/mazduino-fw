@@ -72,10 +72,20 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: release-assets/
-          merge-multiple: true
+
+      - name: Rename artifacts with board names
+        run: |
+          mkdir -p firmware-files
+          for dir in release-assets/*/; do
+            name=$(basename "$dir")
+            for file in "$dir"*; do
+              [ -f "$file" ] || continue
+              cp "$file" "firmware-files/$name"
+            done
+          done
 
       - name: List release assets
-        run: find release-assets/ -type f | sort
+        run: find firmware-files/ -type f | sort
 
       - name: Read changelog
         id: changelog
@@ -115,4 +125,4 @@ jobs:
 
             ## TunerStudio Connection
             Connect via USB virtual COM port (all boards except mega100 variants which use CAN bus).
-          files: release-assets/*
+          files: firmware-files/*
