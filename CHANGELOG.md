@@ -21,6 +21,7 @@ All notable changes to Mazduino firmware are documented here.
 ### Fixed
 - Root `board_configuration.cpp`: removed forward declaration of `customBoardTsAction` which caused undefined reference linker error in CI unit test build
 - `EFI_EMBED_INI_MSD=FALSE` on mega100-512: the embedded TunerStudio INI file was contributing approximately 155KB to the firmware binary; disabling it reduced firmware from 488KB to 271KB
+- `board_unit_tests.mk`: added `BOARDINC` pointing to `generated/controllers/generated/` so the unit test build can find `rusefi_generated_mazduino.h` (previously the compiler could not find this file because the unit test Makefile does not include `rusefi.mk` which is what adds that path for firmware builds)
 
 ## [2025-01-01]
 
