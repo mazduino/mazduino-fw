@@ -72830,3 +72830,340 @@
  #define TS_SIMULATE_CAN '>'
  #define TS_SIMULATE_CAN_char >
  #define TS_TEST_COMMAND 't'
+--- a/../../../generated/controllers/generated/signature_mazduino-mega100-512.h
++++ b/../../../generated/controllers/generated/signature_mazduino-mega100-512.h
+@@ -1,5 +1,5 @@
+ //
+ //
+ 
+-#define SIGNATURE_HASH 1921387301
+-#define TS_SIGNATURE "rusEFI mazduino.2026.06.21.mazduino-mega100-512.1921387301"
++#define SIGNATURE_HASH 3865954148
++#define TS_SIGNATURE "rusEFI mazduino.2026.06.21.mazduino-mega100-512.3865954148"
+--- a/../../../generated/tunerstudio/generated/rusefi_mazduino-mega100-512.ini
++++ b/../../../generated/tunerstudio/generated/rusefi_mazduino-mega100-512.ini
+@@ -48,7 +48,7 @@
+ [TunerStudio]
+ 	queryCommand	= "S"
+ 	versionInfo	= "V"  ; firmware version for title bar.
+-	signature= "rusEFI mazduino.2026.06.21.mazduino-mega100-512.1921387301" ; signature is expected to be 7 or more characters.
++	signature= "rusEFI mazduino.2026.06.21.mazduino-mega100-512.3865954148" ; signature is expected to be 7 or more characters.
+ 
+ 	; TS will try to use legacy temp units in some cases, showing "deg F" on a CLT gauge that's actually deg C
+ 	useLegacyFTempUnits = false
+@@ -2064,8 +2064,8 @@
+ 	fan2MaxPwm = "Maximum PWM output clamp (Fan 2)"
+ 	fan1AcAdder = "PWM adder when AC compressor is active (Fan 1)"
+ 	fan2AcAdder = "PWM adder when AC compressor is active (Fan 2)"
+-	fan1SoftStartSec = "Soft-start ramp time ? how long to ramp from 0 to target PWM (Fan 1)"
+-	fan2SoftStartSec = "Soft-start ramp time ? how long to ramp from 0 to target PWM (Fan 2)"
++	fan1SoftStartSec = "Soft-start ramp time – how long to ramp from 0 to target PWM (Fan 1)"
++	fan2SoftStartSec = "Soft-start ramp time – how long to ramp from 0 to target PWM (Fan 2)"
+ 	driveWheelRevPerKm = "Number of revolutions per kilometer for the wheels your vehicle speed sensor is connected to. Use an online calculator to determine this based on your tire size."
+ 	canSleepPeriodMs = "CANbus thread period in ms"
+ 	tps1_1AdcChannel = "First analog throttle body, first sensor. See also pedalPositionAdcChannel\nAnalog TPS inputs have 200Hz low-pass cutoff."
+@@ -6104,7 +6104,6 @@
+ 	; minor info
+ 	indicator =						{ fan1m_state },				"Fan off",				"Fan on",  white,  black,  green,  black
+ 	indicator =						{ fan2m_state },			"Fan 2 off",			"Fan 2 on",  white,  black,  green,  black
+-	indicator =				{ mainRelayState },		"Main relay off",	"Main relay on",  white,  black,  green,  black
+ 	; Line 2
+ 	;			=							expression,				off-label,				on-label, off-bg, off-fg,  on-bg,  on-fg
+ 	indicator =					{ isFuelPumpOn },		"Fuel pump off",		"Fuel pump on",  white,  black,  green,  black
+@@ -7189,8 +7188,6 @@
+ 		subMenu = triggerConfiguration,		"Trigger"
+ 		subMenu = trigger_advanced, "Advanced Trigger", { 1 }, { uiMode == 0 || uiMode == 1 }
+ 		subMenu = triggerConfiguration_gap, "Trigger Gap Override", {1}, { uiMode == 0 || uiMode == 1 }
+-		subMenu = std_separator
+-		subMenu = energySystems,			"Battery and alternator"
+ 		subMenu = ignitionInputDialog,		"Ignition key input Settings"
+ 		subMenu = std_separator
+ 
+@@ -7517,7 +7514,6 @@
+ 		subMenu = msIoBox,					"CAN MS IO-Box Settings"
+ 
+ 	menu = "&Controller"
+-		subMenu = ecuStimulator,			"ECU stimulator"
+ 		subMenu = ioTest,					"Bench test"
+ 		subMenu = injTest,					"Injector test"
+ 		subMenu = engineTypeDialog,			"Base Tunes"
+@@ -7528,7 +7524,6 @@
+ 		subMenu = monitoringSettings,		"rusEFI console"
+ 		subMenu = std_separator
+ 
+-		subMenu = sdCard,					"SD Card Logger" 
+ 		subMenu = connection,					"Connection"
+ 		subMenu = std_separator
+ 
+@@ -7551,15 +7546,8 @@
+ 		subMenu = parkingLot,				"Experimental 1"
+ 		subMenu = parkingLot2,				"Experimental 2"
+ 		subMenu = parkingLot3,				"Experimental 3"
+-		subMenu = harleyAcr,                "Harley"
+ 		subMenu = idleFlowEstimate, "Idle flow estimate", { modeledFlowIdle }
+ 		subMenu = idleAirmassTimingEquivalence, "Idle airmass/timing equivalence", { modeledFlowIdle }
+-		subMenu = rotaryDialog,			"Rotary"
+-		groupMenu = "Torque"
+-		  groupChildMenu = throttleEffectiveArea, "Throttle effective area", { 1 }, { uiMode == 0 || uiMode == 1 }
+-		  groupChildMenu = torqueTableTbl, "Torque"
+-		  groupChildMenu = torqueTableGenerator, "Torque Table Generator"
+-		  groupChildMenu = torque2TableTbl, "TMF"
+ 
+ 		menu = "Help"
+ 			subMenu = helpGeneral,	"rusEFI Info"
+@@ -9468,7 +9456,6 @@
+ 		field = "SPI6 SCK",								spi6sckPin, {is_enabled_spi_6 == 1} 
+ 
+ 	dialog = allPinsInternal_Misc, "Misc."
+-		field = "SD CS Pin",							sdCardCsPin
+ 		field = "Debug Trigger Sync",					debugTriggerSync
+ 		field = "Debug Trigger State",					debugTriggerState
+ 		field = "TLE8888 Chip Select",						tle8888_cs 
+@@ -10500,14 +10487,12 @@
+ 		field = "Pulse per km",		speedometerPulsePerKm, { speedometerOutputPin }
+ 
+   dialog = outputsDialogLeft
+-		panel = mainRelayDialog
+ 		panel = fuelPumpDialog
+ 		panel = tachSettings
+ 
+     dialog = outputsDialogRight
+ 		panel = startStopDialog
+ 		panel = starterRelayDialog
+-		panel = speedoSettings
+ 
+     dialog = outputsDialog, "Outputs", border
+         panel = outputsDialogLeft, West
+@@ -10786,8 +10771,6 @@
+ 
+ 	dialog = sdCardHW, "SD Card Interface"
+ 		field = "SD Card Logging",						isSdCardEnabled
+-		field = "CS Pin",								sdCardCsPin, { isSdCardEnabled }			
+-		field = "SPI",									sdCardSpiDevice, { isSdCardEnabled }		
+ 
+ 	indicatorPanel = sdPresentIndicators, 1, { isSdCardEnabled }
+ 		indicator = { sd_present },	 "No SD card", "SD card present", white, black, green, black
+@@ -11572,7 +11555,6 @@
+ 	dialog = ecuStimulator, "ECU stimulator"
+ 		field = "Trigger Simulator",						triggerSimulatorRpm
+ 		commandButton = "Enable internal trigger simulation", cmd_enable_self_stim
+-		commandButton = "Enable external trigger simulation", cmd_enable_ext_stim 
+ 		commandButton = "Disable trigger simulation", cmd_disable_self_stim
+ ;		field = ""
+ ;		field = "digipot spi",							digitalPotentiometerSpiDevice
+@@ -11581,13 +11563,6 @@
+ ;		field = "digipot CS #2",						digitalPotentiometerChipSelect3
+ ;		field = "digipot CS #3",						digitalPotentiometerChipSelect4
+ 		field = ""
+-		field = "trigger stimulator output #1",			triggerSimulatorPins1
+-		field = "trigger stimulator output mode #1",		triggerSimulatorPinModes1
+-		field = "trigger stimulator output #2",			triggerSimulatorPins2
+-		field = "trigger stimulator output mode #2",		triggerSimulatorPinModes2
+-		field = camSimulatorPin,                    camSimulatorPin
+-		field = camSimulatorPinMode,                camSimulatorPinMode
+-		field = ""
+ 		field = "Logic input channel 1",				logicAnalyzerPins1
+ 		field = "Logic input channel 2",				logicAnalyzerPins2
+ 		field = "Logic input channel 3",				logicAnalyzerPins3
+--- a/../../../generated/controllers/generated/rusefi_generated_mazduino-mega100-512.h
++++ b/../../../generated/controllers/generated/rusefi_generated_mazduino-mega100-512.h
+@@ -1591,7 +1591,7 @@
+ #define SentInput_NONE 0
+ #define show_tcu_gauges false
+ #define show_vvt_output_pin true
+-#define SIGNATURE_HASH 1921387301
++#define SIGNATURE_HASH 3865954148
+ #define SIMULATOR_TUNE_BIN_FILE_NAME "generated/simulator_tune_image.bin"
+ #define SIMULATOR_TUNE_BIN_FILE_NAME_PREFIX "generated/simulator_tune_image"
+ #define SIMULATOR_TUNE_BIN_FILE_NAME_SUFFIX ".bin"
+@@ -1966,7 +1966,7 @@
+ #define ts_show_adv_wall_wetting true
+ #define ts_show_AdvanceCorrectionsForCranking true
+ #define ts_show_air_conditioning true
+-#define ts_show_alternator true
++#define ts_show_alternator false
+ #define ts_show_analog_diag false
+ #define ts_show_analog_divider true
+ #define ts_show_analog_ego true
+@@ -2021,7 +2021,7 @@
+ #define ts_show_dc_hardware true
+ #define ts_show_debug_mode false
+ #define ts_show_disable_etb false
+-#define ts_show_ecu_stimulator true
++#define ts_show_ecu_stimulator false
+ #define ts_show_ego2 true
+ #define ts_show_egt true
+ #define ts_show_enableKnockSpectrogram true
+@@ -2084,9 +2084,9 @@
+ #define ts_show_gppwm_3 true
+ #define ts_show_gppwm_4 true
+ #define ts_show_grab_tps true
+-#define ts_show_hardware_simulator true
++#define ts_show_hardware_simulator false
+ #define ts_show_hbridge_function true
+-#define ts_show_hd true
++#define ts_show_hd false
+ #define ts_show_hip9011 false
+ #define ts_show_iat true
+ #define ts_show_idle_hardware true
+@@ -2116,7 +2116,7 @@
+ #define ts_show_long_term_fuel_trim false
+ #define ts_show_ltft_sd_card_message true
+ #define ts_show_maf true
+-#define ts_show_main_relay true
++#define ts_show_main_relay false
+ #define ts_show_main_relay_microRusEFI_message false
+ #define ts_show_map_averaging_enabled true
+ #define ts_show_map_estimate true
+@@ -2136,14 +2136,14 @@
+ #define ts_show_primary_trigger true
+ #define ts_show_reboot_to_dfu true
+ #define ts_show_reset_calibrations true
+-#define ts_show_rotary true
+-#define ts_show_sd_card true
+-#define ts_show_sd_pins true
++#define ts_show_rotary false
++#define ts_show_sd_card false
++#define ts_show_sd_pins false
+ #define ts_show_second_bank true
+ #define ts_show_sent true
+ #define ts_show_software_knock false
+ #define ts_show_sparkHardwareLatencyCorrection true
+-#define ts_show_speedo_settings true
++#define ts_show_speedo_settings false
+ #define ts_show_speedSensorCan true
+ #define ts_show_spi true
+ #define ts_show_spi1_enable true
+@@ -2172,7 +2172,7 @@
+ #define ts_show_throttle_switch true
+ #define ts_show_tle8888 false
+ #define ts_show_top_level_can_menu true
+-#define ts_show_torque_model true
++#define ts_show_torque_model false
+ #define ts_show_tps2 true
+ #define ts_show_tps_sent false
+ #define ts_show_traction_control false
+@@ -2210,7 +2210,7 @@
+ #define ts_show_wbo_canbus_index true
+ #define ts_show_wbo_canbus_set_index true
+ #define ts_show_wbo_canbus_set_type false
+-#define TS_SIGNATURE "rusEFI mazduino.2026.06.21.mazduino-mega100-512.1921387301"
++#define TS_SIGNATURE "rusEFI mazduino.2026.06.21.mazduino-mega100-512.3865954148"
+ #define TS_SIMULATE_CAN '>'
+ #define TS_SIMULATE_CAN_char >
+ #define TS_TEST_COMMAND 't'
+--- a/../../../generated/controllers/generated/signature_mazduino-mega100-512.h
++++ b/../../../generated/controllers/generated/signature_mazduino-mega100-512.h
+@@ -1,5 +1,5 @@
+ //
+ //
+ 
+-#define SIGNATURE_HASH 3865954148
+-#define TS_SIGNATURE "rusEFI mazduino.2026.06.21.mazduino-mega100-512.3865954148"
++#define SIGNATURE_HASH 3406443408
++#define TS_SIGNATURE "rusEFI mazduino.2026.06.21.mazduino-mega100-512.3406443408"
+--- a/../../../generated/tunerstudio/generated/rusefi_mazduino-mega100-512.ini
++++ b/../../../generated/tunerstudio/generated/rusefi_mazduino-mega100-512.ini
+@@ -48,7 +48,7 @@
+ [TunerStudio]
+ 	queryCommand	= "S"
+ 	versionInfo	= "V"  ; firmware version for title bar.
+-	signature= "rusEFI mazduino.2026.06.21.mazduino-mega100-512.3865954148" ; signature is expected to be 7 or more characters.
++	signature= "rusEFI mazduino.2026.06.21.mazduino-mega100-512.3406443408" ; signature is expected to be 7 or more characters.
+ 
+ 	; TS will try to use legacy temp units in some cases, showing "deg F" on a CLT gauge that's actually deg C
+ 	useLegacyFTempUnits = false
+@@ -2064,8 +2064,8 @@
+ 	fan2MaxPwm = "Maximum PWM output clamp (Fan 2)"
+ 	fan1AcAdder = "PWM adder when AC compressor is active (Fan 1)"
+ 	fan2AcAdder = "PWM adder when AC compressor is active (Fan 2)"
+-	fan1SoftStartSec = "Soft-start ramp time ? how long to ramp from 0 to target PWM (Fan 1)"
+-	fan2SoftStartSec = "Soft-start ramp time ? how long to ramp from 0 to target PWM (Fan 2)"
++	fan1SoftStartSec = "Soft-start ramp time – how long to ramp from 0 to target PWM (Fan 1)"
++	fan2SoftStartSec = "Soft-start ramp time – how long to ramp from 0 to target PWM (Fan 2)"
+ 	driveWheelRevPerKm = "Number of revolutions per kilometer for the wheels your vehicle speed sensor is connected to. Use an online calculator to determine this based on your tire size."
+ 	canSleepPeriodMs = "CANbus thread period in ms"
+ 	tps1_1AdcChannel = "First analog throttle body, first sensor. See also pedalPositionAdcChannel\nAnalog TPS inputs have 200Hz low-pass cutoff."
+@@ -7410,9 +7410,6 @@
+ 
+ 		subMenu = ewgBiasCurve,				"EWG bias curve (feed forward)", { (etbFunctions1 == 4 || etbFunctions2 == 4) && isBoostControlEnabled } 
+ 
+-		subMenu = std_separator
+-		subMenu = vvtPidDialog,				"VVT outputs and PID", { 1 }, { uiMode == 0 || uiMode == 1 }
+-		subMenu = vvtIntakeTargetDialog,	"VVT intake target",  { vvtMode1 != 0 && vvtPins1 != 0 }
+ 		subMenu = vvtTable2Tbl,				"VVT exhaust target", { vvtMode2 != 0 && vvtPins2 != 0 }
+ 
+ 		subMenu = std_separator
+@@ -10315,7 +10312,6 @@
+ 
+ 	dialog = fuelLTFCSettings, "Long term fuel trim"
+ 		topicHelp = "fuelLTFCHelp"
+-	  field = "#Requires SD card"
+ 		field = "Gathering Data",						ltft_enabled
+ 		field = "See Short term fuel trim/Closed loop for region definitions"
+ 		field = "Time const for Idle region",			ltft_timeConstant1, { ltft_enabled }
+@@ -10616,7 +10612,6 @@
+ 		field = "Activation Delay",						vvtActivationDelayMs
+ 		field = "Do not control below RPM",				vvtControlMinRpm
+ 		field = "Do not control below CLT",				vvtControlMinClt
+-		field = "VVT solenoid bank 1 intake",					vvtPins1
+ 		field = "VVT solenoid bank 1 exhaust",						vvtPins2
+ 		field = "VVT solenoid bank 2 intake",						vvtPins3
+ 		field = "VVT solenoid bank 2 exhaust",						vvtPins4
+@@ -11501,7 +11496,6 @@
+ 	dialog = canReWidebandLegacyTools, "Legacy 2023 (stock) firmware"
+ 		field = "!Please connect exactly one wideband controller before pressing this button!"
+ 		field = "!Please do not use if you already have 2025+ FW in your WBO"
+-		commandButton = "Update 2023 Firmware to 2026", cmd_wideband_firmare_update
+ 
+ 	readoutPanel = canReWidebandBuildDate, 4, { 1 }
+ 		readout = canReWidebandVersion, "Version", "", 150, 255, 159, 160, 162, 162, 0, 0
+--- a/../../../generated/controllers/generated/rusefi_generated_mazduino-mega100-512.h
++++ b/../../../generated/controllers/generated/rusefi_generated_mazduino-mega100-512.h
+@@ -1591,7 +1591,7 @@
+ #define SentInput_NONE 0
+ #define show_tcu_gauges false
+ #define show_vvt_output_pin true
+-#define SIGNATURE_HASH 3865954148
++#define SIGNATURE_HASH 3406443408
+ #define SIMULATOR_TUNE_BIN_FILE_NAME "generated/simulator_tune_image.bin"
+ #define SIMULATOR_TUNE_BIN_FILE_NAME_PREFIX "generated/simulator_tune_image"
+ #define SIMULATOR_TUNE_BIN_FILE_NAME_SUFFIX ".bin"
+@@ -2114,7 +2114,7 @@
+ #define ts_show_linear_thermistors true
+ #define ts_show_live_data true
+ #define ts_show_long_term_fuel_trim false
+-#define ts_show_ltft_sd_card_message true
++#define ts_show_ltft_sd_card_message false
+ #define ts_show_maf true
+ #define ts_show_main_relay false
+ #define ts_show_main_relay_microRusEFI_message false
+@@ -2185,7 +2185,7 @@
+ #define ts_show_tunerstudio_port true
+ #define ts_show_turbo_sensors true
+ #define ts_show_twoWireBatchIgnition true
+-#define ts_show_update_wbo_2023_to_2026 true
++#define ts_show_update_wbo_2023_to_2026 false
+ #define ts_show_useNoiselessTriggerDecoder true
+ #define ts_show_useRunningMathForCranking true
+ #define ts_show_useSeparateVeForIdle true
+@@ -2202,15 +2202,16 @@
+ #define ts_show_vr_threshold_all false
+ #define ts_show_vr_threshold_pins true
+ #define ts_show_vvl_control true
+-#define ts_show_vvt_output true
+-#define ts_show_vvt_output_pin true
++#define ts_show_vvt_frequency false
++#define ts_show_vvt_output false
++#define ts_show_vvt_output_pin false
+ #define ts_show_wall_wetting true
+ #define ts_show_wastegate_sensor true
+ #define ts_show_wbo_can_menu true
+ #define ts_show_wbo_canbus_index true
+ #define ts_show_wbo_canbus_set_index true
+ #define ts_show_wbo_canbus_set_type false
+-#define TS_SIGNATURE "rusEFI mazduino.2026.06.21.mazduino-mega100-512.3865954148"
++#define TS_SIGNATURE "rusEFI mazduino.2026.06.21.mazduino-mega100-512.3406443408"
+ #define TS_SIMULATE_CAN '>'
+ #define TS_SIMULATE_CAN_char >
+ #define TS_TEST_COMMAND 't'

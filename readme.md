@@ -1,107 +1,129 @@
 # Mazduino ECU Custom Firmware
 
-This repository contains custom rusEFI firmware for various Mazduino ECU boards and compatible STM32F4-based engine management systems.
+Custom rusEFI firmware for Mazduino ECU boards and compatible STM32F4-based engine management systems.
 
-## Supported Hardware
+## Download
 
-### Mazduino Boards
+Pre-built firmware is published as nightly releases on the [Releases page](../../releases).
 
-#### Mazduino Compact 4CH
-Compact 4-channel engine management unit
+Each release includes `.bin`, `.srec`, and `.hex` files for every supported board.
 
-![Mazduino Compact 4CH](img/mazduino-compact-4ch.jpg)
+## Supported Boards
 
-#### Mazduino Mini 6CH
-Mini 6-channel engine management unit
+### Mazduino Compact
+- MCU: STM32F407VGT6 (1MB flash)
+- Hardware knock detection via ADC3/PA3
+- Software knock spectrogram
+- CAN bus, USB virtual COM port (TunerStudio)
+- Dual idle solenoid outputs
+- No ETB, no traction control
 
-![Mazduino Mini 6CH](img/mazduino-mini-6ch.jpg)
+### Mazduino Lite
+- MCU: STM32F407VGT6 (1MB flash)
+- No hardware knock (ADC3 not connected)
+- CAN bus, USB virtual COM port
+- Dual idle solenoid outputs
+- No ETB, no traction control
 
-### Compatible STM32F4 Boards
+### Mazduino Mini 6CH (STM32F427VGT6)
+- MCU: STM32F427VGT6 (1MB flash)
+- Electronic throttle body (ETB) support
+- Traction control (requires ETB)
+- Hardware knock detection
+- CAN bus, USB virtual COM port
 
-#### STM32F4 Mega Layout (Speeduino 0.4 & UA4C)
-STM32F4 mega layout compatible with rusEFI
+### Mazduino Mega100 (STM32F407VGT6)
+- MCU: STM32F407VGT6 (1MB flash)
+- Full feature set: ETB, traction control, knock, boost, launch control
+- Dual pinout support: board04 layout and UA4C layout, switchable via TunerStudio board action
+- USB virtual COM port and CAN bus for TunerStudio connection
+- Status LED at PB7
 
-![STM32F4 Mega Layout](img/stm32f4-mega-layout.jpg)
+### Mazduino Mega100-512 (STM32F407VET6)
+- MCU: STM32F407VET6 (512KB flash)
+- Firmware constrained to 384KB to preserve tune storage sector
+- Feature reduction vs Mega100: no ETB, no knock, no boost control, no launch control, no Lua, no SD card
+- CAN bus or USB virtual COM port for TunerStudio connection
+- Status LED at PB7
 
-- **Speeduino 0.4** - STM32F4 mega layout compatible with rusEFI
-- **UA4C** - STM32F4 mega layout compatible with rusEFI
+## TunerStudio Connection
 
-## Features
+| Board | Connection |
+|-------|------------|
+| Compact, Lite, Mini 6CH | USB virtual COM port |
+| Mega100 | USB virtual COM port or CAN bus |
+| Mega100-512 | USB virtual COM port or CAN bus |
 
-- Based on rusEFI open-source engine management system
-- Optimized for Mazduino hardware configurations
-- Custom pin mappings and hardware-specific configurations
-- Knock sensor support with configurable ADC channels
-- Compatible with rusEFI tuning software and community tools
+## Building Firmware
 
-## Hardware Configuration
+### Local Build (Docker)
 
-This firmware includes specific configurations for:
-- GPIO pin assignments
-- ADC channel mappings
-- PWM output configurations
-- Communication interfaces (CAN, Serial, USB)
-- Sensor inputs and actuator outputs
+Docker is required. The build image uses Ubuntu Mantic with ARM GCC toolchain.
 
-## Building the Firmware
-
-### Prerequisites
-- rusEFI development environment
-- ARM GCC toolchain
-- STM32 development tools
-
-### Build Instructions
 ```bash
-# Clone the repository
-git clone https://github.com/amrikarisma/fw-custom-mazduino.git
-cd fw-custom-mazduino
+# Build all boards
+./build_boards.sh
 
-# Build firmware (specific commands depend on target board)
-# See rusEFI build documentation for detailed instructions
+# Build a single board
+./build_boards.sh mazduino-compact
 ```
 
-## Installation
+The script uses `--platform linux/amd64` to ensure hex2dfu.bin (x86-64) runs correctly on Apple Silicon via Rosetta 2.
 
-1. Connect your Mazduino board via USB or ST-Link
-2. Use appropriate flashing tool (ST-Link Utility, DFU, etc.)
-3. Flash the compiled firmware binary
-4. Configure using rusEFI Console or TunerStudio
+### CI Build (GitHub Actions)
 
-## Configuration Files
+All boards are built automatically on every push via the matrix workflow in `.github/workflows/build-matrix.yaml`. Nightly releases are published by `.github/workflows/nightly-release.yaml`.
 
-Key configuration files in this repository:
-- `board_configuration.cpp` - Main board configuration
-- `knock_config.h` - Knock sensor settings
-- `pinouts.cpp` - Pin mapping definitions
-- Board-specific `.ini` files for different hardware variants
+## Flash Instructions
 
-## Documentation
+### ST-Link or SWD
 
-For more information about rusEFI and custom firmware development:
-- [rusEFI Wiki - Custom Firmware](https://github.com/rusefi/rusefi/wiki/Custom-Firmware)
-- [rusEFI Documentation](https://github.com/rusefi/rusefi/wiki)
-- [Mazduino Hardware Documentation](https://github.com/amrikarisma/mazduino)
+Use STM32CubeProgrammer or OpenOCD with the `.bin` file:
 
-## Contributing
+```bash
+st-flash write rusefi_mazduino-compact.bin 0x08000000
+```
 
-Contributions are welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly on actual hardware
-5. Submit a pull request
+### DFU (USB bootloader)
 
-## Support
+Put the board into DFU mode (hold BOOT0 while resetting), then:
 
-For support and questions:
-- Create an issue in this repository
-- Join the rusEFI community forums
-- Contact the Mazduino development team
+```bash
+dfu-util -d 0483:df11 -a 0 -s 0x08000000:leave -D rusefi_mazduino-compact.bin
+```
 
-## Warning
+### OpenBLT Bootloader
 
-⚠️ **Important Safety Notice**: This is engine management software that controls critical engine functions. Always test thoroughly on a bench setup before installing on a vehicle. Improper configuration can cause engine damage or safety hazards.
+Use the `.srec` file with the rusEFI Flasher tool or BootCommander.
 
----
+## Repository Structure
 
-*This firmware is developed and maintained by the Mazduino community in collaboration with the rusEFI project.*
+```
+boards/
+  mazduino-compact/       # Board-specific configuration files
+  mazduino-lite/
+  mazduino-mini6ch/
+  mazduino-mega100/
+  mazduino-mega100-512/
+ext/rusefi/               # rusEFI submodule
+generated/                # Auto-generated code (configs, headers, INI files)
+.github/workflows/        # CI/CD workflows
+```
+
+Each board directory contains:
+- `meta-info.env` - Board identity and CPU selection
+- `board.mk` - Makefile flags and feature overrides
+- `board_configuration.cpp` - Pin assignments and hardware init
+- `efifeatures.h` (optional) - Feature flag overrides
+- `prepend.txt` - TunerStudio UI visibility flags
+- `knock_config.h` - Knock sensor configuration
+
+## Safety Notice
+
+This is engine management software controlling critical engine functions. Test on a bench setup before installing in a vehicle. Incorrect configuration can cause engine damage.
+
+## Links
+
+- [rusEFI Project](https://github.com/rusefi/rusefi)
+- [rusEFI Custom Firmware Guide](https://github.com/rusefi/rusefi/wiki/Custom-Firmware)
+- [Mazduino Wiki](https://wiki.mazduino.com/)

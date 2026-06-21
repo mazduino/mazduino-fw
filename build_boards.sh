@@ -8,12 +8,15 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")"; pwd)"
 IMAGE_NAME="rusefi-build"
+# Force x86-64 so hex2dfu.bin (x86-64 Linux binary) works via Rosetta 2 on Apple Silicon.
+# CI runners are already x86-64 Linux, so this keeps local and CI environments identical.
+DOCKER_PLATFORM="linux/amd64"
 BOARD_ARG="${1:-}"
 
 # Build Docker image if not present
 if ! docker image inspect "$IMAGE_NAME" &>/dev/null; then
     echo "=== Building Docker image (first time only) ==="
-    docker build -t "$IMAGE_NAME" "$REPO_ROOT/.devcontainer/"
+    docker build --platform "$DOCKER_PLATFORM" -t "$IMAGE_NAME" "$REPO_ROOT/.devcontainer/"
 fi
 
 # Determine which boards to build
@@ -40,7 +43,7 @@ for BOARD in "${BOARDS[@]}"; do
     echo " Building: $BOARD"
     echo "========================================="
 
-    docker run --rm \
+    docker run --rm --platform "$DOCKER_PLATFORM" \
         -v "$REPO_ROOT:/workspace" \
         -w /workspace/ext/rusefi/firmware \
         -e META_OUTPUT_ROOT_FOLDER=../../../generated/ \

@@ -1,0 +1,118 @@
+name: Nightly Release
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 2 AM UTC daily
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (default: today YYYY-MM-DD)'
+        required: false
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      tag: ${{ steps.set-tag.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Set matrix
+        id: set-matrix
+        run: |
+          export EVENT_NAME="${{ github.event_name }}"
+          export RUN_ATTEMPT="${{ github.run_attempt }}"
+          export COMMIT_MESSAGE=""
+          echo "matrix=$(bash ext/rusefi/firmware/bin/generate_matrix.sh boards)" >> $GITHUB_OUTPUT
+
+      - name: Set release tag
+        id: set-tag
+        run: |
+          if [ -n "${{ github.event.inputs.tag }}" ]; then
+            echo "tag=${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+          fi
+
+  build:
+    needs: generate-matrix
+    runs-on: ubuntu-latest
+    if: ${{ ! contains(needs.generate-matrix.outputs.matrix, '[]') }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - uses: ./ext/rusefi/.github/workflows/custom-board-build
+        with:
+          meta_info: ${{ matrix.meta-info }}
+          push: 'false'
+          run_simulator: 'false'
+          artifacts: bin srec hex
+          uploads: ''
+          MY_REPO_PAT: ${{ secrets.MY_REPO_PAT }}
+          ADDITIONAL_ENV: ${{ secrets.ADDITIONAL_ENV }}
+
+  release:
+    needs: [generate-matrix, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all firmware artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets/
+          merge-multiple: true
+
+      - name: List release assets
+        run: find release-assets/ -type f | sort
+
+      - name: Read changelog
+        id: changelog
+        run: |
+          if [ -f CHANGELOG.md ]; then
+            # Extract the latest release section
+            BODY=$(awk '/^## \[/{p++} p==1{print} p==2{exit}' CHANGELOG.md | tail -n +2)
+            echo "body<<CHANGELOG_EOF" >> $GITHUB_OUTPUT
+            echo "$BODY" >> $GITHUB_OUTPUT
+            echo "CHANGELOG_EOF" >> $GITHUB_OUTPUT
+          else
+            echo "body=Automated nightly firmware build." >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.generate-matrix.outputs.tag }}
+          name: Nightly ${{ needs.generate-matrix.outputs.tag }}
+          prerelease: true
+          body: |
+            Automated nightly firmware build for Mazduino boards.
+
+            ${{ steps.changelog.outputs.body }}
+
+            ## Boards included
+            - mazduino-compact (STM32F407VGT6, knock enabled)
+            - mazduino-lite (STM32F407VGT6, no knock)
+            - mazduino-mini6ch (STM32F427VGT6, ETB + traction control)
+            - mazduino-mega100 (STM32F407VGT6, 1MB, full features, USB + CAN)
+            - mazduino-mega100-512 (STM32F407VET6, 512KB, reduced feature set)
+
+            ## Files
+            - `.bin` - raw firmware binary (flash via ST-Link or DFU)
+            - `.srec` - firmware with CRC checksum (flash via OpenBLT bootloader)
+            - `.hex` - Intel HEX format
+
+            ## TunerStudio Connection
+            Connect via USB virtual COM port (all boards except mega100 variants which use CAN bus).
+          files: release-assets/*

@@ -14,7 +14,7 @@
 #include "flash_main.h"
 #include "tunerstudio.h"
 
-Gpio getCommsLedPin() { return Gpio::Unassigned; }
+Gpio getCommsLedPin() { return Gpio::B7; }
 Gpio getRunningLedPin() { return Gpio::Unassigned; }
 Gpio getWarningLedPin() { return Gpio::Unassigned; }
 

@@ -6,13 +6,13 @@
  *
  * Uses board_04 pinout (INJ: B15/B14/B12/B13, IGN: E2/E3/C13/E7).
  * Runtime pinout switching disabled to reduce flash usage.
- * No USB, no SD card, no Lua (EFI_LUA=FALSE in board.mk).
+ * No SD card, no Lua (EFI_LUA=FALSE in board.mk). USB enabled for TunerStudio.
  */
 
 #include "pch.h"
 #include "board_overrides.h"
 
-Gpio getCommsLedPin() { return Gpio::Unassigned; }
+Gpio getCommsLedPin() { return Gpio::B7; }
 Gpio getRunningLedPin() { return Gpio::Unassigned; }
 Gpio getWarningLedPin() { return Gpio::Unassigned; }
 

@@ -1,6 +1,6 @@
 #define MAIN_HELP_URL "https://wiki.mazduino.com/"
 
-! 512KB flash variant: ETB, knock, TCU, EGT disabled
+! 512KB flash variant: ETB, knock, TCU, EGT, boost, launch, alternator disabled
 #define ts_show_etb false
 #define ts_show_etb_pins false
 #define ts_show_traction_control false
@@ -14,5 +14,40 @@
 #define show_tcu_gauges false
 #define MAX_TPS_PPS_DISCREPANCY 10
 
-! board has zero LEDs
-#define ts_show_status_leds false
+! Status LED at PB7
+#define ts_show_status_leds true
+
+! Alternator and main relay not wired
+#define ts_show_alternator false
+#define ts_show_main_relay false
+
+! SD card disabled on this board
+#define ts_show_sd_card false
+#define ts_show_sd_pins false
+
+! Not applicable engine types/features
+#define ts_show_rotary false
+#define ts_show_hd false
+#define ts_show_torque_model false
+#define ts_show_virtual_dyno false
+
+! Engine stimulator / emulator disabled
+#define ts_show_ecu_stimulator false
+#define ts_show_hardware_simulator false
+
+! Vehicle speed sensor not used
+#define ts_show_speedo_settings false
+
+! Forced induction / boost control disabled on 512KB variant
+#define ts_show_forced_induction false
+
+! WBO firmware update disabled
+#define ts_show_update_wbo_2023_to_2026 false
+
+! LTFT SD card message not relevant (no SD card)
+#define ts_show_ltft_sd_card_message false
+
+! VVT output disabled (VVT PID off)
+#define ts_show_vvt_output false
+#define ts_show_vvt_output_pin false
+#define ts_show_vvt_frequency false
