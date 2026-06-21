@@ -1,0 +1,88 @@
+name: Firmware Matrix Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - name: Set matrix
+        id: set-matrix
+        run: |
+          export EVENT_NAME="${{github.event_name}}"
+          export RUN_ATTEMPT="${{github.run_attempt}}"
+          read -d '' COMMIT_MESSAGE << EOM || true
+          ${{ github.event.head_commit.message }}
+          EOM
+          export COMMIT_MESSAGE
+          bash ext/rusefi/firmware/bin/generate_matrix.sh boards
+          echo "matrix=$(bash ext/rusefi/firmware/bin/generate_matrix.sh boards)" >> $GITHUB_OUTPUT
+
+  build-firmware:
+    runs-on: ubuntu-latest
+    needs: [
+      generate-matrix]
+
+    if: ${{ ! contains(needs.generate-matrix.outputs.matrix, '[]') }}
+    strategy:
+      # Let all builds finish even if one fails early
+      fail-fast: false
+      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - name: Set run variables
+        id: set-variables
+        run: |
+          echo ${{matrix.meta-info}}
+          echo MATRIX_META_PATH=${{matrix.meta-info}} >> $GITHUB_OUTPUT
+          if [ "${{github.event_name}}" = "schedule" ]; then
+            echo "release_date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+          fi
+          if [ "${{github.event_name}}" == "push" -o "${{github.event_name}}" == "schedule" -o "${{github.event_name}}" == "workflow_dispatch" ] && [ "${{github.ref}}" == "refs/heads/master" -o "${{github.ref}}" == "refs/heads/main" ]; then
+            echo 'extra_makefile_targets=build_both_bundles' >> $GITHUB_OUTPUT
+            # uncomment this line for upload! echo 'upload=ftp_upload_bundles' >> $GITHUB_OUTPUT
+            # not pushing from matrix
+            echo 'push=true' >> $GITHUB_OUTPUT
+            echo 'sim=true' >> $GITHUB_OUTPUT
+          else
+            echo 'push=false' >> $GITHUB_OUTPUT
+            echo 'sim=false' >> $GITHUB_OUTPUT
+          fi
+
+#
+# export ABSOLUTE_BOARD_DIR=/home/rusefi/fw-custom-example/boards/board1
+# cd /home/rusefi/fw-custom-example/ext/rusefi
+# export
+
+
+      - uses: ./ext/rusefi/.github/workflows/custom-board-build
+        with:
+          meta_info: ${{steps.set-variables.outputs.MATRIX_META_PATH}}
+          # bug? feature? 'release_date' above is $GITHUB_ENV not $GITHUB_OUTPUT
+          new_tag: ${{steps.set-variables.outputs.release_date}}
+          artifacts: bin srec hex list map elf bundle autoupdate
+          # see above about un-commenting
+          uploads: ini ${{steps.set-variables.outputs.upload}}
+          push: ${{steps.set-variables.outputs.push}}
+          run_simulator: ${{ steps.set-variables.outputs.sim }}
+          MY_REPO_PAT: ${{secrets.MY_REPO_PAT}}
+          RUSEFI_ONLINE_FTP_USER: ${{secrets.RUSEFI_ONLINE_FTP_USER}}
+          RUSEFI_ONLINE_FTP_PASS: ${{secrets.RUSEFI_ONLINE_FTP_PASS}}
+          RUSEFI_FTP_SERVER: ${{secrets.RUSEFI_FTP_SERVER}}
+          RUSEFI_SSH_SERVER: ${{secrets.RUSEFI_SSH_SERVER}}
+          RUSEFI_SSH_USER: ${{secrets.RUSEFI_SSH_USER}}
+          RUSEFI_SSH_PASS: ${{secrets.RUSEFI_SSH_PASS}}
+          ADDITIONAL_ENV: ${{secrets.ADDITIONAL_ENV}}
