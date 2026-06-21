@@ -55,7 +55,7 @@ jobs:
           meta_info: ${{ matrix.meta-info }}
           push: 'false'
           run_simulator: 'false'
-          artifacts: bin srec hex
+          artifacts: bundle
           uploads: ''
           MY_REPO_PAT: ${{ secrets.MY_REPO_PAT }}
           ADDITIONAL_ENV: ${{ secrets.ADDITIONAL_ENV }}
@@ -68,30 +68,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download all firmware artifacts
+      - name: Download bundle artifacts
         uses: actions/download-artifact@v4
         with:
-          path: release-assets/
+          path: downloaded/
+          pattern: 'rusefi_bundle_*'
 
-      - name: Rename artifacts with board names
+      - name: Collect bundle ZIPs
         run: |
-          mkdir -p firmware-files
-          for dir in release-assets/*/; do
-            name=$(basename "$dir")
-            for file in "$dir"*; do
-              [ -f "$file" ] || continue
-              cp "$file" "firmware-files/$name"
-            done
-          done
+          mkdir -p bundles
+          find downloaded/ -name "*.zip" -exec cp {} bundles/ \;
 
-      - name: List release assets
-        run: find firmware-files/ -type f | sort
+      - name: List bundles
+        run: find bundles/ -type f | sort
 
       - name: Read changelog
         id: changelog
         run: |
           if [ -f CHANGELOG.md ]; then
-            # Extract the latest release section
             BODY=$(awk '/^## \[/{p++} p==1{print} p==2{exit}' CHANGELOG.md | tail -n +2)
             echo "body<<CHANGELOG_EOF" >> $GITHUB_OUTPUT
             echo "$BODY" >> $GITHUB_OUTPUT
@@ -118,11 +112,17 @@ jobs:
             - mazduino-mega100 (STM32F407VGT6, 1MB, full features, USB + CAN)
             - mazduino-mega100-512 (STM32F407VET6, 512KB, reduced feature set)
 
-            ## Files
-            - `.bin` - raw firmware binary (flash via ST-Link or DFU)
-            - `.srec` - firmware with CRC checksum (flash via OpenBLT bootloader)
-            - `.hex` - Intel HEX format
+            ## Bundle contents
+            Each `.zip` contains:
+            - `rusefi_console.jar` - rusEFI desktop application (requires Java 11+)
+            - `rusefi_<board>.ini` - TunerStudio definition file
+            - `rusefi.bin` - firmware binary (flash via ST-Link or DFU)
+            - Flash scripts (`flash_dfu.sh`, `flash_stlink.sh`)
 
-            ## TunerStudio Connection
-            Connect via USB virtual COM port (all boards except mega100 variants which use CAN bus).
-          files: firmware-files/*
+            ## Flashing
+            - ST-Link / SWD: run `flash_stlink.sh` or use STM32CubeProgrammer with `rusefi.bin`
+            - USB DFU: hold BOOT0, then run `flash_dfu.sh`
+
+            ## TunerStudio
+            Launch `rusefi_console.jar` or open TunerStudio and point it to the `.ini` file for your board.
+          files: bundles/*
