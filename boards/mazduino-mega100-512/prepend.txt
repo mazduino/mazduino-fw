@@ -13,6 +13,7 @@
 #define ts_show_hip9011 false
 #define show_tcu_gauges false
 #define MAX_TPS_PPS_DISCREPANCY 10
+#define ts_show_communityCommsLedPin true
 
 ! Status LED at PB7
 #define ts_show_status_leds true

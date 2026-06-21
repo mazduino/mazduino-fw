@@ -14,7 +14,7 @@
 #include "flash_main.h"
 #include "tunerstudio.h"
 
-Gpio getCommsLedPin() { return Gpio::B7; }
+Gpio getCommsLedPin() { return config->communityCommsLedPin; }
 Gpio getRunningLedPin() { return Gpio::Unassigned; }
 Gpio getWarningLedPin() { return Gpio::Unassigned; }
 
@@ -56,9 +56,10 @@ void customBoardTsAction(uint16_t subSystem, uint16_t index) {
 }
 
 static void customBoardDefaultConfiguration() {
+    config->communityCommsLedPin = Gpio::B7;
+
     // Trigger inputs
     engineConfiguration->triggerInputPins[0] = Gpio::D3;   // CKP
-    engineConfiguration->triggerInputPins[1] = Gpio::Unassigned;
 
     // Analog sensors - ADC1
     // PA3 (EFI_ADC_3) reserved for knock via ADC3

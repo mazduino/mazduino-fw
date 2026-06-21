@@ -10,3 +10,4 @@
 #define ts_show_hip9011 true
 #define show_tcu_gauges true
 #define MAX_TPS_PPS_DISCREPANCY 10
+#define ts_show_communityCommsLedPin true

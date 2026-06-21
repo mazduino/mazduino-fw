@@ -2,7 +2,7 @@
 #include "board_overrides.h"
 
 Gpio getCommsLedPin() {
-	return Gpio::Unassigned;
+	return config->communityCommsLedPin;
 }
 
 Gpio getRunningLedPin() {

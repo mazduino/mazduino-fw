@@ -7,14 +7,15 @@
 #include "pch.h"
 #include "board_overrides.h"
 
-Gpio getCommsLedPin() { return Gpio::B7; }
+Gpio getCommsLedPin() { return config->communityCommsLedPin; }
 Gpio getRunningLedPin() { return Gpio::Unassigned; }
 Gpio getWarningLedPin() { return Gpio::Unassigned; }
 
 static void customBoardDefaultConfiguration() {
+    config->communityCommsLedPin = Gpio::B7;
+
     // Trigger inputs - digital output from VR conditioner
     engineConfiguration->triggerInputPins[0] = Gpio::C6;   // CKP
-    engineConfiguration->triggerInputPins[1] = Gpio::E11;  // CMP
     // VR1=PD3, VR2=PD4 are raw analog inputs to VR conditioner on board
 
     // Analog sensors - ADC1

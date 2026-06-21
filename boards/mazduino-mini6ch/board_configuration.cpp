@@ -7,7 +7,7 @@
 #include "pch.h"
 #include "board_overrides.h"
 
-Gpio getCommsLedPin() { return Gpio::B7; }
+Gpio getCommsLedPin() { return config->communityCommsLedPin; }
 Gpio getRunningLedPin() { return Gpio::Unassigned; }
 Gpio getWarningLedPin() { return Gpio::Unassigned; }
 
@@ -20,9 +20,10 @@ static void setupEtb() {
 }
 
 static void customBoardDefaultConfiguration() {
+    config->communityCommsLedPin = Gpio::B7;
+
     // Trigger inputs
     engineConfiguration->triggerInputPins[0] = Gpio::D3;   // CKP
-    engineConfiguration->triggerInputPins[1] = Gpio::D4;   // CMP
 
     // Analog sensors - ADC1
     // PA3 (EFI_ADC_3) is reserved for knock via ADC3 - do not assign here
