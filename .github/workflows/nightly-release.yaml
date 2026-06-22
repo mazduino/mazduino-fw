@@ -93,7 +93,7 @@ jobs:
       - name: Collect bundle ZIPs
         run: |
           mkdir -p bundles
-          find downloaded/ -name "*.zip" -exec cp {} bundles/ \;
+          find downloaded/ -name "*.zip" -type f -exec cp {} bundles/ \;
 
       - name: List bundles
         run: find bundles/ -type f | sort
@@ -174,7 +174,7 @@ jobs:
       - name: Deploy INI files to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.MY_REPO_PAT }}
+          deploy_key: ${{ secrets.GHPAGES_DEPLOY_KEY }}
           publish_dir: ./ini-pages
           destination_dir: ini
           keep_files: true
