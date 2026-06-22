@@ -1,0 +1,126 @@
+pins:
+  # Analog sensor inputs (ADC channels)
+  - id: [A0, EFI_ADC_0]
+    class: [switch_inputs, analog_inputs]
+    ts_name: MAP (PA0)
+
+  - id: [A1, EFI_ADC_1]
+    class: [switch_inputs, analog_inputs]
+    ts_name: AFR (PA1)
+
+  - id: EFI_ADC_2
+    class: analog_inputs
+    ts_name: Vbatt sense (PA2)
+
+  - id: [A4, EFI_ADC_4]
+    class: [switch_inputs, analog_inputs]
+    ts_name: CLT (PA4)
+
+  - id: [A5, EFI_ADC_5]
+    class: [switch_inputs, analog_inputs]
+    ts_name: IAT (PA5)
+
+  - id: [A6, EFI_ADC_6]
+    class: [switch_inputs, analog_inputs]
+    ts_name: TPS (PA6)
+
+  - id: [A7, EFI_ADC_7]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Spare Analog 2 (PA7)
+
+  # Digital switch inputs
+  - id: [B0, EFI_ADC_8]
+    class: [switch_inputs, analog_inputs]
+    ts_name: AC Switch (PB0)
+
+  - id: [B1, EFI_ADC_9]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Spare Analog 1 (PB1)
+
+  - id: E13
+    class: switch_inputs
+    ts_name: Clutch (PE13)
+
+  - id: [D7, D7]
+    class: [switch_inputs, event_inputs]
+    ts_name: VSS (PD7)
+
+  # Trigger / cam inputs
+  - id: [D3, D3]
+    class: [switch_inputs, event_inputs]
+    ts_name: CKP (PD3)
+
+  - id: [D4, D4]
+    class: [switch_inputs, event_inputs]
+    ts_name: CMP (PD4)
+
+  # Injector outputs
+  - id: D8
+    class: outputs
+    ts_name: INJ 1 (PD8)
+
+  - id: B15
+    class: outputs
+    ts_name: INJ 2 (PB15)
+
+  - id: B14
+    class: outputs
+    ts_name: INJ 3 (PB14)
+
+  - id: B13
+    class: outputs
+    ts_name: INJ 4 (PB13)
+
+  # Ignition outputs
+  - id: E15
+    class: outputs
+    ts_name: IGN 1 (PE15)
+
+  - id: E14
+    class: outputs
+    ts_name: IGN 2 (PE14)
+
+  - id: D13
+    class: outputs
+    ts_name: IGN 3 (PD13)
+
+  - id: E5
+    class: outputs
+    ts_name: IGN 4 (PE5)
+
+  # Auxiliary outputs
+  - id: C8
+    class: outputs
+    ts_name: Fuel Pump (PC8)
+
+  - id: E8
+    class: outputs
+    ts_name: Main Relay (PE8)
+
+  - id: D9
+    class: outputs
+    ts_name: Idle Solenoid (PD9)
+
+  - id: D10
+    class: outputs
+    ts_name: 2nd Solenoid (PD10)
+
+  - id: A15
+    class: outputs
+    ts_name: Fan (PA15)
+
+  - id: C9
+    class: outputs
+    ts_name: Tach (PC9)
+
+  - id: C7
+    class: outputs
+    ts_name: AC Relay (PC7)
+
+  - id: D15
+    class: outputs
+    ts_name: HS Out 1 (PD15)
+
+  - id: D14
+    class: outputs
+    ts_name: HS Out 2 (PD14)

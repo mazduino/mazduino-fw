@@ -1,4 +1,11 @@
 #define MAIN_HELP_URL "https://wiki.mazduino.com/"
+#define RE_auto_update_root_url "https://mazduino.com/firmware/"
+#define RE_obfuscated "false"
+#define WIKI_CAN_SENSORS https://wiki.mazduino.com/firmware/can-sensor-input/
+#define WIKI_CAN_OUTPUTS https://wiki.mazduino.com/firmware/can-output/
+#define WIKI_USER_TABLES https://wiki.mazduino.com/firmware/user-tables/
+#define WIKI_LOGIC_OUTPUTS https://wiki.mazduino.com/firmware/logic-outputs/
+#define WIKI_MATH_CHANNELS https://wiki.mazduino.com/firmware/math-channels/
 
 ! 512KB flash variant: ETB, knock, TCU, EGT, boost, launch, alternator disabled
 #define ts_show_etb false
@@ -17,6 +24,7 @@
 
 ! Status LED at PB7
 #define ts_show_status_leds true
+#define ts_show_experimental false
 
 ! Alternator and main relay not wired
 #define ts_show_alternator false

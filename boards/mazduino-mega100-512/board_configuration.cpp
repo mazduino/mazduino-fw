@@ -31,10 +31,11 @@ static void customBoardDefaultConfiguration() {
     engineConfiguration->clt.adcChannel         = EFI_ADC_4;  // PA4
     engineConfiguration->iat.adcChannel         = EFI_ADC_5;  // PA5
 
-    engineConfiguration->analogInputDividerCoefficient = 1.47f;
+    engineConfiguration->analogInputDividerCoefficient = (470.0f + 910.0f) / 910.0f; // 470R high side/910R low side
+    engineConfiguration->vbattDividerCoeff = (82.0f + 10.0f) / 10.0f; // 82k high side/10k low side
     engineConfiguration->adcVcc = 3.3f;
-    engineConfiguration->clt.config.bias_resistor = 2490;
-    engineConfiguration->iat.config.bias_resistor = 2490;
+    engineConfiguration->clt.config.bias_resistor = 2700;
+    engineConfiguration->iat.config.bias_resistor = 2700;
 
     // Injectors - 4 channel (board_04 pinout)
     engineConfiguration->injectionPins[0] = Gpio::B15;

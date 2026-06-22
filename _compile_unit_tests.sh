@@ -5,7 +5,7 @@ cd ext/rusefi/unit_tests/
 # This full path of the firmware directory
 FDIR=$(cd "$(dirname "$0")"; pwd -P)
 
-MI="../../../meta-info.env"
+MI="../../../boards/mazduino-lite/meta-info.env"
 
 	if [ -f "$FDIR/$MI" ]; then
 		true

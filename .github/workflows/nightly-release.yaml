@@ -126,3 +126,39 @@ jobs:
             ## TunerStudio
             Launch `rusefi_console.jar` or open TunerStudio and point it to the `.ini` file for your board.
           files: bundles/*
+
+      - name: Extract INI files from bundles
+        id: extract-ini
+        run: |
+          mkdir -p ini-pages
+          for zip in bundles/*.zip; do
+            [ -f "$zip" ] || continue
+            tmpdir=$(mktemp -d)
+            unzip -q "$zip" "*.ini" -d "$tmpdir" 2>/dev/null || true
+            for ini in "$tmpdir"/*.ini; do
+              [ -f "$ini" ] || continue
+              # Parse signature: "rusEFI master.2026.06.22.mazduino-lite.1830052633"
+              SIG=$(grep -oP 'signature\s*=\s*"\K[^"]+' "$ini" | head -1)
+              # Strip "rusEFI " prefix and split by dot
+              SIGPART="${SIG#rusEFI }"
+              IFS='.' read -r BRANCH YEAR MONTH DAY TARGET HASH <<< "$SIGPART"
+              if [ -z "$HASH" ]; then
+                echo "Skipping $ini — could not parse signature: $SIG"
+                continue
+              fi
+              DEST="ini-pages/$BRANCH/$YEAR/$MONTH/$DAY/$TARGET"
+              mkdir -p "$DEST"
+              cp "$ini" "$DEST/${HASH}.ini"
+              echo "Staged: $DEST/${HASH}.ini"
+            done
+            rm -rf "$tmpdir"
+          done
+          ls -lR ini-pages/
+
+      - name: Deploy INI files to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./ini-pages
+          destination_dir: ini
+          keep_files: true
