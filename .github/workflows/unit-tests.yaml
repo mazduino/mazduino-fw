@@ -47,8 +47,8 @@ jobs:
 
       - name: Compile and execute Unit Tests
         run: |
-          MI=$(realpath boards/${{ matrix.board }}/meta-info.env)
           cd ext/rusefi/unit_tests/
+          MI="../../../boards/${{ matrix.board }}/meta-info.env"
           source ../firmware/config/boards/common_script_read_meta_env.inc "$MI"
           make -j$(nproc)
           timeout 20m build/rusefi_test

@@ -1,5 +1,5 @@
 #define MAIN_HELP_URL "https://wiki.mazduino.com/"
-#define RE_auto_update_root_url "https://mazduino.com/firmware/"
+#define RE_auto_update_root_url "https://mazduino.github.io/mazduino-fw/ini/"
 #define RE_obfuscated "false"
 #define WIKI_CAN_SENSORS https://wiki.mazduino.com/firmware/can-sensor-input/
 #define WIKI_CAN_OUTPUTS https://wiki.mazduino.com/firmware/can-output/
