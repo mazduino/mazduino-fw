@@ -11,9 +11,16 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.RUSEFI_CORE_DEPLOY_KEY }}
+
       - uses: actions/checkout@v6
         with:
-          submodules: true
+          submodules: false
+
+      - name: Checkout submodules
+        run: git submodule update --init --force --depth=1
 
       - name: Set matrix
         id: set-matrix
@@ -39,9 +46,16 @@ jobs:
       matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
 
     steps:
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.RUSEFI_CORE_DEPLOY_KEY }}
+
       - uses: actions/checkout@v6
         with:
-          submodules: true
+          submodules: false
+
+      - name: Checkout submodules
+        run: git submodule update --init --force --depth=1
 
       - name: Set run variables
         id: set-variables
