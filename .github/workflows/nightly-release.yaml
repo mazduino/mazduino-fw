@@ -90,10 +90,13 @@ jobs:
           path: downloaded/
           pattern: 'rusefi_bundle_*'
 
+      - name: Debug downloaded structure
+        run: find downloaded/ | head -40
+
       - name: Collect bundle ZIPs
         run: |
           mkdir -p bundles
-          find downloaded/ -name "*.zip" -type f -exec cp {} bundles/ \;
+          find downloaded/ -mindepth 2 -maxdepth 2 -type f -exec cp {} bundles/ \;
 
       - name: List bundles
         run: find bundles/ -type f | sort

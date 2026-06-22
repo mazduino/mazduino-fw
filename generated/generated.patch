@@ -102300,3 +102300,207 @@
  #define TS_SIMULATE_CAN '>'
  #define TS_SIMULATE_CAN_char >
  #define TS_TEST_COMMAND 't'
+--- a/../../../generated/controllers/generated/signature_mazduino-lite.h
++++ b/../../../generated/controllers/generated/signature_mazduino-lite.h
+@@ -1,5 +1,5 @@
+ //
+ //
+ 
+-#define SIGNATURE_HASH 1830052633
+-#define TS_SIGNATURE "rusEFI master.2026.06.22.mazduino-lite.1830052633"
++#define SIGNATURE_HASH 460361922
++#define TS_SIGNATURE "rusEFI master.2026.06.22.mazduino-lite.460361922"
+--- a/../../../generated/tunerstudio/generated/rusefi_mazduino-lite.ini
++++ b/../../../generated/tunerstudio/generated/rusefi_mazduino-lite.ini
+@@ -42,13 +42,13 @@
+ #define USE_METRIC_UNITS=true
+ 
+ [MegaTune]
+-	re_auto_update_root_url = "https://rusefi.com/build_server"
++	re_auto_update_root_url = "https://mazduino.com/firmware/"
+ 	re_obfuscated = "false"
+ 
+ [TunerStudio]
+ 	queryCommand	= "S"
+ 	versionInfo	= "V"  ; firmware version for title bar.
+-	signature= "rusEFI master.2026.06.22.mazduino-lite.1830052633" ; signature is expected to be 7 or more characters.
++	signature= "rusEFI master.2026.06.22.mazduino-lite.460361922" ; signature is expected to be 7 or more characters.
+ 
+ 	; TS will try to use legacy temp units in some cases, showing "deg F" on a CLT gauge that's actually deg C
+ 	useLegacyFTempUnits = false
+@@ -3149,8 +3149,8 @@
+ 	fan2MaxPwm = "Maximum PWM output clamp (Fan 2)"
+ 	fan1AcAdder = "PWM adder when AC compressor is active (Fan 1)"
+ 	fan2AcAdder = "PWM adder when AC compressor is active (Fan 2)"
+-	fan1SoftStartSec = "Soft-start ramp time ? how long to ramp from 0 to target PWM (Fan 1)"
+-	fan2SoftStartSec = "Soft-start ramp time ? how long to ramp from 0 to target PWM (Fan 2)"
++	fan1SoftStartSec = "Soft-start ramp time – how long to ramp from 0 to target PWM (Fan 1)"
++	fan2SoftStartSec = "Soft-start ramp time – how long to ramp from 0 to target PWM (Fan 2)"
+ 	driveWheelRevPerKm = "Number of revolutions per kilometer for the wheels your vehicle speed sensor is connected to. Use an online calculator to determine this based on your tire size."
+ 	canSleepPeriodMs = "CANbus thread period in ms"
+ 	tps1_1AdcChannel = "First analog throttle body, first sensor. See also pedalPositionAdcChannel\nAnalog TPS inputs have 200Hz low-pass cutoff."
+@@ -8874,7 +8874,7 @@
+ 		  groupChildMenu = torque2TableTbl, "TMF"
+ 
+ 		menu = "Help"
+-			subMenu = helpGeneral,	"rusEFI Info"
++			subMenu = helpGeneral,	"Mazduino Help"
+ 
+   menu = "&View", { 1 }, { uiMode == 0 || uiMode == 1 }
+ 			subMenu = fuel_computerDialog, "fuel_computer"
+@@ -12891,6 +12891,9 @@
+ 		field = "Required CAN ID", canReWidebandCanId
+ 		commandButton = "Set Index", cmd_set_wideband_idx_by_id
+ 		field = ""
++		field = "Sensor type", canReWidebandSensorType
++		commandButton = "Set sensor type", cmd_set_wideband_type_by_id
++		field = ""
+ 		commandButton = "Update to 2026-01 Firmware", cmd_set_wideband_flash_by_id
+ 		commandButton = "Flash FW from SD card", cmd_set_wideband_flash_by_id_file
+ 		commandButton = "Restart all WBO", cmd_restart_widebands
+@@ -13250,9 +13253,9 @@
+ 		field = useBiQuadOnAuxSpeedSensors,				useBiQuadOnAuxSpeedSensors
+ 		field = "TODO KS mode 4569",						kickStartCranking
+ 
+-		help = helpGeneral, "rusEFI General Help"
+-		webHelp = "http://www.rusefi.com/"
+-		text = "<img src='https://rusefi.com/style/logo_100.gif'>"
++		help = helpGeneral, "Mazduino Help"
++		webHelp = "https://wiki.mazduino.com/"
++		text = "<a href='"https://wiki.mazduino.com/"'>wiki.mazduino.com</a>"
+ 
+ 	dialog = vrThreshold1, "VR 1 Threshold"
+ 		field = "Pin", vrThreshold1_pin
+@@ -14190,7 +14193,7 @@
+ 	panel = canSensorInputs_default
+ 
+ 	dialog = canSensorInputsDialog, "CAN Sensor inputs"
+-		field = "https://docs.mazduino.com/can-sensor-input/"
++		field = "https://wiki.mazduino.com/firmware/can-sensor-input/"
+ 		panel = canSensorInputs
+ 
+ 	dialog = bitBuilder1_general, "", yAxis
+@@ -14901,7 +14904,7 @@
+ 		panel = triggeredCanOutput8_bytes
+ 
+ 	dialog = canOutput1_general, "", yAxis
+-		field = "https://docs.mazduino.com/can-output/"
++		field = "https://wiki.mazduino.com/firmware/can-output/"
+ 		field = "Enable mode",      canOutputs1_enableMode
+ 		field = "Logic output",     canOutputs1_logicOutput, { canOutputs1_enableMode == 2 }
+ 		field = "CAN ID",      canOutputs1_id
+@@ -14989,7 +14992,7 @@
+ 		panel = canOutput1_bytes
+ 
+ 	dialog = canOutput2_general, "", yAxis
+-		field = "https://docs.mazduino.com/can-output/"
++		field = "https://wiki.mazduino.com/firmware/can-output/"
+ 		field = "Enable mode",      canOutputs2_enableMode
+ 		field = "Logic output",     canOutputs2_logicOutput, { canOutputs2_enableMode == 2 }
+ 		field = "CAN ID",      canOutputs2_id
+@@ -15077,7 +15080,7 @@
+ 		panel = canOutput2_bytes
+ 
+ 	dialog = canOutput3_general, "", yAxis
+-		field = "https://docs.mazduino.com/can-output/"
++		field = "https://wiki.mazduino.com/firmware/can-output/"
+ 		field = "Enable mode",      canOutputs3_enableMode
+ 		field = "Logic output",     canOutputs3_logicOutput, { canOutputs3_enableMode == 2 }
+ 		field = "CAN ID",      canOutputs3_id
+@@ -15165,7 +15168,7 @@
+ 		panel = canOutput3_bytes
+ 
+ 	dialog = canOutput4_general, "", yAxis
+-		field = "https://docs.mazduino.com/can-output/"
++		field = "https://wiki.mazduino.com/firmware/can-output/"
+ 		field = "Enable mode",      canOutputs4_enableMode
+ 		field = "Logic output",     canOutputs4_logicOutput, { canOutputs4_enableMode == 2 }
+ 		field = "CAN ID",      canOutputs4_id
+@@ -15253,7 +15256,7 @@
+ 		panel = canOutput4_bytes
+ 
+ 	dialog = canOutput5_general, "", yAxis
+-		field = "https://docs.mazduino.com/can-output/"
++		field = "https://wiki.mazduino.com/firmware/can-output/"
+ 		field = "Enable mode",      canOutputs5_enableMode
+ 		field = "Logic output",     canOutputs5_logicOutput, { canOutputs5_enableMode == 2 }
+ 		field = "CAN ID",      canOutputs5_id
+@@ -15341,7 +15344,7 @@
+ 		panel = canOutput5_bytes
+ 
+ 	dialog = canOutput6_general, "", yAxis
+-		field = "https://docs.mazduino.com/can-output/"
++		field = "https://wiki.mazduino.com/firmware/can-output/"
+ 		field = "Enable mode",      canOutputs6_enableMode
+ 		field = "Logic output",     canOutputs6_logicOutput, { canOutputs6_enableMode == 2 }
+ 		field = "CAN ID",      canOutputs6_id
+@@ -15429,7 +15432,7 @@
+ 		panel = canOutput6_bytes
+ 
+ 	dialog = canOutput7_general, "", yAxis
+-		field = "https://docs.mazduino.com/can-output/"
++		field = "https://wiki.mazduino.com/firmware/can-output/"
+ 		field = "Enable mode",      canOutputs7_enableMode
+ 		field = "Logic output",     canOutputs7_logicOutput, { canOutputs7_enableMode == 2 }
+ 		field = "CAN ID",      canOutputs7_id
+@@ -15517,7 +15520,7 @@
+ 		panel = canOutput7_bytes
+ 
+ 	dialog = canOutput8_general, "", yAxis
+-		field = "https://docs.mazduino.com/can-output/"
++		field = "https://wiki.mazduino.com/firmware/can-output/"
+ 		field = "Enable mode",      canOutputs8_enableMode
+ 		field = "Logic output",     canOutputs8_logicOutput, { canOutputs8_enableMode == 2 }
+ 		field = "CAN ID",      canOutputs8_id
+--- a/../../../generated/controllers/generated/rusefi_generated_mazduino-lite.h
++++ b/../../../generated/controllers/generated/rusefi_generated_mazduino-lite.h
+@@ -1516,7 +1516,7 @@
+ #define LUA_PWM_COUNT 8
+ #define LUA_SCRIPT_SIZE 8000
+ #define MAF_DECODING_COUNT 32
+-#define MAIN_HELP_URL "http://www.rusefi.com/"
++#define MAIN_HELP_URL "https://wiki.mazduino.com/"
+ #define MAIN_PAGE_GAUGES_FILE "tunerstudio/main_page_gauges.ini"
+ #define MAP_ANGLE_SIZE 8
+ #define MAP_EST_LOAD_COUNT 16
+@@ -1801,7 +1801,7 @@
+ #define PROTOCOL_TEST_RESPONSE_TAG "ts_p_alive"
+ #define PROTOCOL_VERSION_TAG "rusEfiVersion"
+ #define RANGE_INPUT_COUNT 6
+-#define RE_auto_update_root_url "https://rusefi.com/build_server"
++#define RE_auto_update_root_url "https://mazduino.com/firmware/"
+ #define RE_obfuscated "false"
+ #define REBOOT_COMMAND 0xbb
+ #define rotational_idle_accumulator_s_size 4
+@@ -1869,7 +1869,7 @@
+ #define SentInput_NONE 0
+ #define show_tcu_gauges true
+ #define show_vvt_output_pin true
+-#define SIGNATURE_HASH 1830052633
++#define SIGNATURE_HASH 460361922
+ #define SIMULATOR_TUNE_BIN_FILE_NAME "generated/simulator_tune_image.bin"
+ #define SIMULATOR_TUNE_BIN_FILE_NAME_PREFIX "generated/simulator_tune_image"
+ #define SIMULATOR_TUNE_BIN_FILE_NAME_SUFFIX ".bin"
+@@ -2494,8 +2494,8 @@
+ #define ts_show_wbo_can_menu true
+ #define ts_show_wbo_canbus_index true
+ #define ts_show_wbo_canbus_set_index true
+-#define ts_show_wbo_canbus_set_type false
+-#define TS_SIGNATURE "rusEFI master.2026.06.22.mazduino-lite.1830052633"
++#define ts_show_wbo_canbus_set_type true
++#define TS_SIGNATURE "rusEFI master.2026.06.22.mazduino-lite.460361922"
+ #define TS_SIMULATE_CAN '>'
+ #define TS_SIMULATE_CAN_char >
+ #define TS_TEST_COMMAND 't'
+@@ -2610,6 +2610,9 @@
+ #define WARNING_BUFFER_SIZE 120
+ #define wbo_s_size 8
+ #define WE_SECTION_FILE "tunerstudio/WueAnalyze.ini"
+-#define WIKI_CAN_OUTPUTS https://docs.mazduino.com/can-output/
+-#define WIKI_CAN_SENSORS https://docs.mazduino.com/can-sensor-input/
++#define WIKI_CAN_OUTPUTS https://wiki.mazduino.com/firmware/can-output/
++#define WIKI_CAN_SENSORS https://wiki.mazduino.com/firmware/can-sensor-input/
++#define WIKI_LOGIC_OUTPUTS https://wiki.mazduino.com/firmware/logic-outputs/
++#define WIKI_MATH_CHANNELS https://wiki.mazduino.com/firmware/math-channels/
++#define WIKI_USER_TABLES https://wiki.mazduino.com/firmware/user-tables/
+ #define WWAE_TABLE_SIZE 8
