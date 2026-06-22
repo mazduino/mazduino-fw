@@ -38,3 +38,8 @@
 #define ts_show_cylinder_bank false
 #define ts_show_number_of_cylinders true
 #define ts_show_experimental false
+#define ts_show_wbo_can_menu true
+#define ts_show_wbo_canbus_set_type true
+#define ts_show_wbo_canbus_set_index true
+#define ts_show_wbo_canbus_index true
+#define ts_show_update_wbo_2023_to_2026 true

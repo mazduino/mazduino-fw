@@ -51,7 +51,6 @@
 #define ts_show_forced_induction false
 
 ! WBO firmware update disabled
-#define ts_show_update_wbo_2023_to_2026 false
 
 ! LTFT SD card message not relevant (no SD card)
 #define ts_show_ltft_sd_card_message false
@@ -60,3 +59,7 @@
 #define ts_show_vvt_output false
 #define ts_show_vvt_output_pin false
 #define ts_show_vvt_frequency false
+#define ts_show_wbo_can_menu true
+#define ts_show_wbo_canbus_set_type true
+#define ts_show_wbo_canbus_set_index true
+#define ts_show_wbo_canbus_index true
