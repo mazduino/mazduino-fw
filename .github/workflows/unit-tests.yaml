@@ -8,8 +8,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-firmware:
+  build-unit-tests:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        board:
+          - mazduino-lite
+          - mazduino-compact
+          - mazduino-mini6ch
+          - mazduino-mega100
+          - mazduino-mega100-512
+
     steps:
       - uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -27,25 +37,18 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
 
-      - name: Test Java Compiler
-        shell: bash
-        run: javac -version
-
       - name: Print Compiler version
-        shell: bash
         run: gcc -v
 
       - name: Set Env Variables
-        id: set-env-variables
-        shell: bash
         run: |
-          : Set Env Variables
-          ABSOLUTE_BOARD_DIR=${{github.workspace}}
-          echo "ABSOLUTE_BOARD_DIR=$ABSOLUTE_BOARD_DIR" >> $GITHUB_ENV
+          echo "ABSOLUTE_BOARD_DIR=${{ github.workspace }}/boards/${{ matrix.board }}" >> $GITHUB_ENV
           echo "META_OUTPUT_ROOT_FOLDER=$(realpath --relative-to=ext/rusefi/firmware generated)/" >> $GITHUB_ENV
 
       - name: Compile and execute Unit Tests
-        shell: bash
         run: |
-          : Compile and execute Unit Tests
-          bash bin/compile_and_run_unit_tests.sh    
+          MI=$(realpath boards/${{ matrix.board }}/meta-info.env)
+          cd ext/rusefi/unit_tests/
+          source ../firmware/config/boards/common_script_read_meta_env.inc "$MI"
+          make -j$(nproc)
+          timeout 20m build/rusefi_test

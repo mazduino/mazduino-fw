@@ -90,13 +90,15 @@ jobs:
           path: downloaded/
           pattern: 'rusefi_bundle_*'
 
-      - name: Debug downloaded structure
-        run: find downloaded/ | head -40
-
       - name: Collect bundle ZIPs
         run: |
           mkdir -p bundles
-          find downloaded/ -mindepth 2 -maxdepth 2 -type f -exec cp {} bundles/ \;
+          for artifact_dir in downloaded/*/; do
+            artifact_name=$(basename "${artifact_dir%/}")
+            zip_name="${artifact_name%.zip}.zip"
+            (cd "$artifact_dir" && zip -r "../../bundles/${zip_name}" .)
+            echo "Packed: bundles/${zip_name}"
+          done
 
       - name: List bundles
         run: find bundles/ -type f | sort
@@ -150,28 +152,20 @@ jobs:
         id: extract-ini
         run: |
           mkdir -p ini-pages
-          for zip in bundles/*.zip; do
-            [ -f "$zip" ] || continue
-            tmpdir=$(mktemp -d)
-            unzip -q "$zip" "*.ini" -d "$tmpdir" 2>/dev/null || true
-            for ini in "$tmpdir"/*.ini; do
-              [ -f "$ini" ] || continue
-              # Parse signature: "rusEFI master.2026.06.22.mazduino-lite.1830052633"
-              SIG=$(grep -oP 'signature\s*=\s*"\K[^"]+' "$ini" | head -1)
-              # Strip "rusEFI " prefix and split by dot
-              SIGPART="${SIG#rusEFI }"
-              IFS='.' read -r BRANCH YEAR MONTH DAY TARGET HASH <<< "$SIGPART"
-              if [ -z "$HASH" ]; then
-                echo "Skipping $ini — could not parse signature: $SIG"
-                continue
-              fi
-              DEST="ini-pages/$BRANCH/$YEAR/$MONTH/$DAY/$TARGET"
-              mkdir -p "$DEST"
-              cp "$ini" "$DEST/${HASH}.ini"
-              echo "Staged: $DEST/${HASH}.ini"
-            done
-            rm -rf "$tmpdir"
-          done
+          while IFS= read -r ini; do
+            [ -f "$ini" ] || continue
+            SIG=$(grep -oP 'signature\s*=\s*"\K[^"]+' "$ini" | head -1)
+            SIGPART="${SIG#rusEFI }"
+            IFS='.' read -r BRANCH YEAR MONTH DAY TARGET HASH <<< "$SIGPART"
+            if [ -z "$HASH" ]; then
+              echo "Skipping $ini — could not parse signature: $SIG"
+              continue
+            fi
+            DEST="ini-pages/$BRANCH/$YEAR/$MONTH/$DAY/$TARGET"
+            mkdir -p "$DEST"
+            cp "$ini" "$DEST/${HASH}.ini"
+            echo "Staged: $DEST/${HASH}.ini"
+          done < <(find downloaded/ -name "*.ini" -type f)
           ls -lR ini-pages/
 
       - name: Deploy INI files to GitHub Pages
