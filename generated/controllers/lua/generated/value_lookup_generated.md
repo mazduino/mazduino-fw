@@ -2191,3 +2191,39 @@ Misfire Detection: firings to wait after entering idle before flagging starts. 0
 ### wizardInjectorFlow
 
 
+### analogMultiSwitchPullupResistor
+Pull-up resistor value (to 5V)
+
+### analogMultiSwitchResistorMargin
+Resistor tolerance margin (applies to pull-up and all switches)
+
+### analogMultiSwitchLatch1
+Latch: toggles on position change. Momentary: reflects current position.
+
+### analogMultiSwitchLatch2
+Latch: toggles on position change. Momentary: reflects current position.
+
+### analogMultiSwitchLatch3
+Latch: toggles on position change. Momentary: reflects current position.
+
+### analogMultiSwitchLatch4
+Latch: toggles on position change. Momentary: reflects current position.
+
+### analogMultiSwitchLatch5
+Latch: toggles on position change. Momentary: reflects current position.
+
+### analogMultiSwitchLatch6
+Latch: toggles on position change. Momentary: reflects current position.
+
+### analogMultiSwitchLatch7
+Latch: toggles on position change. Momentary: reflects current position.
+
+### analogMultiSwitchLatch8
+Latch: toggles on position change. Momentary: reflects current position.
+
+### fuelConsumptionEnabled
+Enable fuel consumption calculation (L/100km and L/hr)
+
+### fuelDensity
+Fuel density (petrol ~750, E85 ~787, diesel ~840)
+

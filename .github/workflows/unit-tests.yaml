@@ -32,6 +32,9 @@ jobs:
       - name: Checkout submodules
         run: git submodule update --init --force --depth=1
 
+      - name: Checkout rusefi submodules
+        run: git -C ext/rusefi submodule update --init --force --depth=1
+
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'

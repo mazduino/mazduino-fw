@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mazduino Firmware — INI Files</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --yellow: #d29922;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .container { max-width: 860px; margin: 0 auto; padding: 32px 20px; }
+
+    header { margin-bottom: 32px; }
+    header h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 4px; }
+    header p { color: var(--muted); font-size: 0.9rem; }
+    header a { color: var(--accent); text-decoration: none; }
+    header a:hover { text-decoration: underline; }
+
+    .filters {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .filter-btn {
+      padding: 4px 14px; border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent; color: var(--text);
+      cursor: pointer; font-size: 0.82rem;
+      transition: background 0.1s, border-color 0.1s;
+    }
+    .filter-btn:hover { border-color: var(--accent); }
+    .filter-btn.active {
+      background: var(--accent); border-color: var(--accent);
+      color: #0d1117; font-weight: 600;
+    }
+
+    #status { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; min-height: 20px; }
+
+    .board-section { margin-bottom: 32px; }
+    .board-header {
+      display: flex; align-items: baseline; gap: 10px;
+      padding-bottom: 8px; margin-bottom: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .board-name { font-size: 1rem; font-weight: 600; }
+    .board-count { font-size: 0.8rem; color: var(--muted); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.855rem; }
+    th {
+      text-align: left; color: var(--muted); font-weight: 500;
+      padding: 8px 10px 6px 0; white-space: nowrap;
+    }
+    td { padding: 9px 10px 9px 0; border-top: 1px solid var(--border); vertical-align: middle; }
+    tr:last-child td { border-bottom: 1px solid var(--border); }
+
+    .badge {
+      display: inline-block; padding: 1px 8px; border-radius: 10px;
+      font-size: 0.75rem; border: 1px solid var(--border);
+      background: var(--surface); color: var(--muted);
+      white-space: nowrap;
+    }
+    .badge-main { border-color: var(--green); color: var(--green); }
+    .badge-feature { border-color: var(--yellow); color: var(--yellow); }
+
+    .hash { font-family: 'SFMono-Regular', Consolas, monospace; color: var(--muted); font-size: 0.8rem; }
+    .latest-label {
+      font-size: 0.72rem; padding: 1px 6px; border-radius: 8px;
+      background: rgba(63,185,80,0.1); border: 1px solid var(--green);
+      color: var(--green); margin-left: 6px; vertical-align: middle;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .error { color: #f85149; font-size: 0.9rem; }
+    .empty { color: var(--muted); font-size: 0.9rem; padding: 16px 0; }
+
+    footer {
+      margin-top: 48px; padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.8rem;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Mazduino Firmware</h1>
+      <p>
+        TunerStudio INI configuration files &mdash;
+        <a href="https://github.com/mazduino/mazduino-fw/releases" target="_blank">Releases &amp; firmware binaries &rarr;</a>
+      </p>
+    </header>
+
+    <div id="filters" class="filters"></div>
+    <div id="status">Loading&hellip;</div>
+    <div id="content"></div>
+
+    <footer>
+      <span>
+        <a href="https://github.com/mazduino/mazduino-fw" target="_blank">mazduino/mazduino-fw</a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://www.mazduino.com/" target="_blank">mazduino.com</a>
+      </span>
+      <span id="last-updated"></span>
+    </footer>
+  </div>
+
+  <script>
+    const REPO = 'mazduino/mazduino-fw';
+    const BASE_URL = 'https://mazduino.github.io/mazduino-fw';
+
+    let allFiles = [];
+    let activeBoard = 'all';
+
+    async function fetchFiles() {
+      const url = `https://api.github.com/repos/${REPO}/git/trees/gh-pages?recursive=1`;
+      const res = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+      if (!res.ok) throw new Error(`GitHub API responded with ${res.status}`);
+      const data = await res.json();
+
+      if (data.truncated) {
+        console.warn('GitHub tree response truncated — some files may be missing');
+      }
+
+      return data.tree
+        .filter(item => item.type === 'blob' && item.path.startsWith('ini/') && item.path.endsWith('.ini'))
+        .map(item => {
+          // ini/<branch>/<year>/<month>/<day>/<target>/<hash>.ini
+          const parts = item.path.replace(/^ini\//, '').split('/');
+          if (parts.length < 6) return null;
+          const [branch, year, month, day, target, filename] = parts;
+          const hash = filename.replace('.ini', '');
+          return { path: item.path, branch, year, month, day, target, hash };
+        })
+        .filter(Boolean);
+    }
+
+    function groupByBoard(files) {
+      const groups = {};
+      for (const f of files) {
+        if (!groups[f.target]) groups[f.target] = [];
+        groups[f.target].push(f);
+      }
+      for (const target of Object.keys(groups)) {
+        groups[target].sort((a, b) => {
+          const da = `${a.year}${a.month.padStart(2,'0')}${a.day.padStart(2,'0')}`;
+          const db = `${b.year}${b.month.padStart(2,'0')}${b.day.padStart(2,'0')}`;
+          if (db !== da) return db.localeCompare(da);
+          // same date: main branch first
+          if (a.branch === 'main' && b.branch !== 'main') return -1;
+          if (b.branch === 'main' && a.branch !== 'main') return 1;
+          return a.branch.localeCompare(b.branch);
+        });
+      }
+      return groups;
+    }
+
+    function branchBadge(branch) {
+      const cls = branch === 'main' ? 'badge badge-main'
+                : branch.startsWith('feature') ? 'badge badge-feature'
+                : 'badge';
+      return `<span class="${cls}">${escHtml(branch)}</span>`;
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function renderFilters(boards) {
+      const div = document.getElementById('filters');
+      div.innerHTML = '';
+
+      const all = document.createElement('button');
+      all.className = 'filter-btn' + (activeBoard === 'all' ? ' active' : '');
+      all.textContent = 'All boards';
+      all.onclick = () => setBoard('all');
+      div.appendChild(all);
+
+      for (const board of boards) {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn' + (activeBoard === board ? ' active' : '');
+        btn.textContent = board;
+        btn.onclick = () => setBoard(board);
+        div.appendChild(btn);
+      }
+    }
+
+    function setBoard(board) {
+      activeBoard = board;
+      render();
+    }
+
+    function render() {
+      const groups = groupByBoard(allFiles);
+      const boards = Object.keys(groups).sort();
+      renderFilters(boards);
+
+      const content = document.getElementById('content');
+      content.innerHTML = '';
+
+      const visible = activeBoard === 'all' ? boards : boards.filter(b => b === activeBoard);
+
+      if (visible.length === 0) {
+        content.innerHTML = '<p class="empty">No INI files found.</p>';
+        return;
+      }
+
+      for (const board of visible) {
+        const files = groups[board];
+        const section = document.createElement('div');
+        section.className = 'board-section';
+
+        let rows = '';
+        files.forEach((f, idx) => {
+          const date = `${f.year}-${f.month.padStart(2,'0')}-${f.day.padStart(2,'0')}`;
+          const url = `${BASE_URL}/${f.path}`;
+          const filename = `${f.hash}.ini`;
+          const latestTag = idx === 0 ? '<span class="latest-label">latest</span>' : '';
+          rows += `<tr>
+            <td>${date}${latestTag}</td>
+            <td>${branchBadge(f.branch)}</td>
+            <td><span class="hash">${f.hash.slice(0, 8)}</span></td>
+            <td><a href="${url}">${escHtml(filename)}</a></td>
+          </tr>`;
+        });
+
+        section.innerHTML = `
+          <div class="board-header">
+            <span class="board-name">${escHtml(board)}</span>
+            <span class="board-count">${files.length} build${files.length !== 1 ? 's' : ''}</span>
+          </div>
+          <table>
+            <thead><tr><th>Date</th><th>Branch</th><th>Build hash</th><th>Download</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>`;
+        content.appendChild(section);
+      }
+    }
+
+    (async () => {
+      try {
+        allFiles = await fetchFiles();
+        const count = allFiles.length;
+        const latestDate = allFiles.length
+          ? [...allFiles].sort((a, b) => {
+              const da = `${a.year}${a.month}${a.day}`;
+              const db = `${b.year}${b.month}${b.day}`;
+              return db.localeCompare(da);
+            })[0]
+          : null;
+
+        document.getElementById('status').textContent =
+          `${count} INI file${count !== 1 ? 's' : ''} available`;
+
+        if (latestDate) {
+          document.getElementById('last-updated').textContent =
+            `Last build: ${latestDate.year}-${latestDate.month.padStart(2,'0')}-${latestDate.day.padStart(2,'0')}`;
+        }
+
+        render();
+      } catch (e) {
+        document.getElementById('status').textContent = '';
+        document.getElementById('content').innerHTML =
+          `<p class="error">Could not load file list: ${e.message}</p>
+           <p style="color:var(--muted);font-size:0.85rem;margin-top:8px;">
+             You can browse INI files directly at
+             <a href="https://github.com/mazduino/mazduino-fw/releases">GitHub Releases</a>.
+           </p>`;
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1624,13 +1624,36 @@ struct output_channels_s {
 	 */
 	uint8_t mapPerCylinder[MAX_CYLINDER_COUNT] = {};
 	/**
-	 * need 4 byte alignment
-	 * units: units
+	 * Analog multi-switch position.
 	 * offset 918
 	 */
-	uint8_t alignmentFill_at_918[2] = {};
+	uint8_t analogMultiSwitchPosition = (uint8_t)0;
+	/**
+	 * need 4 byte alignment
+	 * units: units
+	 * offset 919
+	 */
+	uint8_t alignmentFill_at_919[1] = {};
+	/**
+	 * Analog multi-switch voltage.
+	 * units: V
+	 * offset 920
+	 */
+	scaled_channel<float, 1000, 1> analogMultiSwitchVoltage = (float)0;
+	/**
+	 * Fuel: Consumption trip average
+	 * units: L/100km
+	 * offset 924
+	 */
+	scaled_channel<uint16_t, 10, 1> fuelConsumptionL100km = (uint16_t)0;
+	/**
+	 * Fuel: Flow rate (instant)
+	 * units: L/hr
+	 * offset 926
+	 */
+	scaled_channel<uint16_t, 100, 1> fuelConsumptionLitersPerHour = (uint16_t)0;
 };
-static_assert(sizeof(output_channels_s) == 920);
+static_assert(sizeof(output_channels_s) == 928);
 
 // end
 // this section was generated automatically by rusEFI tool config_definition_base-all.jar based on (unknown script) console/binary/output_channels.txt

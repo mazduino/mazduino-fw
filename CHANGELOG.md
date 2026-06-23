@@ -5,6 +5,10 @@ All notable changes to Mazduino firmware are documented here.
 ## [Unreleased]
 
 ### Added
+- Fuel consumption output channels: trip-average L/100km and instantaneous L/hr, user-configurable via TunerStudio (Engine > Fuel Consumption); requires VSS, injection enabled, and injector flow set
+- `fuelConsumptionEnabled` bit and `fuelDensity` (g/L, default 750 petrol) added to engine configuration; calculation runs in `TripOdometer::onSlowCallback()`
+- `OUTCH_FuelConsumptionL100km` and `OUTCH_FuelConsumptionLitersPerHour` added to `output_channel_e` enum for Lua access
+- `common.mk`: added `$(PROJECT_DIR)/$(META_OUTPUT_ROOT_FOLDER)controllers/generated` to `ALLINC` so the unit test build finds board-specific generated headers when `META_OUTPUT_ROOT_FOLDER` points outside the firmware tree
 - Nightly release workflow publishing per-board .bin, .srec, and .hex artifacts as GitHub Releases
 - Docker-based build system (`build_boards.sh`) using `--platform linux/amd64` for consistent builds on Apple Silicon and x86-64
 - TunerStudio UI flags in `prepend.txt` to hide ETB, traction control, boost, rotary, Harley-Davidson, torque model, and other features not applicable to each board variant
