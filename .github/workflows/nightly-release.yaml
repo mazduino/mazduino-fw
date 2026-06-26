@@ -169,7 +169,7 @@ jobs:
       - name: Deploy INI files to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          deploy_key: ${{ secrets.GHPAGES_DEPLOY_KEY }}
+          personal_token: ${{ secrets.MY_REPO_PAT }}
           publish_dir: ./ini-pages
           destination_dir: ini
           keep_files: true
