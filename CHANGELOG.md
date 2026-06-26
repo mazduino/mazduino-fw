@@ -5,6 +5,9 @@ All notable changes to Mazduino firmware are documented here.
 ## [Unreleased]
 
 ### Added
+- DFCO enable switch input (`coastingFuelCutSwitchPin`): assign a pin to control DFCO via a physical switch; switch ON allows fuel cut per RPM/TPS/CLT parameters, switch OFF disables fuel cut entirely; leave unassigned for parameter-only control
+- Rotational Idle manual enable switch input (`rotationalIdleController.switchPin`): when switch is ON, rotational idle is forced active regardless of automatic CLT/TPS conditions
+- Rotational Idle RPM window (`minRpm`, `maxRpm`): configurable RPM range for rotational idle engagement; 0 = no limit; displayed in live data as `rotIdleEngineTooSlow` / `rotIdleEngineTooFast`
 - Fuel consumption output channels: trip-average L/100km and instantaneous L/hr, user-configurable via TunerStudio (Engine > Fuel Consumption); requires VSS, injection enabled, and injector flow set
 - `fuelConsumptionEnabled` bit and `fuelDensity` (g/L, default 750 petrol) added to engine configuration; calculation runs in `TripOdometer::onSlowCallback()`
 - `OUTCH_FuelConsumptionL100km` and `OUTCH_FuelConsumptionLitersPerHour` added to `output_channel_e` enum for Lua access
@@ -16,6 +19,9 @@ All notable changes to Mazduino firmware are documented here.
 - mazduino-mega100-512: STM32F407VET6 (512KB) board with reduced feature set; firmware constrained to 384KB to keep tune storage sector (sector 7, 0x08060000) free
 
 ### Changed
+- TunerStudio menu: Fuel Consumption moved from Advanced to Fuel menu (after DFCO entry)
+- TunerStudio menu: Rotational Idle moved from Advanced to Idle menu
+- TunerStudio dialog: Fuel Consumption dialog removes duplicate VSS input pin and Injector Flow fields (already configurable in their own dedicated menus)
 - `_compile_unit_tests.sh` updated to use `boards/mazduino-lite/meta-info.env` as the reference board (replacing deleted root `meta-info.env`)
 - `generated/controllers/generated/` pre-generated headers regenerated to include CAN input/output feature structs and new enum values from the mazduino rusefi fork
 - mazduino-mega100 and mega100-512: status LED at PB7 enabled (`getCommsLedPin()` and `LED_CRITICAL_ERROR_BRAIN_PIN` both assigned to PB7)

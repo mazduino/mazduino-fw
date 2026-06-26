@@ -2074,6 +2074,12 @@ float getConfigValueByHash(const int hash) {
 // rotationalIdleController.auto_engage_clt
 		case 602046867:
 			return engineConfiguration->rotationalIdleController.auto_engage_clt;
+// rotationalIdleController.minRpm
+		case 644592037:
+			return engineConfiguration->rotationalIdleController.minRpm;
+// rotationalIdleController.maxRpm
+		case 635464039:
+			return engineConfiguration->rotationalIdleController.maxRpm;
 // misfireDetectionEnabled
 		case -2092512610:
 			return engineConfiguration->misfireDetectionEnabled;
@@ -2110,6 +2116,12 @@ float getConfigValueByHash(const int hash) {
 // misfireSettleCycles
 		case -631434424:
 			return engineConfiguration->misfireSettleCycles;
+// fuelConsumptionEnabled
+		case 1450706523:
+			return engineConfiguration->fuelConsumptionEnabled;
+// fuelDensity
+		case -1922244559:
+			return engineConfiguration->fuelDensity;
 // tcu_shiftTime
 		case -1658957891:
 			return config->tcu_shiftTime;
@@ -2227,12 +2239,6 @@ float getConfigValueByHash(const int hash) {
 // analogMultiSwitchLatch8
 		case 440931128:
 			return config->analogMultiSwitchLatch8;
-// fuelConsumptionEnabled
-		case 1450706523:
-			return config->fuelConsumptionEnabled;
-// fuelDensity
-		case -1922244559:
-			return config->fuelDensity;
 	}
 	return EFI_ERROR_CODE;
 }
@@ -5693,6 +5699,16 @@ bool setConfigValueByName(const char *name, float value) {
 		engineConfiguration->rotationalIdleController.auto_engage_clt = (int)value;
 		return 1;
 	}
+		case 644592037:
+	{
+		engineConfiguration->rotationalIdleController.minRpm = (int)value;
+		return 1;
+	}
+		case 635464039:
+	{
+		engineConfiguration->rotationalIdleController.maxRpm = (int)value;
+		return 1;
+	}
 		case -2092512610:
 	{
 		engineConfiguration->misfireDetectionEnabled = (int)value;
@@ -5751,6 +5767,16 @@ bool setConfigValueByName(const char *name, float value) {
 		case -631434424:
 	{
 		engineConfiguration->misfireSettleCycles = (int)value;
+		return 1;
+	}
+		case 1450706523:
+	{
+		engineConfiguration->fuelConsumptionEnabled = (int)value;
+		return 1;
+	}
+		case -1922244559:
+	{
+		engineConfiguration->fuelDensity = (int)value;
 		return 1;
 	}
 		case -1658957891:
@@ -5946,16 +5972,6 @@ bool setConfigValueByName(const char *name, float value) {
 		case 440931128:
 	{
 		config->analogMultiSwitchLatch8 = (int)value;
-		return 1;
-	}
-		case 1450706523:
-	{
-		config->fuelConsumptionEnabled = (int)value;
-		return 1;
-	}
-		case -1922244559:
-	{
-		config->fuelDensity = (int)value;
 		return 1;
 	}
 	}

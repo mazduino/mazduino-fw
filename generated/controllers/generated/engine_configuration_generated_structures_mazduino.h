@@ -7036,8 +7036,12 @@ struct engine_configuration_s {
 	 * offset 5700
 	 */
 	TriggeredCanOutput triggeredCanOutput[8] = {};
+	bool fuelConsumptionEnabled : 1 {};
+	bool fuelConsumptionEnabledPad : 7 {};
+	scaled_channel<uint8_t, 1, 4> fuelDensity;
+	uint8_t fuelConsumptionPad[2] = {};
 };
-static_assert(sizeof(engine_configuration_s) == 6660);
+static_assert(sizeof(engine_configuration_s) == 6664);
 
 // start of ign_cyl_trim_s
 struct ign_cyl_trim_s {

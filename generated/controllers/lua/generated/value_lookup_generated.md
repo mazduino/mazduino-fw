@@ -2068,6 +2068,12 @@ Rotational Idle Auto engage CLT
 ### rotationalIdleController.auto_engage_clt
 Rotational Idle Auto engage CLT.
 
+### rotationalIdleController.minRpm
+Minimum RPM for rotational idle to engage
+
+### rotationalIdleController.maxRpm
+Maximum RPM for rotational idle to disengage
+
 ### misfireDetectionEnabled
 Misfire Detection: master enable. Active at idle only. Latches check-engine light (P0300) once the count threshold is reached.
 
@@ -2103,6 +2109,12 @@ Misfire Detection: wobble EMA alpha when spread is decreasing.
 
 ### misfireSettleCycles
 Misfire Detection: firings to wait after entering idle before flagging starts. 0 = immediate.
+
+### fuelConsumptionEnabled
+Enable fuel consumption calculation (L/100km and L/hr)
+
+### fuelDensity
+Fuel density (petrol ~750, E85 ~787, diesel ~840)
 
 ### tcu_shiftTime
 
@@ -2220,10 +2232,4 @@ Latch: toggles on position change. Momentary: reflects current position.
 
 ### analogMultiSwitchLatch8
 Latch: toggles on position change. Momentary: reflects current position.
-
-### fuelConsumptionEnabled
-Enable fuel consumption calculation (L/100km and L/hr)
-
-### fuelDensity
-Fuel density (petrol ~750, E85 ~787, diesel ~840)
 
