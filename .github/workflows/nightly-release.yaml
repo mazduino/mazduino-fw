@@ -24,7 +24,7 @@ jobs:
       - name: Checkout submodules
         run: |
           git config --global url."https://x-access-token:${{ secrets.MY_REPO_PAT }}@github.com/".insteadOf "git@github.com:"
-          git submodule update --init --force --depth=1
+          git submodule update --init --force
 
       - name: Set matrix
         id: set-matrix
@@ -60,7 +60,7 @@ jobs:
       - name: Checkout submodules
         run: |
           git config --global url."https://x-access-token:${{ secrets.MY_REPO_PAT }}@github.com/".insteadOf "git@github.com:"
-          git submodule update --init --force --depth=1
+          git submodule update --init --force
 
       - uses: ./ext/rusefi/.github/workflows/custom-board-build
         with:
