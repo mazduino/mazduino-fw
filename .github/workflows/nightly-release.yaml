@@ -128,6 +128,7 @@ jobs:
             - mazduino-compact (STM32F407VGT6, knock enabled)
             - mazduino-lite (STM32F407VGT6, no knock)
             - mazduino-mini6ch (STM32F427VGT6, ETB + traction control)
+            - mazduino-core (STM32F427ZGT6, Proteus F4 pinout, dual ETB + traction control)
             - mazduino-mega100 (STM32F407VGT6, 1MB, full features, USB + CAN)
             - mazduino-mega100-512 (STM32F407VET6, 512KB, reduced feature set)
 

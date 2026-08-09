@@ -32,6 +32,12 @@ Each release includes `.bin`, `.srec`, and `.hex` files for every supported boar
 - Hardware knock detection
 - CAN bus, USB virtual COM port
 
+### Mazduino Core (STM32F427ZGT6)
+- MCU: STM32F427ZGT6, LQFP144 (1MB flash) — **not** the 100-pin VGT6 used by the rest of the fleet; GPIOF/G are only bonded out on the 144-pin package, and this pinout needs them
+- Pinout identical to the official rusEFI Proteus F4 board: 12 low-side + 4 high-side outputs, 12 ignition outputs, dual electronic throttle (ETB), dual-channel hardware knock, onboard LPS25 baro sensor
+- CAN bus + CAN2, USB virtual COM port and real TunerStudio port selector
+- Traction control (requires ETB)
+
 ### Mazduino Mega100 (STM32F407VGT6)
 - MCU: STM32F407VGT6 (1MB flash)
 - Full feature set: ETB, traction control, knock, boost, launch control
@@ -50,7 +56,7 @@ Each release includes `.bin`, `.srec`, and `.hex` files for every supported boar
 
 | Board | Connection |
 |-------|------------|
-| Compact, Lite, Mini 6CH | USB virtual COM port |
+| Compact, Lite, Mini 6CH, Core | USB virtual COM port |
 | Mega100 | USB virtual COM port or CAN bus |
 | Mega100-512 | USB virtual COM port or CAN bus |
 
@@ -103,6 +109,7 @@ boards/
   mazduino-compact/       # Board-specific configuration files
   mazduino-lite/
   mazduino-mini6ch/
+  mazduino-core/
   mazduino-mega100/
   mazduino-mega100-512/
 ext/rusefi/               # rusEFI submodule

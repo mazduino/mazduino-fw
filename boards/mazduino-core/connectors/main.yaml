@@ -1,0 +1,255 @@
+pins:
+  # Analog inputs - same numbering as official Proteus F4 (Analog Volt 1-11, Analog Temp 1-4)
+  - id: [C0, EFI_ADC_10]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Volt 1 - MAP (PC0)
+
+  - id: [C1, EFI_ADC_11]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Volt 2 - TPS (PC1)
+
+  - id: [C2, EFI_ADC_12]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Volt 3 - TPS2 (PC2)
+
+  - id: [C3, EFI_ADC_13]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Volt 4 (PC3)
+
+  - id: [A0, EFI_ADC_0]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Volt 5 (PA0)
+
+  - id: [A1, EFI_ADC_1]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Volt 6 (PA1)
+
+  - id: [A2, EFI_ADC_2]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Volt 7 - PPS2 (PA2)
+
+  - id: [A3, EFI_ADC_3]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Volt 8 (PA3)
+
+  - id: [A4, EFI_ADC_4]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Volt 9 - PPS (PA4)
+
+  - id: [A5, EFI_ADC_5]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Volt 10 - AFR (PA5)
+
+  - id: [A6, EFI_ADC_6]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Volt 11 (PA6)
+
+  - id: [C4, EFI_ADC_14]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Temp 1 (PC4)
+
+  - id: [C5, EFI_ADC_15]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Temp 2 - IAT (PC5)
+
+  - id: [B0, EFI_ADC_8]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Temp 3 - CLT (PB0)
+
+  - id: [B1, EFI_ADC_9]
+    class: [switch_inputs, analog_inputs]
+    ts_name: Analog Temp 4 (PB1)
+
+  - id: EFI_ADC_7
+    class: analog_inputs
+    ts_name: Vbatt sense (PA7)
+
+  # Digital trigger/switch inputs - Digital 1-6, same as official Proteus F4
+  - id: [C6, C6]
+    class: [switch_inputs, event_inputs]
+    ts_name: Digital 1 - CKP (PC6)
+
+  - id: [E11, E11]
+    class: [switch_inputs, event_inputs]
+    ts_name: Digital 2 (PE11)
+
+  - id: [E12, E12]
+    class: [switch_inputs, event_inputs]
+    ts_name: Digital 3 (PE12)
+
+  - id: [E14, E14]
+    class: [switch_inputs, event_inputs]
+    ts_name: Digital 4 (PE14)
+
+  - id: [E13, E13]
+    class: [switch_inputs, event_inputs]
+    ts_name: Digital 5 (PE13)
+
+  - id: [E15, E15]
+    class: [switch_inputs, event_inputs]
+    ts_name: Digital 6 (PE15)
+
+  # VR conditioner inputs
+  - id: E7
+    class: event_inputs
+    ts_name: VR 1 (PE7)
+
+  - id: E8
+    class: event_inputs
+    ts_name: VR 2 (PE8)
+
+  # Low-side outputs - LS 1-16, same as official Proteus F4
+  - id: D7
+    class: outputs
+    ts_name: LS 1 (PD7)
+
+  - id: G9
+    class: outputs
+    ts_name: LS 2 (PG9)
+
+  - id: G10
+    class: outputs
+    ts_name: LS 3 (PG10)
+
+  - id: G11
+    class: outputs
+    ts_name: LS 4 (PG11)
+
+  - id: G12
+    class: outputs
+    ts_name: LS 5 (PG12)
+
+  - id: G13
+    class: outputs
+    ts_name: LS 6 (PG13)
+
+  - id: G14
+    class: outputs
+    ts_name: LS 7 (PG14)
+
+  - id: B4
+    class: outputs
+    ts_name: LS 8 (PB4)
+
+  - id: B5
+    class: outputs
+    ts_name: LS 9 (PB5)
+
+  - id: B6
+    class: outputs
+    ts_name: LS 10 - Fuel Pump (PB6)
+
+  - id: B7
+    class: outputs
+    ts_name: LS 11 - Fan (PB7)
+
+  - id: B8
+    class: outputs
+    ts_name: LS 12 - Main Relay (PB8)
+
+  - id: B9
+    class: outputs
+    ts_name: LS 13 (PB9)
+
+  - id: E0
+    class: outputs
+    ts_name: LS 14 (PE0)
+
+  - id: E1
+    class: outputs
+    ts_name: LS 15 (PE1)
+
+  - id: E2
+    class: outputs
+    ts_name: LS 16 (PE2)
+
+  # High-side outputs - HS 1-4, same as official Proteus F4
+  - id: A9
+    class: outputs
+    ts_name: HS 1 (PA9)
+
+  - id: A8
+    class: outputs
+    ts_name: HS 2 (PA8)
+
+  - id: D15
+    class: outputs
+    ts_name: HS 3 (PD15)
+
+  - id: D14
+    class: outputs
+    ts_name: HS 4 (PD14)
+
+  # Ignition outputs - IGN 1-12, same as official Proteus F4
+  - id: D4
+    class: outputs
+    ts_name: IGN 1 (PD4)
+
+  - id: D3
+    class: outputs
+    ts_name: IGN 2 (PD3)
+
+  - id: C9
+    class: outputs
+    ts_name: IGN 3 (PC9)
+
+  - id: C8
+    class: outputs
+    ts_name: IGN 4 (PC8)
+
+  - id: C7
+    class: outputs
+    ts_name: IGN 5 (PC7)
+
+  - id: G8
+    class: outputs
+    ts_name: IGN 6 (PG8)
+
+  - id: G7
+    class: outputs
+    ts_name: IGN 7 (PG7)
+
+  - id: G6
+    class: outputs
+    ts_name: IGN 8 (PG6)
+
+  - id: G5
+    class: outputs
+    ts_name: IGN 9 (PG5)
+
+  - id: G4
+    class: outputs
+    ts_name: IGN 10 (PG4)
+
+  - id: G3
+    class: outputs
+    ts_name: IGN 11 (PG3)
+
+  - id: G2
+    class: outputs
+    ts_name: IGN 12 (PG2)
+
+  # Electronic throttle - TLE9201, same as official Proteus F4
+  - id: D12
+    class: outputs
+    ts_name: ETB1 PWM (PD12)
+
+  - id: D10
+    class: outputs
+    ts_name: ETB1 DIR (PD10)
+
+  - id: D11
+    class: outputs
+    ts_name: ETB1 DIS (PD11)
+
+  - id: D13
+    class: outputs
+    ts_name: ETB2 PWM (PD13)
+
+  - id: D9
+    class: outputs
+    ts_name: ETB2 DIR (PD9)
+
+  - id: D8
+    class: outputs
+    ts_name: ETB2 DIS (PD8)
