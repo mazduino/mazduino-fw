@@ -2209,36 +2209,6 @@ float getConfigValueByHash(const int hash) {
 // wizardInjectorFlow
 		case -1499796020:
 			return config->wizardInjectorFlow;
-// analogMultiSwitchPullupResistor
-		case 984881233:
-			return config->analogMultiSwitchPullupResistor;
-// analogMultiSwitchResistorMargin
-		case 1628511757:
-			return config->analogMultiSwitchResistorMargin;
-// analogMultiSwitchLatch1
-		case 440931121:
-			return config->analogMultiSwitchLatch1;
-// analogMultiSwitchLatch2
-		case 440931122:
-			return config->analogMultiSwitchLatch2;
-// analogMultiSwitchLatch3
-		case 440931123:
-			return config->analogMultiSwitchLatch3;
-// analogMultiSwitchLatch4
-		case 440931124:
-			return config->analogMultiSwitchLatch4;
-// analogMultiSwitchLatch5
-		case 440931125:
-			return config->analogMultiSwitchLatch5;
-// analogMultiSwitchLatch6
-		case 440931126:
-			return config->analogMultiSwitchLatch6;
-// analogMultiSwitchLatch7
-		case 440931127:
-			return config->analogMultiSwitchLatch7;
-// analogMultiSwitchLatch8
-		case 440931128:
-			return config->analogMultiSwitchLatch8;
 	}
 	return EFI_ERROR_CODE;
 }
@@ -5922,56 +5892,6 @@ bool setConfigValueByName(const char *name, float value) {
 		case -1499796020:
 	{
 		config->wizardInjectorFlow = (int)value;
-		return 1;
-	}
-		case 984881233:
-	{
-		config->analogMultiSwitchPullupResistor = (int)value;
-		return 1;
-	}
-		case 1628511757:
-	{
-		config->analogMultiSwitchResistorMargin = (int)value;
-		return 1;
-	}
-		case 440931121:
-	{
-		config->analogMultiSwitchLatch1 = (int)value;
-		return 1;
-	}
-		case 440931122:
-	{
-		config->analogMultiSwitchLatch2 = (int)value;
-		return 1;
-	}
-		case 440931123:
-	{
-		config->analogMultiSwitchLatch3 = (int)value;
-		return 1;
-	}
-		case 440931124:
-	{
-		config->analogMultiSwitchLatch4 = (int)value;
-		return 1;
-	}
-		case 440931125:
-	{
-		config->analogMultiSwitchLatch5 = (int)value;
-		return 1;
-	}
-		case 440931126:
-	{
-		config->analogMultiSwitchLatch6 = (int)value;
-		return 1;
-	}
-		case 440931127:
-	{
-		config->analogMultiSwitchLatch7 = (int)value;
-		return 1;
-	}
-		case 440931128:
-	{
-		config->analogMultiSwitchLatch8 = (int)value;
 		return 1;
 	}
 	}

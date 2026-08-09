@@ -940,12 +940,30 @@ float getOutputValueByHash(const int hash) {
 // transitionEventsCounter
 		case 1163075685:
 			return engine->outputChannels.transitionEventsCounter;
-// analogMultiSwitchPosition
-		case -1318107799:
-			return engine->outputChannels.analogMultiSwitchPosition;
-// analogMultiSwitchVoltage
-		case -2060351066:
-			return engine->outputChannels.analogMultiSwitchVoltage;
+// analogMultiSwitchPosition1
+		case -547884358:
+			return engine->outputChannels.analogMultiSwitchPosition1;
+// analogMultiSwitchPosition2
+		case -547884357:
+			return engine->outputChannels.analogMultiSwitchPosition2;
+// analogMultiSwitchPosition3
+		case -547884356:
+			return engine->outputChannels.analogMultiSwitchPosition3;
+// analogMultiSwitchPosition4
+		case -547884355:
+			return engine->outputChannels.analogMultiSwitchPosition4;
+// analogMultiSwitchVoltage1
+		case 727891607:
+			return engine->outputChannels.analogMultiSwitchVoltage1;
+// analogMultiSwitchVoltage2
+		case 727891608:
+			return engine->outputChannels.analogMultiSwitchVoltage2;
+// analogMultiSwitchVoltage3
+		case 727891609:
+			return engine->outputChannels.analogMultiSwitchVoltage3;
+// analogMultiSwitchVoltage4
+		case 727891610:
+			return engine->outputChannels.analogMultiSwitchVoltage4;
 // fuelConsumptionL100km
 		case -1578355355:
 			return engine->outputChannels.fuelConsumptionL100km;

@@ -2203,33 +2203,3 @@ Fuel density (petrol ~750, E85 ~787, diesel ~840)
 ### wizardInjectorFlow
 
 
-### analogMultiSwitchPullupResistor
-Pull-up resistor value (to 5V)
-
-### analogMultiSwitchResistorMargin
-Resistor tolerance margin (applies to pull-up and all switches)
-
-### analogMultiSwitchLatch1
-Latch: toggles on position change. Momentary: reflects current position.
-
-### analogMultiSwitchLatch2
-Latch: toggles on position change. Momentary: reflects current position.
-
-### analogMultiSwitchLatch3
-Latch: toggles on position change. Momentary: reflects current position.
-
-### analogMultiSwitchLatch4
-Latch: toggles on position change. Momentary: reflects current position.
-
-### analogMultiSwitchLatch5
-Latch: toggles on position change. Momentary: reflects current position.
-
-### analogMultiSwitchLatch6
-Latch: toggles on position change. Momentary: reflects current position.
-
-### analogMultiSwitchLatch7
-Latch: toggles on position change. Momentary: reflects current position.
-
-### analogMultiSwitchLatch8
-Latch: toggles on position change. Momentary: reflects current position.
-

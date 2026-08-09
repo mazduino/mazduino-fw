@@ -1624,36 +1624,69 @@ struct output_channels_s {
 	 */
 	uint8_t mapPerCylinder[MAX_CYLINDER_COUNT] = {};
 	/**
-	 * Analog multi-switch position.
+	 * Analog multi-switch 1 position
 	 * offset 918
 	 */
-	uint8_t analogMultiSwitchPosition = (uint8_t)0;
+	uint8_t analogMultiSwitchPosition1 = (uint8_t)0;
+	/**
+	 * Analog multi-switch 2 position
+	 * offset 919
+	 */
+	uint8_t analogMultiSwitchPosition2 = (uint8_t)0;
+	/**
+	 * Analog multi-switch 3 position
+	 * offset 920
+	 */
+	uint8_t analogMultiSwitchPosition3 = (uint8_t)0;
+	/**
+	 * Analog multi-switch 4 position
+	 * offset 921
+	 */
+	uint8_t analogMultiSwitchPosition4 = (uint8_t)0;
 	/**
 	 * need 4 byte alignment
 	 * units: units
-	 * offset 919
+	 * offset 922
 	 */
-	uint8_t alignmentFill_at_919[1] = {};
+	uint8_t alignmentFill_at_922[2] = {};
 	/**
-	 * Analog multi-switch voltage.
+	 * Analog multi-switch 1 voltage
 	 * units: V
-	 * offset 920
+	 * offset 924
 	 */
-	scaled_channel<float, 1000, 1> analogMultiSwitchVoltage = (float)0;
+	scaled_channel<float, 1000, 1> analogMultiSwitchVoltage1 = (float)0;
+	/**
+	 * Analog multi-switch 2 voltage
+	 * units: V
+	 * offset 928
+	 */
+	scaled_channel<float, 1000, 1> analogMultiSwitchVoltage2 = (float)0;
+	/**
+	 * Analog multi-switch 3 voltage
+	 * units: V
+	 * offset 932
+	 */
+	scaled_channel<float, 1000, 1> analogMultiSwitchVoltage3 = (float)0;
+	/**
+	 * Analog multi-switch 4 voltage
+	 * units: V
+	 * offset 936
+	 */
+	scaled_channel<float, 1000, 1> analogMultiSwitchVoltage4 = (float)0;
 	/**
 	 * Fuel: Consumption trip average
 	 * units: L/100km
-	 * offset 924
+	 * offset 940
 	 */
 	scaled_channel<uint16_t, 10, 1> fuelConsumptionL100km = (uint16_t)0;
 	/**
 	 * Fuel: Flow rate (instant)
 	 * units: L/hr
-	 * offset 926
+	 * offset 942
 	 */
 	scaled_channel<uint16_t, 100, 1> fuelConsumptionLitersPerHour = (uint16_t)0;
 };
-static_assert(sizeof(output_channels_s) == 928);
+static_assert(sizeof(output_channels_s) == 944);
 
 // end
 // this section was generated automatically by rusEFI tool config_definition_base-all.jar based on (unknown script) console/binary/output_channels.txt
