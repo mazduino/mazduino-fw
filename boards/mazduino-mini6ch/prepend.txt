@@ -49,3 +49,4 @@
 #define ts_show_spi5_enable false
 #define ts_show_spi6_enable false
 #define ts_show_vbatt_adc false
+#define ts_show_idle_stepper true
