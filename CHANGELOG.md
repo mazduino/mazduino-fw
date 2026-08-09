@@ -20,6 +20,7 @@ All notable changes to Mazduino firmware are documented here.
 - mazduino-mega100-512: STM32F407VET6 (512KB) board with reduced feature set; firmware constrained to 384KB to keep tune storage sector (sector 7, 0x08060000) free
 
 ### Changed
+- CI (build-matrix): config push-back disabled on master (`push=false`). Every board job in the matrix runs in parallel and each would `git push` regenerated configs to master, so all but the first failed with "fetch first"/non-fast-forward. mazduino commits generated files manually, so the CI push-back is unnecessary
 - CI (build-matrix): simulator build disabled on master (`sim=false`). mazduino ships custom boards only — `bundle.mk` already excludes the simulator from custom-board bundles — and the shared f407-discovery generated headers the simulator compiles against lack mazduino's added config fields (`fuelDensity`, DFCO switch, analog multi-switch), so the simulator cannot compile. This was previously masked because the old `mazduino` branch never triggered the simulator build
 - TunerStudio menu: Fuel Consumption moved from Advanced to Fuel menu (after DFCO entry)
 - TunerStudio menu: Rotational Idle moved from Advanced to Idle menu

@@ -68,8 +68,11 @@ jobs:
           if [ "${{github.event_name}}" == "push" -o "${{github.event_name}}" == "schedule" -o "${{github.event_name}}" == "workflow_dispatch" ] && [ "${{github.ref}}" == "refs/heads/master" ]; then
             echo 'extra_makefile_targets=build_both_bundles' >> $GITHUB_OUTPUT
             # uncomment this line for upload! echo 'upload=ftp_upload_bundles' >> $GITHUB_OUTPUT
-            # not pushing from matrix
-            echo 'push=true' >> $GITHUB_OUTPUT
+            # Do not push regenerated configs from the matrix: every board job
+            # runs in parallel and would race to git-push to master, so all but
+            # the first fail with "fetch first"/non-fast-forward. mazduino commits
+            # generated files manually, so the CI push-back is unnecessary.
+            echo 'push=false' >> $GITHUB_OUTPUT
             # Simulator disabled: mazduino ships custom boards only (bundle.mk
             # excludes the simulator from custom-board bundles), and the shared
             # f407-discovery generated headers the simulator compiles against
