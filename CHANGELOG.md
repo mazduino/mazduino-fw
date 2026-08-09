@@ -28,6 +28,7 @@ All notable changes to Mazduino firmware are documented here.
 - mazduino-compact: second idle solenoid field corrected to `secondSolenoidPin`
 - mazduino-lite: knock disabled by leaving `EFI_SOFTWARE_KNOCK` undefined (not set to FALSE) so `#ifdef` guards evaluate correctly
 - mazduino-mini6ch: `ts_show_traction_control true` enabled as ETB-capable board is the only variant that supports traction control
+- mazduino-mini6ch: stepper idle valve exposed in TunerStudio — added `panel = idleStepper` to the `idleHwType` (Idle Valve Hardware) dialog in the generated INI so the Stepper option appears alongside Solenoid; no firmware rebuild required since the stepper config fields already exist at fixed offsets
 - Dockerfile updated to handle both `ports.ubuntu.com` (ARM64) and `archive.ubuntu.com` (x86-64) Ubuntu mirror replacements for EOL Mantic release
 
 ### Removed
