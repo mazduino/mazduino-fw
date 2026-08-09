@@ -9,6 +9,7 @@ All notable changes to Mazduino firmware are documented here.
 - Rotational Idle manual enable switch input (`rotationalIdleController.switchPin`): when switch is ON, rotational idle is forced active regardless of automatic CLT/TPS conditions
 - Rotational Idle RPM window (`minRpm`, `maxRpm`): configurable RPM range for rotational idle engagement; 0 = no limit; displayed in live data as `rotIdleEngineTooSlow` / `rotIdleEngineTooFast`
 - Fuel consumption output channels: trip-average L/100km and instantaneous L/hr, user-configurable via TunerStudio (Engine > Fuel Consumption); requires VSS, injection enabled, and injector flow set
+- Predefined TunerStudio gauges for fuel consumption (`fuelConsumptionL100kmGauge`, `fuelConsumptionLitersPerHourGauge`) under the Fueling category, so L/100km and L/hr are selectable from the right-click gauge picker (rusefi-core `gauge_declarations.ini`)
 - `fuelConsumptionEnabled` bit and `fuelDensity` (g/L, default 750 petrol) added to engine configuration; calculation runs in `TripOdometer::onSlowCallback()`
 - `OUTCH_FuelConsumptionL100km` and `OUTCH_FuelConsumptionLitersPerHour` added to `output_channel_e` enum for Lua access
 - `common.mk`: added `$(PROJECT_DIR)/$(META_OUTPUT_ROOT_FOLDER)controllers/generated` to `ALLINC` so the unit test build finds board-specific generated headers when `META_OUTPUT_ROOT_FOLDER` points outside the firmware tree
