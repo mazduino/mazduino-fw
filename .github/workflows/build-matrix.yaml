@@ -70,7 +70,12 @@ jobs:
             # uncomment this line for upload! echo 'upload=ftp_upload_bundles' >> $GITHUB_OUTPUT
             # not pushing from matrix
             echo 'push=true' >> $GITHUB_OUTPUT
-            echo 'sim=true' >> $GITHUB_OUTPUT
+            # Simulator disabled: mazduino ships custom boards only (bundle.mk
+            # excludes the simulator from custom-board bundles), and the shared
+            # f407-discovery generated headers the simulator compiles against
+            # lack mazduino's added config fields (fuelDensity, DFCO switch,
+            # analog multi-switch), so the simulator build cannot compile.
+            echo 'sim=false' >> $GITHUB_OUTPUT
           else
             echo 'push=false' >> $GITHUB_OUTPUT
             echo 'sim=false' >> $GITHUB_OUTPUT
