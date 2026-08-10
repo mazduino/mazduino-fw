@@ -103,6 +103,48 @@ float getOutputValueByHash(const int hash) {
 // isMapAveraging
 		case -1626840525:
 			return engine->outputChannels.isMapAveraging;
+// cel_error_codes_count
+		case 92358935:
+			return engine->outputChannels.cel_error_codes_count;
+// cel_batv
+		case 985545253:
+			return engine->outputChannels.cel_batv;
+// cel_map
+		case -1141477738:
+			return engine->outputChannels.cel_map;
+// cel_iat
+		case -1141482090:
+			return engine->outputChannels.cel_iat;
+// cel_clt
+		case -1141488261:
+			return engine->outputChannels.cel_clt;
+// cel_tps
+		case -1141469617:
+			return engine->outputChannels.cel_tps;
+// cel_afr
+		case -1141490639:
+			return engine->outputChannels.cel_afr;
+// cel_oil_temp
+		case -653633135:
+			return engine->outputChannels.cel_oil_temp;
+// cel_oil_pressure
+		case -934637260:
+			return engine->outputChannels.cel_oil_pressure;
+// cel_fuel_pressure
+		case 351458524:
+			return engine->outputChannels.cel_fuel_pressure;
+// cel_maf
+		case -1141477748:
+			return engine->outputChannels.cel_maf;
+// cel_sync_loss
+		case 842372917:
+			return engine->outputChannels.cel_sync_loss;
+// cel_any_cut
+		case 461941227:
+			return engine->outputChannels.cel_any_cut;
+// cel_shiftlight_active
+		case -2039338359:
+			return engine->outputChannels.cel_shiftlight_active;
 // RPMValue
 		case 1699696209:
 			return engine->outputChannels.RPMValue;

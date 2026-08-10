@@ -2125,6 +2125,60 @@ float getConfigValueByHash(const int hash) {
 // tcu_shiftTime
 		case -1658957891:
 			return config->tcu_shiftTime;
+// cel_time_after_start
+		case -722059035:
+			return config->cel_time_after_start;
+// cel_sensor_checking
+		case 1141210125:
+			return config->cel_sensor_checking;
+// cel_on_not_running
+		case -122394299:
+			return config->cel_on_not_running;
+// cel_battery_sensor_checking
+		case 775156391:
+			return config->cel_battery_sensor_checking;
+// cel_map_sensor_checking
+		case 1544822570:
+			return config->cel_map_sensor_checking;
+// cel_iat_sensor_checking
+		case -468578774:
+			return config->cel_iat_sensor_checking;
+// cel_clt_sensor_checking
+		case -102293489:
+			return config->cel_clt_sensor_checking;
+// cel_tps_sensor_checking
+		case -572092189:
+			return config->cel_tps_sensor_checking;
+// cel_afr_sensor_checking
+		case -570834235:
+			return config->cel_afr_sensor_checking;
+// cel_oil_temp_sensor_checking
+		case 1667014693:
+			return config->cel_oil_temp_sensor_checking;
+// cel_oil_pressure_sensor_checking
+		case 585481672:
+			return config->cel_oil_pressure_sensor_checking;
+// cel_fuel_pressure_sensor_checking
+		case 615534960:
+			return config->cel_fuel_pressure_sensor_checking;
+// cel_maf_sensor_checking
+		case -1617868000:
+			return config->cel_maf_sensor_checking;
+// cel_sync_loss_sensor_checking
+		case -1326012983:
+			return config->cel_sync_loss_sensor_checking;
+// cel_any_cut_checking
+		case 338357830:
+			return config->cel_any_cut_checking;
+// cel_error_codes_checking
+		case -1996430678:
+			return config->cel_error_codes_checking;
+// cel_shiftlight_checking
+		case 563998025:
+			return config->cel_shiftlight_checking;
+// cel_shiftlight_flash
+		case -966619141:
+			return config->cel_shiftlight_flash;
 // cel_battery_min_v
 		case -1794416277:
 			return config->cel_battery_min_v;
@@ -2143,12 +2197,78 @@ float getConfigValueByHash(const int hash) {
 // cel_iat_max_v
 		case 1152218288:
 			return config->cel_iat_max_v;
+// cel_iat_max_c
+		case 1152218269:
+			return config->cel_iat_max_c;
+// cel_clt_min_v
+		case -1332007725:
+			return config->cel_clt_min_v;
+// cel_clt_max_v
+		case -1332284331:
+			return config->cel_clt_max_v;
+// cel_clt_max_c
+		case -1332284350:
+			return config->cel_clt_max_c;
 // cel_tps_min_v
 		case -789855065:
 			return config->cel_tps_min_v;
 // cel_tps_max_v
 		case -790131671:
 			return config->cel_tps_max_v;
+// cel_afr_min_v
+		case -1541221367:
+			return config->cel_afr_min_v;
+// cel_afr_max_v
+		case -1541497973:
+			return config->cel_afr_max_v;
+// cel_oil_temp_min_v
+		case 1995405673:
+			return config->cel_oil_temp_min_v;
+// cel_oil_temp_max_v
+		case 1995129067:
+			return config->cel_oil_temp_max_v;
+// cel_oil_temp_max_c
+		case 1995129048:
+			return config->cel_oil_temp_max_c;
+// cel_oil_pressure_min_v
+		case -1668178100:
+			return config->cel_oil_pressure_min_v;
+// cel_oil_pressure_max_v
+		case -1668454706:
+			return config->cel_oil_pressure_max_v;
+// cel_oil_pressure_min_kpa
+		case 125207122:
+			return config->cel_oil_pressure_min_kpa;
+// cel_fuel_pressure_min_v
+		case -916979468:
+			return config->cel_fuel_pressure_min_v;
+// cel_fuel_pressure_max_v
+		case -917256074:
+			return config->cel_fuel_pressure_max_v;
+// cel_maf_min_v
+		case -520872284:
+			return config->cel_maf_min_v;
+// cel_maf_max_v
+		case -521148890:
+			return config->cel_maf_max_v;
+// cel_sync_loss_tolerance
+		case -1445273871:
+			return config->cel_sync_loss_tolerance;
+// cel_any_cut_time
+		case -209775175:
+			return config->cel_any_cut_time;
+// cel_shiftlight_threshold
+		case -7423110:
+			return config->cel_shiftlight_threshold;
+// cel_shiftlight_threshold_hysteresis
+		case -1420201940:
+			return config->cel_shiftlight_threshold_hysteresis;
+// cel_shiftlight_tps_threshold
+		case -1741845936:
+			return config->cel_shiftlight_tps_threshold;
+// cel_shiftlight_flash_freq
+		case -171721272:
+			return config->cel_shiftlight_flash_freq;
 // dynoRpmStep
 		case -1085712470:
 			return config->dynoRpmStep;
@@ -5754,6 +5874,96 @@ bool setConfigValueByName(const char *name, float value) {
 		config->tcu_shiftTime = value;
 		return 1;
 	}
+		case -722059035:
+	{
+		config->cel_time_after_start = (int)value;
+		return 1;
+	}
+		case 1141210125:
+	{
+		config->cel_sensor_checking = (int)value;
+		return 1;
+	}
+		case -122394299:
+	{
+		config->cel_on_not_running = (int)value;
+		return 1;
+	}
+		case 775156391:
+	{
+		config->cel_battery_sensor_checking = (int)value;
+		return 1;
+	}
+		case 1544822570:
+	{
+		config->cel_map_sensor_checking = (int)value;
+		return 1;
+	}
+		case -468578774:
+	{
+		config->cel_iat_sensor_checking = (int)value;
+		return 1;
+	}
+		case -102293489:
+	{
+		config->cel_clt_sensor_checking = (int)value;
+		return 1;
+	}
+		case -572092189:
+	{
+		config->cel_tps_sensor_checking = (int)value;
+		return 1;
+	}
+		case -570834235:
+	{
+		config->cel_afr_sensor_checking = (int)value;
+		return 1;
+	}
+		case 1667014693:
+	{
+		config->cel_oil_temp_sensor_checking = (int)value;
+		return 1;
+	}
+		case 585481672:
+	{
+		config->cel_oil_pressure_sensor_checking = (int)value;
+		return 1;
+	}
+		case 615534960:
+	{
+		config->cel_fuel_pressure_sensor_checking = (int)value;
+		return 1;
+	}
+		case -1617868000:
+	{
+		config->cel_maf_sensor_checking = (int)value;
+		return 1;
+	}
+		case -1326012983:
+	{
+		config->cel_sync_loss_sensor_checking = (int)value;
+		return 1;
+	}
+		case 338357830:
+	{
+		config->cel_any_cut_checking = (int)value;
+		return 1;
+	}
+		case -1996430678:
+	{
+		config->cel_error_codes_checking = (int)value;
+		return 1;
+	}
+		case 563998025:
+	{
+		config->cel_shiftlight_checking = (int)value;
+		return 1;
+	}
+		case -966619141:
+	{
+		config->cel_shiftlight_flash = (int)value;
+		return 1;
+	}
 		case -1794416277:
 	{
 		config->cel_battery_min_v = (int)value;
@@ -5784,6 +5994,26 @@ bool setConfigValueByName(const char *name, float value) {
 		config->cel_iat_max_v = (int)value;
 		return 1;
 	}
+		case 1152218269:
+	{
+		config->cel_iat_max_c = (int)value;
+		return 1;
+	}
+		case -1332007725:
+	{
+		config->cel_clt_min_v = (int)value;
+		return 1;
+	}
+		case -1332284331:
+	{
+		config->cel_clt_max_v = (int)value;
+		return 1;
+	}
+		case -1332284350:
+	{
+		config->cel_clt_max_c = (int)value;
+		return 1;
+	}
 		case -789855065:
 	{
 		config->cel_tps_min_v = (int)value;
@@ -5792,6 +6022,96 @@ bool setConfigValueByName(const char *name, float value) {
 		case -790131671:
 	{
 		config->cel_tps_max_v = (int)value;
+		return 1;
+	}
+		case -1541221367:
+	{
+		config->cel_afr_min_v = (int)value;
+		return 1;
+	}
+		case -1541497973:
+	{
+		config->cel_afr_max_v = (int)value;
+		return 1;
+	}
+		case 1995405673:
+	{
+		config->cel_oil_temp_min_v = (int)value;
+		return 1;
+	}
+		case 1995129067:
+	{
+		config->cel_oil_temp_max_v = (int)value;
+		return 1;
+	}
+		case 1995129048:
+	{
+		config->cel_oil_temp_max_c = (int)value;
+		return 1;
+	}
+		case -1668178100:
+	{
+		config->cel_oil_pressure_min_v = (int)value;
+		return 1;
+	}
+		case -1668454706:
+	{
+		config->cel_oil_pressure_max_v = (int)value;
+		return 1;
+	}
+		case 125207122:
+	{
+		config->cel_oil_pressure_min_kpa = (int)value;
+		return 1;
+	}
+		case -916979468:
+	{
+		config->cel_fuel_pressure_min_v = (int)value;
+		return 1;
+	}
+		case -917256074:
+	{
+		config->cel_fuel_pressure_max_v = (int)value;
+		return 1;
+	}
+		case -520872284:
+	{
+		config->cel_maf_min_v = (int)value;
+		return 1;
+	}
+		case -521148890:
+	{
+		config->cel_maf_max_v = (int)value;
+		return 1;
+	}
+		case -1445273871:
+	{
+		config->cel_sync_loss_tolerance = (int)value;
+		return 1;
+	}
+		case -209775175:
+	{
+		config->cel_any_cut_time = (int)value;
+		return 1;
+	}
+		case -7423110:
+	{
+		config->cel_shiftlight_threshold = (int)value;
+		return 1;
+	}
+		case -1420201940:
+	{
+		config->cel_shiftlight_threshold_hysteresis = (int)value;
+		return 1;
+	}
+		case -1741845936:
+	{
+		config->cel_shiftlight_tps_threshold = (int)value;
+		return 1;
+	}
+		case -171721272:
+	{
+		config->cel_shiftlight_flash_freq = (int)value;
 		return 1;
 	}
 		case -1085712470:

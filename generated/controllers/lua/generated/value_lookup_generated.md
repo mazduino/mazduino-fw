@@ -2119,29 +2119,149 @@ Fuel density (petrol ~750, E85 ~787, diesel ~840)
 ### tcu_shiftTime
 
 
+### cel_time_after_start
+Delay after engine start before CEL sensor checks run
+
+### cel_sensor_checking
+Master enable for CEL sensor range checking
+
+### cel_on_not_running
+Keep CEL sensor checks active while the engine is not running
+
+### cel_battery_sensor_checking
+Check battery voltage range
+
+### cel_map_sensor_checking
+Check MAP sensor voltage range
+
+### cel_iat_sensor_checking
+Check IAT sensor voltage / temperature
+
+### cel_clt_sensor_checking
+Check CLT sensor voltage / temperature
+
+### cel_tps_sensor_checking
+Check TPS sensor voltage range
+
+### cel_afr_sensor_checking
+Check AFR/EGO sensor voltage range
+
+### cel_oil_temp_sensor_checking
+Check oil temperature sensor voltage / temperature
+
+### cel_oil_pressure_sensor_checking
+Check oil pressure sensor voltage / pressure
+
+### cel_fuel_pressure_sensor_checking
+Check fuel pressure sensor voltage range
+
+### cel_maf_sensor_checking
+Check MAF sensor voltage range
+
+### cel_sync_loss_sensor_checking
+Light CEL on excessive trigger sync losses
+
+### cel_any_cut_checking
+Light CEL while fuel or spark cut is active
+
+### cel_error_codes_checking
+Light CEL when there are active warnings / error codes
+
+### cel_shiftlight_checking
+Use the CEL output as a shift light (overrides sensor checks)
+
+### cel_shiftlight_flash
+Flash the shift light instead of solid
+
 ### cel_battery_min_v
-"Minimum Battery Voltage"
+Minimum battery voltage
 
 ### cel_battery_max_v
-"Maximum Battery Voltage"
+Maximum battery voltage
 
 ### cel_map_min_v
-"Minimum MAP V"
+Minimum MAP voltage
 
 ### cel_map_max_v
-"Maximum MAP V"
+Maximum MAP voltage
 
 ### cel_iat_min_v
-"Minimum IAT V"
+Minimum IAT voltage
 
 ### cel_iat_max_v
-"Maximum IAT V"
+Maximum IAT voltage
+
+### cel_iat_max_c
+Maximum IAT temperature (0 = disabled)
+
+### cel_clt_min_v
+Minimum CLT voltage
+
+### cel_clt_max_v
+Maximum CLT voltage
+
+### cel_clt_max_c
+Maximum CLT temperature (0 = disabled)
 
 ### cel_tps_min_v
-"Minimum TPS V"
+Minimum TPS voltage
 
 ### cel_tps_max_v
-"Maximum TPS V"
+Maximum TPS voltage
+
+### cel_afr_min_v
+Minimum AFR/EGO voltage
+
+### cel_afr_max_v
+Maximum AFR/EGO voltage
+
+### cel_oil_temp_min_v
+Minimum oil temp voltage
+
+### cel_oil_temp_max_v
+Maximum oil temp voltage
+
+### cel_oil_temp_max_c
+Maximum oil temperature (0 = disabled)
+
+### cel_oil_pressure_min_v
+Minimum oil pressure voltage
+
+### cel_oil_pressure_max_v
+Maximum oil pressure voltage
+
+### cel_oil_pressure_min_kpa
+Minimum oil pressure (0 = disabled)
+
+### cel_fuel_pressure_min_v
+Minimum fuel pressure voltage
+
+### cel_fuel_pressure_max_v
+Maximum fuel pressure voltage
+
+### cel_maf_min_v
+Minimum MAF voltage
+
+### cel_maf_max_v
+Maximum MAF voltage
+
+### cel_sync_loss_tolerance
+Trigger sync losses allowed before CEL
+
+### cel_any_cut_time
+Keep CEL on this long after a fuel/spark cut
+
+### cel_shiftlight_threshold
+Shift light RPM threshold
+
+### cel_shiftlight_threshold_hysteresis
+Shift light RPM hysteresis
+
+### cel_shiftlight_tps_threshold
+Only shift-light above this TPS
+
+### cel_shiftlight_flash_freq
+Shift light flash frequency
 
 ### dynoRpmStep
 @@DYNO_RPM_STEP_TOOLTIP@@
