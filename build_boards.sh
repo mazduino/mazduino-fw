@@ -56,6 +56,12 @@ fi
 
 echo "=== Boards to build: ${BOARDS[*]} ==="
 
+# The rusefi submodule's date_stamp.h (VCS_DATE, the firmware version date) is
+# frozen at whenever set-date last ran. Stamp today's date so local builds
+# report the actual build date instead of a stale one, matching the CI stamp.
+printf '#pragma once\n#define VCS_DATE %s\n' "$(date +%Y%m%d)" > "$REPO_ROOT/ext/rusefi/firmware/controllers/date_stamp.h"
+echo "=== Stamped VCS_DATE=$(date +%Y%m%d) into ext/rusefi/firmware/controllers/date_stamp.h ==="
+
 for BOARD in "${BOARDS[@]}"; do
     META="$REPO_ROOT/boards/$BOARD/meta-info.env"
     if [ ! -f "$META" ]; then

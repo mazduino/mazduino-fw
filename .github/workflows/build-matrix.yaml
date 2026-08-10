@@ -57,6 +57,12 @@ jobs:
           git config --global url."https://x-access-token:${{ secrets.MY_REPO_PAT }}@github.com/".insteadOf "git@github.com:"
           git submodule update --init --force
 
+      # The submodule is pinned, so its date_stamp.h (VCS_DATE, the firmware
+      # version date) is frozen. Stamp today's date so builds report the actual
+      # build date instead of a stale one. Mirrors ext/rusefi set-date.yaml.
+      - name: Stamp firmware build date (VCS_DATE)
+        run: printf '#pragma once\n#define VCS_DATE %s\n' "$(date +%Y%m%d)" > ext/rusefi/firmware/controllers/date_stamp.h
+
       - name: Set run variables
         id: set-variables
         run: |
