@@ -9,12 +9,12 @@ struct page3_s {
 	 * units: %
 	 * offset 0
 	 */
-	float ltft_table_bank1[VE_LOAD_COUNT][VE_RPM_COUNT] = {};
+	float ltft_table_bank1[LTFT_LOAD_COUNT][LTFT_RPM_COUNT] = {};
 	/**
 	 * units: %
 	 * offset 1024
 	 */
-	float ltft_table_bank2[VE_LOAD_COUNT][VE_RPM_COUNT] = {};
+	float ltft_table_bank2[LTFT_LOAD_COUNT][LTFT_RPM_COUNT] = {};
 };
 static_assert(sizeof(page3_s) == 2048);
 

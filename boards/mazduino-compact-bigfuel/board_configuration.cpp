@@ -1,0 +1,1 @@
+../mazduino-compact/board_configuration.cpp
