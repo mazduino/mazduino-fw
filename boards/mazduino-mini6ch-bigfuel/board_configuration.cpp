@@ -1,0 +1,1 @@
+../mazduino-mini6ch/board_configuration.cpp

@@ -1,0 +1,21 @@
+! ---------------------------------------------------------------------------
+! BIGFUEL variant of mazduino-compact
+!
+! Same hardware, same pinout, same feature set — every shared file in this
+! directory is a symlink to ../mazduino-compact. The only difference is table resolution:
+!
+!   VE table        32x32  (stock: 16x16)
+!   Ignition table  32x32  (stock: 16x16)
+!
+! VVT target tables stay at 16x16, as set in the shared prepend.txt.
+!
+! Tunes are NOT interchangeable with the stock mazduino-compact build:
+! the config layout and TS signature both differ.
+!
+! Note: rusEFI's canned 16x16 default VE table only applies when VE is 16x16,
+! so this build starts from the flat fallback VE table until tuned.
+! ---------------------------------------------------------------------------
+#define VE_LOAD_COUNT 32
+#define VE_RPM_COUNT 32
+#define IGN_LOAD_COUNT 32
+#define IGN_RPM_COUNT 32

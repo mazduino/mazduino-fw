@@ -50,3 +50,7 @@
 #define ts_show_spi6_enable false
 #define ts_show_vbatt_adc false
 #define ts_show_idle_stepper true
+
+! VVT target tables: 16x16 instead of the rusEFI default 8x8
+#define VVT_TABLE_SIZE 16
+#define VVT_TABLE_RPM_SIZE 16

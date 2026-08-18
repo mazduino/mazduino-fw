@@ -1,0 +1,1 @@
+../mazduino-compact/knock_config.h

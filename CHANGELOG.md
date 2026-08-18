@@ -4,7 +4,14 @@ All notable changes to Mazduino firmware are documented here.
 
 ## [Unreleased]
 
+### Breaking Changes
+- VVT target tables enlarged from 8x8 to 16x16 on mazduino-compact, mazduino-core, mazduino-lite and mazduino-mini6ch, giving finer RPM and load resolution for cam targeting. This changes the tune layout, so existing tunes are not compatible — re-flash and re-enter the VVT tables after updating. mazduino-mega100 and mazduino-mega100-512 keep the 8x8 tables
+- LTFT trim map now has its own axes (`ltftLoadBins` / `ltftRpmBins`) instead of borrowing the VE table axes. Every board gains these two fields, so all boards need a matching firmware and INI; table dimensions are unchanged on existing boards, so tune values still carry over
+
 ### Added
+- BIGFUEL board variants: `mazduino-compact-bigfuel`, `mazduino-core-bigfuel`, `mazduino-lite-bigfuel` and `mazduino-mini6ch-bigfuel`. Identical hardware and pinout to the board they are named after, with a 32x32 VE table and 32x32 ignition table (stock boards stay 16x16) for finer resolution on high-output builds. Tunes are not interchangeable between a board and its BIGFUEL variant
+- BIGFUEL variants trade the engine sniffer for the bigger tables: the persistent config lives in the 64KB CCM RAM and its leftovers feed the Lua heap, so 32x32 tables overflowed CCM by ~1.4KB. Disabling the engine sniffer frees its 5000-byte `WAVE_LOGGING_BUFFER` from CCM. All other features are unchanged from the base board — the real-time trigger oscilloscope in TunerStudio is the only thing missing
+- Separate `LTFT_LOAD_COUNT` / `LTFT_RPM_COUNT` sizing for the long-term fuel trim map, independent of the VE table. The learned trim map stays 16x16 even on BIGFUEL boards, saving 6KB of RAM versus following a 32x32 VE table, with no loss of tuning resolution. LTFT trims are now interpolated onto the VE table when applied, so the two grids no longer have to match
 - DFCO enable switch input (`coastingFuelCutSwitchPin`): assign a pin to control DFCO via a physical switch; switch ON allows fuel cut per RPM/TPS/CLT parameters, switch OFF disables fuel cut entirely; leave unassigned for parameter-only control
 - Rotational Idle manual enable switch input (`rotationalIdleController.switchPin`): when switch is ON, rotational idle is forced active regardless of automatic CLT/TPS conditions
 - Rotational Idle RPM window (`minRpm`, `maxRpm`): configurable RPM range for rotational idle engagement; 0 = no limit; displayed in live data as `rotIdleEngineTooSlow` / `rotIdleEngineTooFast`
