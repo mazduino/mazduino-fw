@@ -4,10 +4,17 @@ BOARDCPPSRC += \
 
 endif
 
-# STM32F427VGT6: same core as F429 minus LTDC/DMA2D.
-# Enables SRAM3 (+64KB), correct flash driver, and EFI_IS_F42x features.
-# Clock stays at 168MHz so USB 48MHz remains exact (PLLN=336, PLLQ=7).
-IS_STM32F427 = yes
+# mini6ch ships with either an STM32F407VGT6 (earlier boards) or an
+# STM32F427VGT6 (current boards), so build for the F407 and let one binary run
+# on both. Do NOT set IS_STM32F427: it links ram0 as 192KB, placing the heap
+# and thread stacks in SRAM3 (0x20020000+), which does not exist on the F407 -
+# the board hard-faults before USB ever enumerates.
+#
+# The F427 is still detected and used at runtime via isStm32F42x() (DBGMCU
+# IDCODE 0x419): its 64KB SRAM3 becomes extra Lua heap (lua_heap.cpp) and the
+# VBAT divider is corrected (stm32_adc_v2.cpp). Tune storage sectors come from
+# the flash-size register, and both parts are 1MB, so they match. Both chips
+# run at 168MHz, keeping USB 48MHz exact (PLLN=336, PLLQ=7).
 
 DDEFS += -DEFI_WIDEBAND_FIRMWARE_UPDATE=FALSE
 DDEFS += -DRAM_UNUSED_SIZE=100
