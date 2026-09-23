@@ -16,6 +16,17 @@ endif
 # the flash-size register, and both parts are 1MB, so they match. Both chips
 # run at 168MHz, keeping USB 48MHz exact (PLLN=336, PLLQ=7).
 
+# Secondary TunerStudio channel on USART3 (PB10 = TXD3, PB11 = RXD3), for a
+# Bluetooth module such as an HC-05. Without TS_SECONDARY_UxART_PORT the whole
+# secondary channel is compiled out (tunerstudio_io_serial_ports.cpp) and the
+# binarySerial pins in TunerStudio do nothing at all.
+#
+# Uses the ChibiOS Serial driver (SD3), matching how the reference f407-discovery
+# board wires up its secondary channel. The UART driver would need HAL_USE_UART,
+# which halconf.h only turns on when TS_PRIMARY_UxART_PORT is defined.
+DDEFS += -DSTM32_SERIAL_USE_USART3=TRUE -DSTM32_SERIAL_USART3_PRIORITY=6
+DDEFS += -DTS_SECONDARY_UxART_PORT=SD3 -DEFI_TS_SECONDARY_IS_SERIAL=TRUE
+
 DDEFS += -DEFI_WIDEBAND_FIRMWARE_UPDATE=FALSE
 DDEFS += -DRAM_UNUSED_SIZE=100
 DDEFS += -DSTM32_ADC_USE_ADC3=TRUE

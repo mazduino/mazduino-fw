@@ -78,6 +78,14 @@ static void customBoardDefaultConfiguration() {
     engineConfiguration->canTxPin = Gpio::D1;
     engineConfiguration->canRxPin = Gpio::D0;
 
+    // Secondary TS channel (Bluetooth) on USART3. rusEFI defaults these to
+    // PC10/PC11, which this board uses for the SD card on SPI3, so the default
+    // would collide. PB10/PB11 are free on mini6ch (mazduino-lite and -core use
+    // them for the LPS25 baro; mini6ch has no baro fitted).
+    // Wiring: PB10 -> HC-05 RXD, PB11 <- HC-05 TXD.
+    engineConfiguration->binarySerialTxPin = Gpio::B10;
+    engineConfiguration->binarySerialRxPin = Gpio::B11;
+
     // SD card - SPI3
     engineConfiguration->is_enabled_spi_3  = true;
     engineConfiguration->spi3mosiPin        = Gpio::C12;
