@@ -1,3 +1,6 @@
 /.idea
 .ccache/
 .DS_Store
+
+# Local design notes - kept out of the repo
+docs/
