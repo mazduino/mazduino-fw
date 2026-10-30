@@ -8,6 +8,18 @@ Pre-built firmware is published as nightly releases on the [Releases page](../..
 
 Each release includes `.bin`, `.srec`, and `.hex` files for every supported board.
 
+### TunerStudio INI files
+
+Every published firmware's TunerStudio INI is kept at **[mazduino.github.io/mazduino-fw](https://mazduino.github.io/mazduino-fw/)**, grouped by board with the newest first. Use it when a release bundle is gone, or when TunerStudio reports that the firmware signature does not match the project.
+
+INI files are stored by firmware signature. A signature such as `rusEFI master.2026.09.08.mazduino-lite.969326114` (branch, build date, board, config hash) maps to:
+
+```
+https://mazduino.github.io/mazduino-fw/ini/master/2026/09/08/mazduino-lite/969326114.ini
+```
+
+The hash must match the firmware exactly: it identifies the config layout, so an INI with another hash reads and writes settings at the wrong offsets. The files are published by the nightly release workflow ([`nightly-release.yaml`](.github/workflows/nightly-release.yaml)) to the `gh-pages` branch.
+
 ## Supported Boards
 
 ### Mazduino Compact
