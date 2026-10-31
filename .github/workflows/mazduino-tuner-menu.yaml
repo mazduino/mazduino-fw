@@ -1,0 +1,41 @@
+name: Mazduino Tuner menu
+
+# Validasi layout menu Mazduino Tuner terhadap INI nightly terbaru semua board.
+# Tidak membangun firmware dan tidak mempublikasikan apa pun.
+
+on:
+  push:
+    branches: [mazduino-tuner]
+    paths:
+      - 'mazduino-tuner/**'
+      - '.github/workflows/mazduino-tuner-menu.yaml'
+  pull_request:
+    paths:
+      - 'mazduino-tuner/**'
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          submodules: false
+
+      - name: Generate menu for all boards
+        run: |
+          chmod +x mazduino-tuner/tools/*.sh
+          mazduino-tuner/tools/gen_all_from_gh_pages.sh master
+
+      - name: Check committed output is up to date
+        run: |
+          if ! git diff --quiet -- mazduino-tuner/generated; then
+            echo "::warning::mazduino-tuner/generated berbeda dengan hasil generate terbaru (INI nightly berubah atau layout diubah tanpa regenerate)."
+            git --no-pager diff --stat -- mazduino-tuner/generated
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mazduino-tuner-menu
+          path: mazduino-tuner/generated/
