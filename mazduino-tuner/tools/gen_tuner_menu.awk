@@ -1,11 +1,11 @@
-# gen_tuner_menu.awk - susun ulang [Menu] INI TunerStudio rusEFI menurut layout Mazduino Tuner.
+# gen_tuner_menu.awk - rebuild the [Menu] of a rusEFI TunerStudio INI according to the Mazduino Tuner layout.
 #
-# Dipanggil oleh gen_tuner_menu.sh:
+# Called by gen_tuner_menu.sh:
 #   awk -f gen_tuner_menu.awk -v MENU_OUT=.. -v JSON_OUT=.. -v MD_OUT=.. -v BOARD=.. firmware.ini layout.ini
 #
-# Pass 1 (firmware.ini): kumpulkan judul dialog/tabel/kurva + item [Menu] asli.
-# Pass 2 (layout.ini)  : baca layout Mazduino Tuner.
-# END                  : bangun menu baru, menu Expert otomatis, JSON & Markdown.
+# Pass 1 (firmware.ini): collect dialog/table/curve titles + original [Menu] items.
+# Pass 2 (layout.ini)  : read the Mazduino Tuner layout.
+# END                  : build the new menu, automatic Expert menu, JSON & Markdown.
 
 BEGIN {
 	nOrig = 0; nLay = 0; nWarn = 0; nErr = 0
@@ -17,7 +17,7 @@ FNR == 1 { fileNo++ }
 # ---------------------------------------------------------------- helpers ---
 function trim(s) { sub(/^[ \t\r]+/, "", s); sub(/[ \t\r]+$/, "", s); return s }
 
-# buang komentar ';' yang tidak berada di dalam tanda kutip
+# strip ';' comments that are not inside quotes
 function stripComment(s,    i, c, q, out) {
 	q = 0; out = ""
 	for (i = 1; i <= length(s); i++) {
@@ -29,7 +29,7 @@ function stripComment(s,    i, c, q, out) {
 	return out
 }
 
-# pecah nilai item: <id>[,] ["label"] [sisa]  -> P_ID, P_LABEL, P_HASLABEL, P_REST
+# split item value: <id>[,] ["label"] [rest]  -> P_ID, P_LABEL, P_HASLABEL, P_REST
 function parseItemValue(v,    m) {
 	v = trim(v)
 	P_ID = ""; P_LABEL = ""; P_HASLABEL = 0; P_REST = ""
@@ -48,7 +48,7 @@ function parseItemValue(v,    m) {
 	P_REST = trim(P_REST)
 }
 
-# pecah nilai menu/groupMenu: "label" [sisa]
+# split menu/groupMenu value: "label" [rest]
 function parseTitleValue(v,    m) {
 	v = trim(v); P_LABEL = ""; P_REST = ""
 	if (substr(v, 1, 1) == "\"") {
@@ -59,7 +59,7 @@ function parseTitleValue(v,    m) {
 	sub(/^,[ \t]*/, "", v); P_REST = trim(v)
 }
 
-# sisa kondisi -> R_PAGE, R_ENABLE, R_VISIBLE
+# remaining condition -> R_PAGE, R_ENABLE, R_VISIBLE
 function parseRest(r,    s, e, n) {
 	R_PAGE = ""; R_ENABLE = ""; R_VISIBLE = ""
 	r = trim(r)
@@ -142,7 +142,7 @@ fileNo == 2 {
 	line = trim(stripComment($0))
 	if (line == "") next
 	if (!match(line, /^(menu|groupMenu|subMenu|groupChildMenu|include)[ \t]*=/)) {
-		err("layout baris " FNR ": tidak dikenali: " line); next
+		err("layout line " FNR ": not recognized: " line); next
 	}
 	key = line; sub(/[ \t]*=.*/, "", key)
 	val = line; sub(/^[^=]*=/, "", val)
@@ -153,14 +153,14 @@ fileNo == 2 {
 	parseItemValue(val)
 	L_ID[nLay] = P_ID; L_LABEL[nLay] = P_LABEL; L_HASLABEL[nLay] = P_HASLABEL; L_REST[nLay] = P_REST
 	if (P_ID != "std_separator") {
-		if (P_ID in LAYUSED) err("layout baris " FNR ": ID '" P_ID "' sudah dipakai di baris " LAYUSED[P_ID])
+		if (P_ID in LAYUSED) err("layout line " FNR ": ID '" P_ID "' already used on line " LAYUSED[P_ID])
 		else LAYUSED[P_ID] = FNR
 	}
 	next
 }
 
 # -------------------------------------------------------------- output ---
-# entri hasil: E_T = menu|group|item|child|sep
+# output entries: E_T = menu|group|item|child|sep
 function addEntry(t, id, label, rest, origin) {
 	nE++; E_T[nE] = t; E_ID[nE] = id; E_LABEL[nE] = label; E_REST[nE] = rest; E_ORIGIN[nE] = origin
 }
@@ -187,9 +187,9 @@ function expandUnplaced(    i, id, lastMenu, label, done) {
 }
 
 END {
-	if (nOrig == 0) { print "ERROR: tidak ada item [Menu] di INI firmware" > "/dev/stderr"; exit 2 }
+	if (nOrig == 0) { print "ERROR: no [Menu] items in firmware INI" > "/dev/stderr"; exit 2 }
 
-	# tandai ID layout yang ada di INI
+	# mark layout IDs present in the INI
 	for (i = 1; i <= nLay; i++) {
 		id = L_ID[i]
 		if ((L_KEY[i] == "subMenu" || L_KEY[i] == "groupChildMenu") && id != "std_separator") {
@@ -198,7 +198,7 @@ END {
 		}
 	}
 
-	# bangun entri
+	# build entries
 	nE = 0; inGroup = 0; nPlaced = 0; nExpert = 0
 	for (i = 1; i <= nLay; i++) {
 		k = L_KEY[i]; id = L_ID[i]
@@ -206,19 +206,19 @@ END {
 		if (k == "groupMenu") { addEntry("group", "", L_LABEL[i], L_REST[i], "layout"); inGroup = 1; continue }
 		if (k == "include") {
 			if (id == "unplaced") expandUnplaced()
-			else err("layout baris " L_LINE[i] ": include tidak dikenal: " id)
+			else err("layout line " L_LINE[i] ": unknown include: " id)
 			continue
 		}
 		if (id == "std_separator") { addEntry("sep", "", "", "", "layout"); inGroup = 0; continue }
 		if (!(id in FIRST)) continue
-		if (k == "groupChildMenu" && !inGroup) err("layout baris " L_LINE[i] ": groupChildMenu '" id "' tanpa groupMenu")
+		if (k == "groupChildMenu" && !inGroup) err("layout line " L_LINE[i] ": groupChildMenu '" id "' without groupMenu")
 		if (k == "subMenu") inGroup = 0
 		rest = (L_REST[i] != "") ? L_REST[i] : O_REST[FIRST[id]]
 		addEntry(k == "subMenu" ? "item" : "child", id, resolveLabel(id, L_LABEL[i], L_HASLABEL[i]), rest, "layout")
 		nPlaced++
 	}
 
-	# bersihkan: grup kosong, menu kosong, separator berlebih
+	# clean up: empty groups, empty menus, redundant separators
 	for (i = 1; i <= nE; i++) KEEP[i] = 1
 	for (i = 1; i <= nE; i++) if (E_T[i] == "group") {
 		c = 0
@@ -242,9 +242,9 @@ END {
 		prev = E_T[i]
 	}
 
-	# ---- [Menu] baru (format TunerStudio) ----
+	# ---- new [Menu] (TunerStudio format) ----
 	print "[Menu]" > MENU_OUT
-	print "; Generated by mazduino-tuner/tools/gen_tuner_menu.sh - JANGAN DIEDIT MANUAL." > MENU_OUT
+	print "; Generated by mazduino-tuner/tools/gen_tuner_menu.sh - DO NOT EDIT MANUALLY." > MENU_OUT
 	print "; Layout: mazduino-tuner/menu/mazduino-tuner-menu.ini" > MENU_OUT
 	print (MENU_DIALOG != "" ? MENU_DIALOG : "menuDialog = main") > MENU_OUT
 	for (i = 1; i <= nE; i++) {
@@ -300,15 +300,15 @@ END {
 	# ---- Markdown ----
 	print "# Mazduino Tuner menu - " BOARD > MD_OUT
 	print "" > MD_OUT
-	print "> Generated oleh `mazduino-tuner/tools/gen_tuner_menu.sh` - jangan diedit manual." > MD_OUT
+	print "> Generated by `mazduino-tuner/tools/gen_tuner_menu.sh` - do not edit manually." > MD_OUT
 	print "> Signature: `" SIGNATURE "`" > MD_OUT
 	print "" > MD_OUT
-	print "| Statistik | Jumlah |" > MD_OUT
+	print "| Statistic | Count |" > MD_OUT
 	print "|---|---:|" > MD_OUT
-	print "| Item menu di INI firmware | " nOrig " |" > MD_OUT
-	print "| Ditempatkan di menu gaya MaxxECU | " nPlaced " |" > MD_OUT
-	print "| Otomatis masuk menu Expert | " nExpert " |" > MD_OUT
-	print "| ID layout tidak ada di board ini (dilewati) | " nSkipped " |" > MD_OUT
+	print "| Menu items in firmware INI | " nOrig " |" > MD_OUT
+	print "| Placed in MaxxECU-style menus | " nPlaced " |" > MD_OUT
+	print "| Automatically added to Expert menu | " nExpert " |" > MD_OUT
+	print "| Layout IDs not present on this board (skipped) | " nSkipped " |" > MD_OUT
 	print "" > MD_OUT
 	for (i = 1; i <= nE; i++) {
 		if (!KEEP[i]) continue
@@ -321,13 +321,13 @@ END {
 		print ind "- " mdEsc(E_LABEL[i]) " - _" k "_ `" E_ID[i] "`" > MD_OUT
 	}
 	if (nSkipped > 0) {
-		print "\n## ID layout yang tidak ada di board ini\n" > MD_OUT
+		print "\n## Layout IDs not present on this board\n" > MD_OUT
 		print SKIPLIST > MD_OUT
 	}
 	close(MD_OUT)
 
 	for (i = 1; i <= nWarn; i++) print "WARN: " WARN[i] > "/dev/stderr"
 	for (i = 1; i <= nErr; i++) print "ERROR: " ERRS[i] > "/dev/stderr"
-	printf "%s: %d item INI -> %d ditempatkan, %d Expert, %d dilewati\n", BOARD, nOrig, nPlaced, nExpert, nSkipped > "/dev/stderr"
+	printf "%s: %d INI items -> %d placed, %d Expert, %d skipped\n", BOARD, nOrig, nPlaced, nExpert, nSkipped > "/dev/stderr"
 	if (nErr > 0) exit 1
 }

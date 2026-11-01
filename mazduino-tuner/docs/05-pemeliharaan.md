@@ -1,38 +1,38 @@
-# 05. Pemeliharaan
+# 05. Maintenance
 
-## Saat rusEFI / Mazduino menambah atau mengubah halaman
+## When rusEFI / Mazduino adds or changes pages
 
-Tidak ada yang rusak. Halaman baru otomatis muncul di **Expert**. Alur kerjanya:
+Nothing breaks. New pages automatically appear in **Expert**. Workflow:
 
-1. Update branch: `git fetch origin && git rebase origin/master` (atau merge).
-2. Generate ulang: `mazduino-tuner/tools/gen_all_from_gh_pages.sh`.
-3. Lihat diff `generated/*/*.tuner-menu.md`. Halaman baru akan terlihat di bagian `## Expert`.
-4. Bila halaman itu punya padanan di MaxxECU, pindahkan ke menu yang tepat di
-   `menu/mazduino-tuner-menu.ini`, generate ulang, lalu commit layout dan `generated/`.
+1. Update the branch: `git fetch origin && git rebase origin/master` (or merge).
+2. Regenerate: `mazduino-tuner/tools/gen_all_from_gh_pages.sh`.
+3. Review the diff of `generated/*/*.tuner-menu.md`. New pages show up in the `## Expert` section.
+4. If a page has a MaxxECU equivalent, move it to the right menu in
+   `menu/mazduino-tuner-menu.ini`, regenerate, then commit the layout and `generated/`.
 
-Bila ID halaman di-rename upstream, ID lama akan muncul di daftar "ID layout yang tidak ada di board ini"
-untuk **semua** board, dan halaman dengan ID baru masuk Expert. Perbaiki ID-nya di layout.
+If a page ID is renamed upstream, the old ID appears in the "Layout IDs not present on this board" list
+for **all** boards, and the page with the new ID goes into Expert. Fix the ID in the layout.
 
-## Checklist mengubah layout
+## Checklist for layout changes
 
-- [ ] Label pendek, gaya MaxxECU, bahasa Inggris (konsisten dengan help firmware).
-- [ ] Kondisi tidak ditulis kecuali benar-benar perlu ditimpa.
-- [ ] Generator lolos untuk semua board (`gen_all_from_gh_pages.sh` exit 0).
-- [ ] `generated/` ikut di-commit.
-- [ ] Bila menambah/memindah menu utama, perbarui tabel di `02-struktur-menu.md`.
+- [ ] Short labels, MaxxECU style, in English (consistent with firmware help).
+- [ ] No conditions written unless an override is really needed.
+- [ ] Generator passes for all boards (`gen_all_from_gh_pages.sh` exits 0).
+- [ ] `generated/` is committed too.
+- [ ] When adding/moving a top-level menu, update the table in `02-struktur-menu.md`.
 
-## Konvensi commit
+## Commit convention
 
 ```
-mazduino-tuner: <ringkasan>
+mazduino-tuner: <summary>
 
-contoh:
+examples:
 mazduino-tuner: move misfire detection from Expert to Limits
 mazduino-tuner: regenerate menus for nightly 2026-11-05
 ```
 
-## Referensi
+## References
 
-- MaxxECU MTune 1.161: pohon menu lengkap dan pemetaannya ada di project riset
+- MaxxECU MTune 1.161: the full menu tree and its mapping are in the research project
   `Documents/Mazduino-Tuner` (`docs/02-mtune-settings-menu.md`, `docs/05-menu-mapping.md`).
-- Sintaks `[Menu]` TunerStudio: section `[Menu]` di INI firmware mana pun.
+- TunerStudio `[Menu]` syntax: the `[Menu]` section of any firmware INI.

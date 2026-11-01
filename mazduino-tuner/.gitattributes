@@ -1,2 +1,2 @@
-# Generator dijalankan di Linux (CI) dan Git Bash (Windows): selalu LF.
+# The generator runs on Linux (CI) and Git Bash (Windows): always LF.
 * text=auto eol=lf

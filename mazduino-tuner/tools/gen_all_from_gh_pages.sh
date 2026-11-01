@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# gen_all_from_gh_pages.sh - generate menu Mazduino Tuner untuk semua board memakai INI
-# nightly terbaru yang dipublikasikan di branch gh-pages (ini/<branch>/<yyyy>/<mm>/<dd>/<board>/<hash>.ini).
+# gen_all_from_gh_pages.sh - generate the Mazduino Tuner menu for all boards using the latest
+# nightly INI published on the gh-pages branch (ini/<branch>/<yyyy>/<mm>/<dd>/<board>/<hash>.ini).
 #
-# Pemakaian (dari root repo mazduino-fw):
+# Usage (from the mazduino-fw repo root):
 #   mazduino-tuner/tools/gen_all_from_gh_pages.sh [fw_branch]   # default fw_branch: master
 #
-# Hasil: mazduino-tuner/generated/<board>/
+# Output: mazduino-tuner/generated/<board>/
 
 set -euo pipefail
 export LC_ALL=C
@@ -26,7 +26,7 @@ for dir in boards/*/; do
 	board="$(basename "$dir")"
 	path="$(printf '%s\n' "$FILES" | grep -E "^ini/$FW_BRANCH/[0-9]{4}/[0-9]{2}/[0-9]{2}/$board/[0-9]+\.ini$" | sort | tail -1 || true)"
 	if [ -z "$path" ]; then
-		echo "SKIP $board: tidak ada INI di gh-pages untuk branch $FW_BRANCH" >&2
+		echo "SKIP $board: no INI on gh-pages for branch $FW_BRANCH" >&2
 		continue
 	fi
 	git show "origin/gh-pages:$path" > "$TMP/rusefi_$board.ini"

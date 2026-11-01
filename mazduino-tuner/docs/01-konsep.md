@@ -1,53 +1,53 @@
-# 01. Konsep & arsitektur
+# 01. Concept & architecture
 
-## Masalah
+## Problem
 
-Menu TunerStudio untuk Mazduino berasal dari section `[Menu]` INI rusEFI. Menu ini disusun mengikuti
-sejarah pengembangan rusEFI: banyak grup, label teknis, dan fitur dasar bercampur dengan fitur
-eksperimen (misalnya *Setup*, *Advanced*, *Controller*, *View*). Untuk pengguna Mazduino, susunan ini sulit dipahami.
+The TunerStudio menu for Mazduino comes from the `[Menu]` section of the rusEFI INI. It is organized around
+rusEFI's development history: many groups, technical labels, and basic features mixed with
+experimental ones (for example *Setup*, *Advanced*, *Controller*, *View*). For Mazduino users this layout is hard to follow.
 
-MaxxECU MTune menyusun menu per subsistem mesin (Fuel, Ignition, Idle control, Boost control,
-Inputs, Outputs, Diagnostics, Tuning, dll.) dengan label yang singkat. Mazduino Tuner memakai pola ini.
+MaxxECU MTune organizes its menu by engine subsystem (Fuel, Ignition, Idle control, Boost control,
+Inputs, Outputs, Diagnostics, Tuning, etc.) with short labels. Mazduino Tuner uses this pattern.
 
-## Prinsip
+## Principles
 
-| Lapisan | Sumber | Isi |
+| Layer | Source | Contents |
 |---|---|---|
-| **Data** | INI firmware hasil build (`rusefi_<board>.ini`) | Field, offset memori, tipe, satuan, tabel, kurva, kondisi tampil, perintah serial |
-| **Penempatan** | `menu/mazduino-tuner-menu.ini` | Urutan dan pengelompokan halaman, label gaya MaxxECU |
-| **Hasil** | `generated/<board>/` | Menu final per board (JSON / INI preview / Markdown) |
+| **Data** | Built firmware INI (`rusefi_<board>.ini`) | Fields, memory offsets, types, units, tables, curves, visibility conditions, serial commands |
+| **Placement** | `menu/mazduino-tuner-menu.ini` | Page order and grouping, MaxxECU-style labels |
+| **Output** | `generated/<board>/` | Final per-board menu (JSON / preview INI / Markdown) |
 
-1. **INI tetap jadi sumber kebenaran.** Layout hanya merujuk ID halaman (`veTableDialog`,
-   `triggerConfiguration`, …). Tidak ada offset atau field yang disalin, sehingga tidak bisa salah tulis ke ECU.
-2. **Kondisi diwarisi.** Kalau layout tidak menulis kondisi, kondisi asli dari INI dipakai
-   (`{isInjectionEnabled == 1}`, `uiMode`, dll.). Logika tampil/aktif tetap mengikuti firmware.
-3. **Tidak ada fitur yang hilang.** Semua halaman INI yang tidak ditempatkan otomatis masuk
-   **Expert**, dikelompokkan menurut menu TunerStudio asalnya.
-4. **Aman lintas board.** ID yang tidak ada di board tertentu (mis. ETB di Lite) dilewati, dan grup/menu
-   kosong disembunyikan. Satu layout dipakai untuk semua board.
-5. **Firmware dan INI tidak diubah.** Signature tetap sama, jadi INI preview bisa dibuka di TunerStudio
-   untuk mencoba menu baru tanpa reflash.
+1. **The INI remains the source of truth.** The layout only references page IDs (`veTableDialog`,
+   `triggerConfiguration`, …). No offsets or fields are copied, so nothing can be written to the ECU incorrectly.
+2. **Conditions are inherited.** If the layout does not specify a condition, the original INI condition is used
+   (`{isInjectionEnabled == 1}`, `uiMode`, etc.). Visibility/enable logic still follows the firmware.
+3. **No feature is lost.** Every INI page that is not placed automatically goes into
+   **Expert**, grouped by its original TunerStudio menu.
+4. **Safe across boards.** IDs that do not exist on a given board (e.g. ETB on Lite) are skipped, and empty
+   groups/menus are hidden. One layout is used for all boards.
+5. **Firmware and INI are not modified.** The signature stays the same, so the preview INI can be opened in TunerStudio
+   to try the new menu without reflashing.
 
-## Alur data
+## Data flow
 
 ```
 ext/rusefi + boards/<board>  ──build──►  rusefi_<board>.ini  ─┐
                                                                ├─► gen_tuner_menu.sh ─► <board>.tuner-menu.json ─► Mazduino Tuner
 mazduino-tuner/menu/mazduino-tuner-menu.ini ───────────────────┘                     ├─► <board>.tuner-menu.md   ─► review
-                                                                                       └─► rusefi_<board>.tuner.ini ─► preview TunerStudio
+                                                                                       └─► rusefi_<board>.tuner.ini ─► TunerStudio preview
 ```
 
-Mazduino Tuner saat terhubung ke ECU:
-1. Baca signature (`S`), lalu cari INI yang cocok, misalnya
+When Mazduino Tuner connects to the ECU:
+1. Read the signature (`S`), then find the matching INI, for example
    `https://mazduino.github.io/mazduino-fw/ini/<branch>/<yyyy>/<mm>/<dd>/<board>/<hash>.ini`.
-2. Parse INI untuk field, tabel, dan channel.
-3. Pakai `<board>.tuner-menu.json` untuk menampilkan pohon menu. Kalau JSON tidak tersedia, jalankan logika
-   generator yang sama di aplikasi dengan layout bawaan.
+2. Parse the INI for fields, tables, and channels.
+3. Use `<board>.tuner-menu.json` to display the menu tree. If the JSON is not available, run the same generator
+   logic in the app with the built-in layout.
 
-## Strategi branch
+## Branch strategy
 
-- Branch **`mazduino-tuner`** dibuat dari `master`.
-- Perubahan hanya **menambah** file di `mazduino-tuner/` dan satu workflow CI, sehingga merge balik ke `master`
-  atau rebase dari `master` tidak akan konflik.
-- Submodule `ext/rusefi` (rusefi-core) tidak diubah. Kalau nanti dibutuhkan perubahan firmware khusus
-  tuner (misalnya perintah protokol baru), lakukan di branch terpisah pada `rusefi-core` dengan nama yang sama.
+- The **`mazduino-tuner`** branch is created from `master`.
+- Changes only **add** files in `mazduino-tuner/` plus one CI workflow, so merging back into `master`
+  or rebasing onto `master` will not conflict.
+- The `ext/rusefi` submodule (rusefi-core) is not modified. If tuner-specific firmware changes are needed later
+  (for example a new protocol command), make them on a separate branch of `rusefi-core` with the same name.

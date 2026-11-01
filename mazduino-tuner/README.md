@@ -1,57 +1,57 @@
-# Mazduino Tuner: menu gaya MaxxECU
+# Mazduino Tuner: MaxxECU-style menu
 
-Folder ini mendukung **Mazduino Tuner**, software tuner Mazduino yang menunya disusun seperti
-MaxxECU MTune (sederhana dan dikelompokkan per subsistem), berbeda dengan susunan menu TunerStudio
-dari INI rusEFI.
+This folder supports **Mazduino Tuner**, the Mazduino tuning software whose menu is organized like
+MaxxECU MTune (simple and grouped by subsystem), unlike the TunerStudio menu layout from the
+rusEFI INI.
 
-Firmware, INI, dan TunerStudio **tidak berubah**. Folder ini hanya menambahkan:
+The firmware, INI, and TunerStudio are **unchanged**. This folder only adds:
 
-- **Layout menu** (`menu/mazduino-tuner-menu.ini`) yang menentukan penempatan halaman.
-- **Generator** (`tools/gen_tuner_menu.sh`) yang menggabungkan layout dengan INI hasil build
-  menjadi menu siap pakai (JSON untuk aplikasi, INI preview untuk TunerStudio, Markdown untuk review).
+- A **menu layout** (`menu/mazduino-tuner-menu.ini`) that defines where pages are placed.
+- A **generator** (`tools/gen_tuner_menu.sh`) that combines the layout with the built INI
+  into a ready-to-use menu (JSON for the app, preview INI for TunerStudio, Markdown for review).
 
-Semua halaman INI yang tidak punya padanan di MaxxECU otomatis masuk menu **Expert**, jadi
-tidak ada fitur yang hilang.
+Every INI page with no MaxxECU equivalent is automatically placed in the **Expert** menu, so
+no feature is lost.
 
-## Mulai cepat
+## Quick start
 
 ```bash
-# dari root repo mazduino-fw (Linux, macOS, atau Git Bash di Windows)
+# from the mazduino-fw repo root (Linux, macOS, or Git Bash on Windows)
 mazduino-tuner/tools/gen_tuner_menu.sh path/to/rusefi_mazduino-lite.ini
 # -> mazduino-tuner/generated/mazduino-lite/
-#      mazduino-lite.tuner-menu.json   (dibaca Mazduino Tuner)
-#      mazduino-lite.tuner-menu.md     (review manusia)
-#      rusefi_mazduino-lite.tuner.ini  (preview di TunerStudio, tidak di-commit)
+#      mazduino-lite.tuner-menu.json   (read by Mazduino Tuner)
+#      mazduino-lite.tuner-menu.md     (human review)
+#      rusefi_mazduino-lite.tuner.ini  (TunerStudio preview, not committed)
 ```
 
-Generate semua board dari INI nightly terbaru di branch `gh-pages`:
+Generate all boards from the latest nightly INI on the `gh-pages` branch:
 
 ```bash
 mazduino-tuner/tools/gen_all_from_gh_pages.sh
 ```
 
-## Struktur
+## Structure
 
 ```
 mazduino-tuner/
-├── README.md                  ← file ini
+├── README.md                  ← this file
 ├── menu/
-│   └── mazduino-tuner-menu.ini   ← SATU-SATUNYA file yang diedit untuk mengubah menu
+│   └── mazduino-tuner-menu.ini   ← the ONLY file to edit to change the menu
 ├── tools/
-│   ├── gen_tuner_menu.sh         ← generator per INI
-│   ├── gen_tuner_menu.awk        ← logika generator
-│   └── gen_all_from_gh_pages.sh  ← generate semua board dari INI nightly
-├── generated/<board>/         ← hasil generator (json + md di-commit, *.tuner.ini diabaikan)
+│   ├── gen_tuner_menu.sh         ← per-INI generator
+│   ├── gen_tuner_menu.awk        ← generator logic
+│   └── gen_all_from_gh_pages.sh  ← generate all boards from nightly INIs
+├── generated/<board>/         ← generator output (json + md committed, *.tuner.ini ignored)
 └── docs/
-    ├── 01-konsep.md              ← kenapa & bagaimana (arsitektur, branch)
-    ├── 02-struktur-menu.md       ← pohon menu Mazduino Tuner vs MaxxECU vs TunerStudio
-    ├── 03-format-layout.md       ← sintaks file layout
-    ├── 04-generator-dan-output.md← cara pakai generator, format JSON, preview TunerStudio, CI
-    └── 05-pemeliharaan.md        ← alur kerja saat rusEFI/Mazduino menambah fitur
+    ├── 01-konsep.md              ← why & how (architecture, branch)
+    ├── 02-struktur-menu.md       ← Mazduino Tuner menu tree vs MaxxECU vs TunerStudio
+    ├── 03-format-layout.md       ← layout file syntax
+    ├── 04-generator-dan-output.md← generator usage, JSON format, TunerStudio preview, CI
+    └── 05-pemeliharaan.md        ← workflow when rusEFI/Mazduino adds features
 ```
 
 ## Branch
 
-Pekerjaan ini ada di branch **`mazduino-tuner`** (dibuat dari `master`) agar tidak bentrok dengan
-pekerjaan lain di `master`/`main`. Semua file baru berada di `mazduino-tuner/` ditambah satu
-workflow CI `.github/workflows/mazduino-tuner-menu.yaml`. Submodule `ext/rusefi` tidak disentuh.
+This work lives on the **`mazduino-tuner`** branch (created from `master`) so it does not conflict with
+other work on `master`/`main`. All new files are in `mazduino-tuner/`, plus one
+CI workflow `.github/workflows/mazduino-tuner-menu.yaml`. The `ext/rusefi` submodule is not touched.

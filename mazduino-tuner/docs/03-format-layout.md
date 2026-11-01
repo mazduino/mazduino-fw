@@ -1,52 +1,52 @@
-# 03. Format file layout (`menu/mazduino-tuner-menu.ini`)
+# 03. Layout file format (`menu/mazduino-tuner-menu.ini`)
 
-Sintaksnya adalah subset section `[Menu]` TunerStudio, ditambah satu direktif `include`.
+The syntax is a subset of the TunerStudio `[Menu]` section, plus one `include` directive.
 
-## Elemen
+## Elements
 
-| Baris | Arti |
+| Line | Meaning |
 |---|---|
-| `menu = "Judul"` | Menu utama (level 1, satu node di pohon kiri / menubar) |
-| `subMenu = <id>[, "Label"][, kondisi]` | Halaman langsung di bawah menu |
-| `groupMenu = "Judul"` | Grup di dalam menu (level 2) |
-| `groupChildMenu = <id>[, "Label"][, kondisi]` | Halaman di dalam grup (level 3) |
-| `subMenu = std_separator` | Garis pemisah |
-| `include = unplaced` | Sisipkan semua halaman INI yang belum ditempatkan (dipakai di menu **Expert**) |
-| `; komentar` | Komentar (di luar tanda kutip) |
+| `menu = "Title"` | Top-level menu (level 1, one node in the left tree / menubar) |
+| `subMenu = <id>[, "Label"][, condition]` | Page directly under the menu |
+| `groupMenu = "Title"` | Group inside the menu (level 2) |
+| `groupChildMenu = <id>[, "Label"][, condition]` | Page inside the group (level 3) |
+| `subMenu = std_separator` | Separator line |
+| `include = unplaced` | Insert all INI pages not yet placed (used in the **Expert** menu) |
+| `; comment` | Comment (outside quotes) |
 
-`<id>` adalah nama dialog/tabel/kurva di INI firmware. Cari di `[UserDefined]` (`dialog = id`),
-`[TableEditor]` (`table = id`) atau `[CurveEditor]` (`curve = id`), atau lihat kolom ID di
+`<id>` is the name of a dialog/table/curve in the firmware INI. Look in `[UserDefined]` (`dialog = id`),
+`[TableEditor]` (`table = id`) or `[CurveEditor]` (`curve = id`), or see the ID column in
 `generated/<board>/<board>.tuner-menu.md`.
 
-## Kondisi
+## Conditions
 
-Format kondisi sama dengan TunerStudio: `[page,] {enable}[, {visible}]`.
+The condition format is the same as TunerStudio: `[page,] {enable}[, {visible}]`.
 
 ```ini
-subMenu = veTableDialog                          ; label & kondisi diwarisi dari INI
-subMenu = veTableDialog, "Fuel table"            ; label baru, kondisi diwarisi
-subMenu = veTableDialog, "Fuel table", 0, { isInjectionEnabled == 1 }   ; semua ditimpa
+subMenu = veTableDialog                          ; label & condition inherited from INI
+subMenu = veTableDialog, "Fuel table"            ; new label, condition inherited
+subMenu = veTableDialog, "Fuel table", 0, { isInjectionEnabled == 1 }   ; everything overridden
 ```
 
-Sebaiknya kondisi **tidak ditulis** supaya otomatis mengikuti perubahan upstream.
+Prefer **not writing** conditions so they automatically follow upstream changes.
 
-## Aturan validasi (generator gagal jika dilanggar)
+## Validation rules (the generator fails if violated)
 
-- Satu `<id>` hanya boleh muncul sekali di layout.
-- `groupChildMenu` harus berada setelah `groupMenu` di menu yang sama.
-- Hanya elemen di tabel atas yang dikenali.
-- `include` hanya menerima `unplaced`.
+- An `<id>` may appear only once in the layout.
+- `groupChildMenu` must come after a `groupMenu` in the same menu.
+- Only the elements in the table above are recognized.
+- `include` only accepts `unplaced`.
 
-## Perilaku otomatis
+## Automatic behavior
 
-- `<id>` yang tidak ada di INI board → dilewati dan dicatat di bagian "ID layout yang tidak ada" pada `.md`.
-- Grup tanpa halaman, menu tanpa halaman, separator di awal/akhir atau berurutan → dihapus.
-- Item Expert diberi label `"<grup asal> - <label>"` bila asalnya di dalam grup TunerStudio.
-- Satu dialog yang muncul dua kali di INI asli hanya dimasukkan sekali ke Expert.
+- An `<id>` that does not exist in the board's INI → skipped and listed in the "Layout IDs not present" section of the `.md`.
+- Groups without pages, menus without pages, and leading/trailing or consecutive separators → removed.
+- Expert items are labeled `"<original group> - <label>"` when they come from inside a TunerStudio group.
+- A dialog that appears twice in the original INI is added to Expert only once.
 
-## Batasan
+## Limitations
 
-- TunerStudio hanya mendukung satu level grup. Karena itu struktur maksimum adalah
-  menu → grup → halaman, sama seperti 3 level di MaxxECU.
-- Kondisi milik `groupMenu` asli tidak dibawa ke Expert. Hal ini aman karena setiap halaman di
-  dalamnya sudah punya kondisi sendiri.
+- TunerStudio supports only one level of groups. The maximum structure is therefore
+  menu → group → page, the same as the 3 levels in MaxxECU.
+- Conditions on the original `groupMenu` are not carried into Expert. This is safe because every page
+  inside it already has its own condition.

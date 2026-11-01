@@ -1,7 +1,7 @@
 name: Mazduino Tuner menu
 
-# Validasi layout menu Mazduino Tuner terhadap INI nightly terbaru semua board.
-# Tidak membangun firmware dan tidak mempublikasikan apa pun.
+# Validate the Mazduino Tuner menu layout against the latest nightly INI of all boards.
+# Does not build firmware and does not publish anything.
 
 on:
   push:
@@ -31,7 +31,7 @@ jobs:
       - name: Check committed output is up to date
         run: |
           if ! git diff --quiet -- mazduino-tuner/generated; then
-            echo "::warning::mazduino-tuner/generated berbeda dengan hasil generate terbaru (INI nightly berubah atau layout diubah tanpa regenerate)."
+            echo "::warning::mazduino-tuner/generated differs from the latest generated output (nightly INI changed or layout changed without regenerating)."
             git --no-pager diff --stat -- mazduino-tuner/generated
           fi
 

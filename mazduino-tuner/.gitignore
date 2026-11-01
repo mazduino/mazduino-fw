@@ -1,3 +1,3 @@
-# Root .gitignore mengabaikan semua folder "docs/" (catatan desain lokal).
-# Dokumentasi Mazduino Tuner harus ikut di-commit.
+# The root .gitignore ignores all "docs/" folders (local design notes).
+# Mazduino Tuner documentation must be committed.
 !docs/
