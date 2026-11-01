@@ -306,7 +306,7 @@ END {
 	print "| Statistic | Count |" > MD_OUT
 	print "|---|---:|" > MD_OUT
 	print "| Menu items in firmware INI | " nOrig " |" > MD_OUT
-	print "| Placed in MaxxECU-style menus | " nPlaced " |" > MD_OUT
+	print "| Placed in main menus | " nPlaced " |" > MD_OUT
 	print "| Automatically added to Expert menu | " nExpert " |" > MD_OUT
 	print "| Layout IDs not present on this board (skipped) | " nSkipped " |" > MD_OUT
 	print "" > MD_OUT

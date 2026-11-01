@@ -6,7 +6,7 @@
 | Statistic | Count |
 |---|---:|
 | Menu items in firmware INI | 322 |
-| Placed in MaxxECU-style menus | 225 |
+| Placed in main menus | 225 |
 | Automatically added to Expert menu | 97 |
 | Layout IDs not present on this board (skipped) | 9 |
 

@@ -6,15 +6,15 @@ The TunerStudio menu for Mazduino comes from the `[Menu]` section of the rusEFI 
 rusEFI's development history: many groups, technical labels, and basic features mixed with
 experimental ones (for example *Setup*, *Advanced*, *Controller*, *View*). For Mazduino users this layout is hard to follow.
 
-MaxxECU MTune organizes its menu by engine subsystem (Fuel, Ignition, Idle control, Boost control,
-Inputs, Outputs, Diagnostics, Tuning, etc.) with short labels. Mazduino Tuner uses this pattern.
+Mazduino Tuner organizes its menu by engine subsystem (Fuel, Ignition, Idle control, Boost control,
+Inputs, Outputs, Diagnostics, Tuning, etc.) with short labels.
 
 ## Principles
 
 | Layer | Source | Contents |
 |---|---|---|
 | **Data** | Built firmware INI (`rusefi_<board>.ini`) | Fields, memory offsets, types, units, tables, curves, visibility conditions, serial commands |
-| **Placement** | `menu/mazduino-tuner-menu.ini` | Page order and grouping, MaxxECU-style labels |
+| **Placement** | `menu/mazduino-tuner-menu.ini` | Page order, grouping and short labels |
 | **Output** | `generated/<board>/` | Final per-board menu (JSON / preview INI / Markdown) |
 
 1. **The INI remains the source of truth.** The layout only references page IDs (`veTableDialog`,

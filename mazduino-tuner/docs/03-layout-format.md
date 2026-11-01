@@ -47,6 +47,6 @@ Prefer **not writing** conditions so they automatically follow upstream changes.
 ## Limitations
 
 - TunerStudio supports only one level of groups. The maximum structure is therefore
-  menu → group → page, the same as the 3 levels in MaxxECU.
+  menu → group → page.
 - Conditions on the original `groupMenu` are not carried into Expert. This is safe because every page
   inside it already has its own condition.

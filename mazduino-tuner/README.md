@@ -1,8 +1,7 @@
-# Mazduino Tuner: MaxxECU-style menu
+# Mazduino Tuner menu layout
 
-This folder supports **Mazduino Tuner**, the Mazduino tuning software whose menu is organized like
-MaxxECU MTune (simple and grouped by subsystem), unlike the TunerStudio menu layout from the
-rusEFI INI.
+This folder supports **Mazduino Tuner**, the Mazduino tuning software whose menu is short and grouped by engine subsystem,
+unlike the TunerStudio menu layout from the rusEFI INI.
 
 The firmware, INI, and TunerStudio are **unchanged**. This folder only adds:
 
@@ -10,7 +9,7 @@ The firmware, INI, and TunerStudio are **unchanged**. This folder only adds:
 - A **generator** (`tools/gen_tuner_menu.sh`) that combines the layout with the built INI
   into a ready-to-use menu (JSON for the app, preview INI for TunerStudio, Markdown for review).
 
-Every INI page with no MaxxECU equivalent is automatically placed in the **Expert** menu, so
+Every INI page that the layout does not place is automatically put in the **Expert** menu, so
 no feature is lost.
 
 ## Quick start
@@ -43,11 +42,11 @@ mazduino-tuner/
 │   └── gen_all_from_gh_pages.sh  ← generate all boards from nightly INIs
 ├── generated/<board>/         ← generator output (json + md committed, *.tuner.ini ignored)
 └── docs/
-    ├── 01-konsep.md              ← why & how (architecture, branch)
-    ├── 02-struktur-menu.md       ← Mazduino Tuner menu tree vs MaxxECU vs TunerStudio
-    ├── 03-format-layout.md       ← layout file syntax
-    ├── 04-generator-dan-output.md← generator usage, JSON format, TunerStudio preview, CI
-    └── 05-pemeliharaan.md        ← workflow when rusEFI/Mazduino adds features
+    ├── 01-concept.md             ← why & how (architecture, branch)
+    ├── 02-menu-structure.md      ← Mazduino Tuner menu tree vs TunerStudio
+    ├── 03-layout-format.md       ← layout file syntax
+    ├── 04-generator-and-output.md← generator usage, JSON format, TunerStudio preview, CI
+    └── 05-maintenance.md          ← workflow when rusEFI/Mazduino adds features
 ```
 
 ## Branch

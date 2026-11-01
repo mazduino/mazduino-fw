@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# gen_tuner_menu.sh - build the Mazduino Tuner menu (MaxxECU style) from a firmware INI.
+# gen_tuner_menu.sh - build the Mazduino Tuner menu from a firmware INI.
 #
 # Usage:
 #   mazduino-tuner/tools/gen_tuner_menu.sh <rusefi_board.ini> [out_dir] [layout.ini]
