@@ -87,7 +87,10 @@ jobs:
       pages: write
       id-token: write
     steps:
+      # All history and tags: the release notes compare with the previous nightly tag.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Download bundle artifacts
         uses: actions/download-artifact@v4
@@ -111,14 +114,10 @@ jobs:
       - name: Read changelog
         id: changelog
         run: |
-          if [ -f CHANGELOG.md ]; then
-            BODY=$(awk '/^## \[/{p++} p==1{print} p==2{exit}' CHANGELOG.md | tail -n +2)
-            echo "body<<CHANGELOG_EOF" >> $GITHUB_OUTPUT
-            echo "$BODY" >> $GITHUB_OUTPUT
-            echo "CHANGELOG_EOF" >> $GITHUB_OUTPUT
-          else
-            echo "body=Automated nightly firmware build." >> $GITHUB_OUTPUT
-          fi
+          BODY=$(bash .github/scripts/release_changelog.sh "${{ needs.generate-matrix.outputs.tag }}")
+          echo "body<<CHANGELOG_EOF" >> $GITHUB_OUTPUT
+          echo "$BODY" >> $GITHUB_OUTPUT
+          echo "CHANGELOG_EOF" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
