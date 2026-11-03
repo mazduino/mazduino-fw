@@ -60,6 +60,11 @@ static void customBoardDefaultConfiguration() {
     engineConfiguration->canTxPin = Gpio::D1;
     engineConfiguration->canRxPin = Gpio::D0;
 
+    // Secondary TS channel (Bluetooth) on USART1: PB10/PB11 carry the LPS25 baro here.
+    // Wiring: PA9 -> HC-05 RXD, PA10 <- HC-05 TXD.
+    engineConfiguration->binarySerialTxPin = Gpio::A9;
+    engineConfiguration->binarySerialRxPin = Gpio::A10;
+
     // Onboard LPS25 baro sensor: PB10 = BARO_SCL, PB11 = BARO_SDA. Same part and
     // same pins as mazduino-core. initBaro() skips this if an analog baro is set.
     engineConfiguration->lps25BaroSensorScl = Gpio::B10;

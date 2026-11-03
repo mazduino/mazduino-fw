@@ -38,3 +38,7 @@ DDEFS += -DEFI_RTC=FALSE
 
 # Mazda PFI — no GDI high-pressure fuel pump
 DDEFS += -DEFI_HPFP=FALSE
+
+# Transmission control: the TunerStudio pages are on (ts_show_tcu), and without this nothing behind
+# them is built. It stays idle until tcuEnabled is set in the tune.
+DDEFS += -DEFI_TCU=TRUE

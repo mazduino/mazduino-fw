@@ -118,7 +118,6 @@ static void customBoardDefaultConfiguration() {
 	setupDefaultSensorInputs();
 
 	engineConfiguration->isSdCardEnabled = true;
-	engineConfiguration->enableSoftwareKnock = true;
 
 	engineConfiguration->clt.config.bias_resistor = 2700;
 	engineConfiguration->iat.config.bias_resistor = 2700;

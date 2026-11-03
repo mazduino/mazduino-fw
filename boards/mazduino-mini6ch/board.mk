@@ -46,3 +46,7 @@ DDEFS += -DEFI_HPFP=FALSE
 # LEDs (PB4, PB6, PB7); PB7 is the comms LED, so use the dedicated PB4 LED for
 # critical error. This frees PD14 for stepper enable.
 DDEFS += -DLED_CRITICAL_ERROR_BRAIN_PIN=Gpio::B4
+
+# Transmission control: the TunerStudio pages are on (ts_show_tcu), and without this nothing behind
+# them is built. It stays idle until tcuEnabled is set in the tune.
+DDEFS += -DEFI_TCU=TRUE

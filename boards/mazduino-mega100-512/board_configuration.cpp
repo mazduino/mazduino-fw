@@ -65,6 +65,11 @@ static void customBoardDefaultConfiguration() {
     engineConfiguration->canTxPin = Gpio::D1;
     engineConfiguration->canRxPin = Gpio::D0;
 
+    // Secondary TS channel (Bluetooth) on USART3. rusEFI defaults these to PC10/PC11, which this board
+    // uses for the SD card on SPI3. Wiring: PB10 -> HC-05 RXD, PB11 <- HC-05 TXD.
+    engineConfiguration->binarySerialTxPin = Gpio::B10;
+    engineConfiguration->binarySerialRxPin = Gpio::B11;
+
     // No SD card (EFI_FILE_LOGGING=FALSE, USE_FATFS=no in board.mk)
 }
 
