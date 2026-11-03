@@ -1,7 +1,7 @@
 # gen_tuner_menu.awk - rebuild the [Menu] of a rusEFI TunerStudio INI according to the Mazduino Tuner layout.
 #
 # Called by gen_tuner_menu.sh:
-#   awk -f gen_tuner_menu.awk -v MENU_OUT=.. -v JSON_OUT=.. -v MD_OUT=.. -v BOARD=.. firmware.ini layout.ini
+#   awk -f gen_tuner_menu.awk -v MENU_OUT=.. -v JSON_OUT=.. -v MD_OUT=.. -v BOARD=.. -v FLAGS_OFF=.. firmware.ini layout.ini
 #
 # Pass 1 (firmware.ini): collect dialog/table/curve titles + original [Menu] items.
 # Pass 2 (layout.ini)  : read the Mazduino Tuner layout.
@@ -141,6 +141,15 @@ fileNo == 1 {
 fileNo == 2 {
 	line = trim(stripComment($0))
 	if (line == "") next
+	if (match(line, /^requires[ \t]*=/)) {
+		val = line; sub(/^[^=]*=/, "", val)
+		flag = trim(val); sub(/[ \t]*:.*/, "", flag)
+		if (flag !~ /^(ts_show_|EFI_)[A-Za-z0-9_]+$/ || index(val, ":") == 0) { err("layout line " FNR ": bad requires: " line); next }
+		sub(/^[^:]*:/, "", val)
+		n = split(val, parts, ",")
+		for (r = 1; r <= n; r++) { id = trim(parts[r]); if (id != "") REQ[id] = (id in REQ) ? REQ[id] " " flag : flag }
+		next
+	}
 	if (!match(line, /^(menu|groupMenu|subMenu|groupChildMenu|include)[ \t]*=/)) {
 		err("layout line " FNR ": not recognized: " line); next
 	}
@@ -176,7 +185,7 @@ function expandUnplaced(    i, id, lastMenu, label, done) {
 	lastMenu = "\001"
 	for (i = 1; i <= nOrig; i++) {
 		id = O_ID[i]
-		if ((id in PLACED) || (id in EXPERT_DONE)) continue
+		if ((id in PLACED) || (id in EXPERT_DONE) || (id in HIDDEN)) continue
 		EXPERT_DONE[id] = 1
 		if (O_MENU[i] != lastMenu) { addEntry("group", "", O_MENU[i], "", "expert"); lastMenu = O_MENU[i] }
 		label = O_LABEL[i]; if (label == "") label = (TITLE[id] != "" ? TITLE[id] : id)
@@ -189,10 +198,24 @@ function expandUnplaced(    i, id, lastMenu, label, done) {
 END {
 	if (nOrig == 0) { print "ERROR: no [Menu] items in firmware INI" > "/dev/stderr"; exit 2 }
 
+	# pages of features this board turns off: gone from the menu and from Expert
+	n = split(FLAGS_OFF, off, " ")
+	for (r = 1; r <= n; r++) OFF[off[r]] = 1
+	nHidden = 0
+	for (id in REQ) {
+		k = split(REQ[id], need, " ")
+		for (r = 1; r <= k; r++) if (need[r] in OFF) { if (id in FIRST) HIDDEN[id] = 1 }
+	}
+	for (i = 1; i <= nOrig; i++) if ((O_ID[i] in HIDDEN) && !(O_ID[i] in HIDDENLISTED)) {
+		HIDDENLISTED[O_ID[i]] = 1
+		nHidden++; HIDELIST = HIDELIST (HIDELIST == "" ? "" : ", ") "`" O_ID[i] "`"
+	}
+
 	# mark layout IDs present in the INI
 	for (i = 1; i <= nLay; i++) {
 		id = L_ID[i]
 		if ((L_KEY[i] == "subMenu" || L_KEY[i] == "groupChildMenu") && id != "std_separator") {
+			if (id in HIDDEN) continue
 			if (id in FIRST) PLACED[id] = 1
 			else { nSkipped++; SKIPLIST = SKIPLIST (SKIPLIST == "" ? "" : ", ") "`" id "`" }
 		}
@@ -210,7 +233,7 @@ END {
 			continue
 		}
 		if (id == "std_separator") { addEntry("sep", "", "", "", "layout"); inGroup = 0; continue }
-		if (!(id in FIRST)) continue
+		if (!(id in FIRST) || (id in HIDDEN)) continue
 		if (k == "groupChildMenu" && !inGroup) err("layout line " L_LINE[i] ": groupChildMenu '" id "' without groupMenu")
 		if (k == "subMenu") inGroup = 0
 		rest = (L_REST[i] != "") ? L_REST[i] : O_REST[FIRST[id]]
@@ -261,7 +284,7 @@ END {
 
 	# ---- JSON ----
 	printf "{\n  \"generator\": \"mazduino-tuner/tools/gen_tuner_menu.sh\",\n  \"board\": \"%s\",\n  \"signature\": \"%s\",\n", jsonEsc(BOARD), jsonEsc(SIGNATURE) > JSON_OUT
-	printf "  \"stats\": { \"iniItems\": %d, \"placed\": %d, \"expert\": %d, \"skippedNotOnBoard\": %d },\n  \"menus\": [", nOrig, nPlaced, nExpert, nSkipped > JSON_OUT
+	printf "  \"stats\": { \"iniItems\": %d, \"placed\": %d, \"expert\": %d, \"skippedNotOnBoard\": %d, \"hiddenByBoardFlag\": %d },\n  \"menus\": [", nOrig, nPlaced, nExpert, nSkipped, nHidden > JSON_OUT
 	firstMenu = 1; openItems = 0; openGroup = 0
 	for (i = 1; i <= nE; i++) {
 		if (!KEEP[i]) continue
@@ -309,6 +332,7 @@ END {
 	print "| Placed in main menus | " nPlaced " |" > MD_OUT
 	print "| Automatically added to Expert menu | " nExpert " |" > MD_OUT
 	print "| Layout IDs not present on this board (skipped) | " nSkipped " |" > MD_OUT
+	print "| Pages of features this board turns off (hidden) | " nHidden " |" > MD_OUT
 	print "" > MD_OUT
 	for (i = 1; i <= nE; i++) {
 		if (!KEEP[i]) continue
@@ -324,10 +348,14 @@ END {
 		print "\n## Layout IDs not present on this board\n" > MD_OUT
 		print SKIPLIST > MD_OUT
 	}
+	if (nHidden > 0) {
+		print "\n## Pages of features this board turns off\n" > MD_OUT
+		print HIDELIST > MD_OUT
+	}
 	close(MD_OUT)
 
 	for (i = 1; i <= nWarn; i++) print "WARN: " WARN[i] > "/dev/stderr"
 	for (i = 1; i <= nErr; i++) print "ERROR: " ERRS[i] > "/dev/stderr"
-	printf "%s: %d INI items -> %d placed, %d Expert, %d skipped\n", BOARD, nOrig, nPlaced, nExpert, nSkipped > "/dev/stderr"
+	printf "%s: %d INI items -> %d placed, %d Expert, %d skipped, %d hidden\n", BOARD, nOrig, nPlaced, nExpert, nSkipped, nHidden > "/dev/stderr"
 	if (nErr > 0) exit 1
 }

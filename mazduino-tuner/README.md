@@ -39,7 +39,10 @@ mazduino-tuner/
 ├── tools/
 │   ├── gen_tuner_menu.sh         ← per-INI generator
 │   ├── gen_tuner_menu.awk        ← generator logic
-│   └── gen_all_from_gh_pages.sh  ← generate all boards from nightly INIs
+│   ├── gen_all_from_gh_pages.sh  ← generate all boards from nightly INIs
+│   ├── board_flags.sh            ← the feature defines a board sets
+│   ├── gen_board_features.sh     ← write boards/FEATURES.md from them
+│   └── check_generated.sh        ← CI gate: generated/ and FEATURES.md are up to date
 ├── generated/<board>/         ← generator output (json + md committed, *.tuner.ini ignored)
 └── docs/
     ├── 01-concept.md             ← why & how (architecture, branch)
@@ -52,5 +55,6 @@ mazduino-tuner/
 ## Branch
 
 This work lives on the **`mazduino-tuner`** branch (created from `master`) so it does not conflict with
-other work on `master`/`main`. All new files are in `mazduino-tuner/`, plus one
-CI workflow `.github/workflows/mazduino-tuner-menu.yaml`. The `ext/rusefi` submodule is not touched.
+other work on `master`/`main`. Its files are in `mazduino-tuner/`, plus the CI workflow
+`.github/workflows/mazduino-tuner-menu.yaml` and the menu step in `nightly-release.yaml`. The `ext/rusefi`
+submodule points at the `mazduino-tuner-fixes` branch of rusefi-core.

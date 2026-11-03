@@ -29,6 +29,9 @@ BOARD="${base#rusefi_}"
 OUT="${2:-$ROOT/generated/$BOARD}"
 mkdir -p "$OUT"
 
+# Features this board turns off (a board that is not in boards/ turns nothing off).
+FLAGS_OFF="$("$HERE/board_flags.sh" "$BOARD" | awk '$2 == "false" || $2 == "FALSE" { print $1 }' | tr '\n' ' ')"
+
 MENU_TMP="$(mktemp)"
 trap 'rm -f "$MENU_TMP"' EXIT
 
@@ -37,6 +40,7 @@ awk -f "$HERE/gen_tuner_menu.awk" \
 	-v JSON_OUT="$OUT/$BOARD.tuner-menu.json" \
 	-v MD_OUT="$OUT/$BOARD.tuner-menu.md" \
 	-v BOARD="$BOARD" \
+	-v FLAGS_OFF="$FLAGS_OFF" \
 	"$INI" "$LAYOUT"
 
 # Replace the [Menu] section (up to the next section) with the new menu.

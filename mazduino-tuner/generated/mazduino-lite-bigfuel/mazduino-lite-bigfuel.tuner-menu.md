@@ -6,16 +6,16 @@
 | Statistic | Count |
 |---|---:|
 | Menu items in firmware INI | 304 |
-| Placed in main menus | 207 |
-| Automatically added to Expert menu | 97 |
+| Placed in main menus | 193 |
+| Automatically added to Expert menu | 89 |
 | Layout IDs not present on this board (skipped) | 27 |
+| Pages of features this board turns off (hidden) | 22 |
 
 
 ## Configuration
 
 - Engine settings - _dialog_ `engineChars`
 - Base tunes - _dialog_ `engineTypeDialog`
-- ---
 - ECU logging settings - _dialog_ `sdCard`
 - Connection settings - _dialog_ `connection`
 - ECU lock - _dialog_ `ecuPasswordPanel`
@@ -24,14 +24,14 @@
 
 - Rev limit / boost cut - _dialog_ `limitsAndFallback`
 - Lean power cut - _dialog_ `lambdaProtection`
+- Warnings - _dialog_ `celSensorChecksDialog`
 - **Oil pressure cut**
   - Low oil pressure - _dialog_ `lowOilPressureProtection`
   - High oil pressure - _dialog_ `highOilPressureProtection`
-- Warnings (check engine light) - _dialog_ `celSensorChecksDialog`
 
 ## Fuel
 
-- **Fuel inj general**
+- **Fuel general**
   - Injector configuration - _dialog_ `injectorConfig`
   - Injector hardware - _dialog_ `injectionSettings`
   - Injector deadtime - _table_ `injectorsDeadTime`
@@ -41,7 +41,7 @@
   - Staged injection settings - _dialog_ `stagedInjection`
   - Staged injection outputs - _dialog_ `stagedInjectionOutputs`
   - Staged injection table - _table_ `stagedInjectionTbl`
-- **Fuel start/warmup/ase**
+- **Start/warmup/ase**
   - Cranking settings - _dialog_ `crankingDialog`
   - Cranking base fuel - _table_ `crankingCycleFuelMultTbl`
   - Cranking fuel vs CLT - _curve_ `crankingCltCurve`
@@ -49,39 +49,32 @@
   - Warmup enrichment - _other_ `cltFuelCorrCurveDialog`
   - After-start enrichment (ASE) - _table_ `postCrankingEnrichmentTbl`
 - Fuel priming - _dialog_ `primingFuelPulsePanel`
-- Fuel IAT trim - _curve_ `iatFuelCorrCurve`
-- Fuel baro trim - _table_ `baroCorrTbl`
-- **Fuel acc enrich**
+- IAT trim - _curve_ `iatFuelCorrCurve`
+- **Acceleration enrichment**
   - Acceleration enrichment - _dialog_ `AccelEnrich`
   - TPS acceleration extra fuel - _dialog_ `tpsTpsDialog`
   - TPS extra fuel RPM correction - _curve_ `tpsTspRpmCorrection`
+- Baro trim - _table_ `baroCorrTbl`
 - Lambda control - _dialog_ `fuelClosedLoopDialog`
 - **Fuel adaptation**
   - Adaptation settings - _dialog_ `fuelLTFCDialog`
   - Adaptation table bank 1 - _table_ `ltftBank1Tbl`
   - Adaptation table bank 2 - _table_ `ltftBank2Tbl`
-- Overrun fuel cut - _dialog_ `coastingFuelCutControl`
-- **Cylinder adjustment**
+- Overrun cut - _dialog_ `coastingFuelCutControl`
+- **Cylinder adjustments**
   - Fuel trim cyl 1 - _table_ `fuelTrimTbl1`
   - Fuel trim cyl 2 - _table_ `fuelTrimTbl2`
   - Fuel trim cyl 3 - _table_ `fuelTrimTbl3`
   - Fuel trim cyl 4 - _table_ `fuelTrimTbl4`
-  - Fuel trim cyl 5 - _table_ `fuelTrimTbl5`
-  - Fuel trim cyl 6 - _table_ `fuelTrimTbl6`
-  - Fuel trim cyl 7 - _table_ `fuelTrimTbl7`
-  - Fuel trim cyl 8 - _table_ `fuelTrimTbl8`
-  - Fuel trim cyl 9 - _table_ `fuelTrimTbl9`
-  - Fuel trim cyl 10 - _table_ `fuelTrimTbl10`
-  - Fuel trim cyl 11 - _table_ `fuelTrimTbl11`
-  - Fuel trim cyl 12 - _table_ `fuelTrimTbl12`
 - Fuel usage - _dialog_ `fuelConsumptionSettings`
 - Fuel pressure sensor - _dialog_ `fuelPressureSensor`
 
 ## Ignition
 
-- Ignition settings - _dialog_ `ignitionSettings`
-- Dwell - _dialog_ `dwellSettings`
-- Cranking ignition - _curve_ `crankingAdvanceCurve`
+- **Ignition settings**
+  - Ignition settings - _dialog_ `ignitionSettings`
+  - Dwell - _dialog_ `dwellSettings`
+  - Cranking ignition - _curve_ `crankingAdvanceCurve`
 - **Ignition correction**
   - CLT ignition correction - _table_ `ignitionCltCorrTable`
   - IAT ignition correction - _table_ `ignitionIatCorrTableTbl`
@@ -97,15 +90,27 @@
 
 ## Idle control
 
-- **Idle control settings**
-  - Idle settings - _dialog_ `idleSettings`
-  - Idle hardware - _dialog_ `idlehw`
-  - Idle position vs CLT - _table_ `cltIdleTable`
-  - Cranking idle position vs CLT - _other_ `cltCrankingCurveDialog`
-  - After-start idle taper - _other_ `afterCrankingIACtaperDurationDialog`
-  - Idle PID multiplier - _table_ `iacPidMultTbl`
-  - Coasting idle position - _curve_ `iacCoastingCurve`
+- Idle control settings - _dialog_ `idleSettings`
+- Idle hardware - _dialog_ `idlehw`
+- Idle position vs CLT - _table_ `cltIdleTable`
+- Cranking idle position vs CLT - _other_ `cltCrankingCurveDialog`
+- After-start idle taper - _other_ `afterCrankingIACtaperDurationDialog`
+- Idle PID multiplier - _table_ `iacPidMultTbl`
+- Coasting idle position - _curve_ `iacCoastingCurve`
 - Idle control target RPM - _curve_ `cltIdleRPMCurve`
+
+## Boost control
+
+- Boost control settings - _dialog_ `boostDialog`
+- Boost control (open loop) - _dialog_ `boostOpenLoopDialog`
+- Open loop gear adjustment - _dialog_ `boostOpenLoopGearAdderDialog`
+- Closed loop boost, PID - _dialog_ `boostPidDialog`
+- Closed loop boost, targets - _dialog_ `boostTargetDialog`
+- **Boost corrections**
+  - CLT duty multiplier - _curve_ `cltBoostCorrCurve`
+  - IAT duty multiplier - _curve_ `iatBoostCorrCurve`
+  - CLT target adder - _curve_ `cltBoostAdderCurve`
+  - IAT target adder - _curve_ `iatBoostAdderCurve`
 
 ## Motorsport
 
@@ -126,20 +131,11 @@
 
 ## Speed/Gear
 
-- Speed sensor - _dialog_ `speedSensor`
-- **Traction control**
-  - Traction control ignition retard - _table_ `tractionTimingTableTbl`
-  - Traction control ignition cut - _dialog_ `tractionIgnitionSkipDialog`
+- Speed/Gear - _dialog_ `speedSensor`
 
 ## Nitrous
 
 - Nitrous control - _dialog_ `NitrousControlDialog`
-
-## E-Throttle
-
-- Pedal position - _dialog_ `pedalSensor`
-- Throttle feed forward - _curve_ `etbTpsBiasCurve`
-- Throttle #2 trim - _table_ `throttle2TrimTbl`
 
 ## Transmission control
 
@@ -148,16 +144,17 @@
 - Input speed sensor - _dialog_ `inputSpeedSensor`
 - Shift points - _dialog_ `shiftSpeedDialog`
 - Shift solenoids - _table_ `tcuSolenoidTableTbl`
-- Lockup converter - _dialog_ `tccCurves`
 - **Line pressure**
   - Line pressure per gear - _dialog_ `pcPerGearDialog`
   - Line pressure per shift - _dialog_ `pcPerShiftDialog`
   - 3-2 shift solenoid - _dialog_ `32Dialog`
+- Lockup converter - _dialog_ `tccCurves`
 - Range selector matrix - _dialog_ `rangeMatrixDialog`
 
 ## CAN Bus
 
 - CAN bus settings - _dialog_ `canBusMain`
+- CAN modules (IO box) - _dialog_ `msIoBox`
 - **CAN inputs**
   - CAN analog inputs - _dialog_ `canAnalogInputsDialog`
   - CAN sensor inputs - _dialog_ `canSensorInputsDialog`
@@ -176,16 +173,9 @@
 - **CAN lambda module setup**
   - CAN lambda sensors - _dialog_ `uegoCan`
   - Wideband tools - _dialog_ `canReWidebandTools`
-- CAN modules (IO box) - _dialog_ `msIoBox`
 
 ## Advanced
 
-- **User scripts (Lua)**
-  - Script settings - _dialog_ `scriptSetting`
-  - Script analog inputs - _dialog_ `auxInputsDialog`
-  - Script digital inputs - _dialog_ `luaDigitalInputsDialog`
-  - Script PWM outputs - _dialog_ `luaOutputs`
-  - Script buttons - _dialog_ `luaCommands`
 - **User tables**
   - Script Table #1 - _dialog_ `scriptTable1TblSettings`
   - Script Table #2 - _dialog_ `scriptTable2TblSettings`
@@ -197,23 +187,33 @@
   - Script Curve #4 - _dialog_ `scriptCurve4Settings`
   - Script Curve #5 - _dialog_ `scriptCurve5Settings`
   - Script Curve #6 - _dialog_ `scriptCurve6Settings`
+- **User scripts (Lua)**
+  - Script settings - _dialog_ `scriptSetting`
+  - Script analog inputs - _dialog_ `auxInputsDialog`
+  - Script digital inputs - _dialog_ `luaDigitalInputsDialog`
+  - Script PWM outputs - _dialog_ `luaOutputs`
+  - Script buttons - _dialog_ `luaCommands`
 
 ## Inputs
 
-- **Triggers/Home inputs**
+- Input summary - _dialog_ `allPinsInputs`
+- **Trigger/Home inputs**
   - Trigger - _dialog_ `triggerConfiguration`
   - Advanced trigger options - _dialog_ `trigger_advanced`
   - Trigger gap override - _dialog_ `triggerConfiguration_gap`
-- **Sensors (CLT, IAT, TPS, MAP)**
-  - CLT sensor - _dialog_ `cltSensor`
+- **Sensors**
   - IAT sensor - _dialog_ `iatSensorDialog`
+  - CLT sensor - _dialog_ `cltSensor`
   - TPS sensor - _dialog_ `tpsSensor`
   - MAP sensor - _dialog_ `mapSettings`
   - MAP sampling - _dialog_ `mapCurves`
   - Baro sensor - _dialog_ `baroSettings`
-- Lambda sensor - _dialog_ `analogEgoSettings`
-- Ethanol sensor - _dialog_ `flexSensorDialog`
-- EGT sensors - _dialog_ `egtInputs`
+- Lambda sensors - _dialog_ `analogEgoSettings`
+- **Multi position switch**
+  - Analog multi-switch 1 - _dialog_ `analogMultiSwitchSettings1`
+  - Analog multi-switch 2 - _dialog_ `analogMultiSwitchSettings2`
+  - Analog multi-switch 3 - _dialog_ `analogMultiSwitchSettings3`
+  - Analog multi-switch 4 - _dialog_ `analogMultiSwitchSettings4`
 - **Analog inputs**
   - Analog input settings - _dialog_ `analogInputSettings`
   - Aux linear sensors - _other_ `auxLinearSensors`
@@ -228,20 +228,17 @@
   - A/C pressure - _dialog_ `acPressureSensor`
   - Compressor discharge temperature - _dialog_ `compressorDischargeTemperature`
   - Misc sensors - _dialog_ `otherSensorInputs`
-- **Multi position switch**
-  - Analog multi-switch 1 - _dialog_ `analogMultiSwitchSettings1`
-  - Analog multi-switch 2 - _dialog_ `analogMultiSwitchSettings2`
-  - Analog multi-switch 3 - _dialog_ `analogMultiSwitchSettings3`
-  - Analog multi-switch 4 - _dialog_ `analogMultiSwitchSettings4`
+- Ethanol sensor - _dialog_ `flexSensorDialog`
+- EGT sensors - _dialog_ `egtInputs`
 - SENT protocol input - _dialog_ `sentInputs`
 - **ECU supply**
   - Battery and alternator - _dialog_ `energySystems`
   - Ignition key input - _dialog_ `ignitionInputDialog`
-- Input summary - _dialog_ `allPinsInputs`
 
 ## Outputs
 
 - Output config - _dialog_ `outputsDialog`
+- Output summary - _dialog_ `allPinsOutputs`
 - **Fans**
   - Fan settings - _dialog_ `fanSettings`
   - Fan 1 PWM - _dialog_ `fan1PwmCurveDialog`
@@ -253,7 +250,6 @@
   - General Purpose PWM 3 - _dialog_ `gppwm3`
   - General Purpose PWM 4 - _dialog_ `gppwm4`
 - Status LEDs - _dialog_ `statusLeds`
-- Output summary - _dialog_ `allPinsOutputs`
 
 ## Diagnostics
 
@@ -287,20 +283,6 @@
   - Ignition blend table 3 - _table_ `ignAdder3Table`
   - Ignition blend 4 bias - _dialog_ `ignAdder4Cfg`
   - Ignition blend table 4 - _table_ `ignAdder4Table`
-
-## Boost control
-
-- Boost control settings - _dialog_ `boostDialog`
-- Boost control (open loop) - _dialog_ `boostOpenLoopDialog`
-- Open loop gear adjustment - _dialog_ `boostOpenLoopGearAdderDialog`
-- Closed loop boost, targets - _dialog_ `boostTargetDialog`
-- Closed loop boost, PID - _dialog_ `boostPidDialog`
-- **Boost corrections**
-  - CLT duty multiplier - _curve_ `cltBoostCorrCurve`
-  - IAT duty multiplier - _curve_ `iatBoostCorrCurve`
-  - CLT target adder - _curve_ `cltBoostAdderCurve`
-  - IAT target adder - _curve_ `iatBoostAdderCurve`
-- Electronic wastegate feed forward - _curve_ `ewgBiasCurve`
 
 ## Expert
 
@@ -341,8 +323,6 @@
   - MAF sensor - _dialog_ `mafSettings`
   - MAF transfer function - _curve_ `mafDecodingCurve`
   - CAN O2 sensors - _dialog_ `egoSettings`
-  - ETB-style Idle valve position sensor - _dialog_ `idleValvePosDialog`
-  - Turbo sensors - Electronic Wastegate position sensor - _dialog_ `wastegatePosDialog`
 - **CAN-bus**
   - Triggered CAN Outputs - Triggered CAN Output 1 - _dialog_ `triggeredCanOutput1Dialog`
   - Triggered CAN Outputs - Triggered CAN Output 2 - _dialog_ `triggeredCanOutput2Dialog`
@@ -369,11 +349,9 @@
 - **View**
   - fuel_computer - _dialog_ `fuel_computerDialog`
   - ignition_state - _dialog_ `ignition_stateDialog`
-  - knock_controller - _dialog_ `knock_controllerDialog`
   - prime_injection - _dialog_ `prime_injectionDialog`
   - tcu_controller - _dialog_ `tcu_controllerDialog`
   - throttle_model - _dialog_ `throttle_modelDialog`
-  - high_pressure_fuel_pump - _dialog_ `high_pressure_fuel_pumpDialog`
   - injector_model - _dialog_ `injector_modelDialog`
   - launch_control_state - _dialog_ `launch_control_stateDialog`
   - shift_torque_reduction_state - _dialog_ `shift_torque_reduction_stateDialog`
@@ -398,15 +376,11 @@
   - misfire_detection_state - _dialog_ `misfire_detection_stateDialog`
   - live_data_example - _dialog_ `live_data_exampleDialog`
   - idle_state - _dialog_ `idle_stateDialog`
-  - electronic_throttle0 - _dialog_ `electronic_throttle0Dialog`
-  - electronic_throttle1 - _dialog_ `electronic_throttle1Dialog`
   - wideband_state0 - _dialog_ `wideband_state0Dialog`
   - wideband_state1 - _dialog_ `wideband_state1Dialog`
-  - dc_motors - _dialog_ `dc_motorsDialog`
   - sent_state - _dialog_ `sent_stateDialog`
   - vvt - _dialog_ `vvtDialog`
   - lambda_monitor - _dialog_ `lambda_monitorDialog`
-  - mc33810_state - _dialog_ `mc33810_stateDialog`
   - long_term_fuel_trim_state - _dialog_ `long_term_fuel_trim_stateDialog`
   - short_term_fuel_trim_state - _dialog_ `short_term_fuel_trim_stateDialog`
   - vvl_controller_state - _dialog_ `vvl_controller_stateDialog`
@@ -418,4 +392,8 @@
 
 ## Layout IDs not present on this board
 
-`cylinderBankSelect`, `ignTrimTbl5`, `ignTrimTbl6`, `ignTrimTbl7`, `ignTrimTbl8`, `ignTrimTbl9`, `ignTrimTbl10`, `ignTrimTbl11`, `ignTrimTbl12`, `softwareKnock`, `maxKnockRetardTbl`, `knockGainTbl1`, `knockGainTbl2`, `knockGainTbl3`, `knockGainTbl4`, `knockGainTbl5`, `knockGainTbl6`, `knockGainTbl7`, `knockGainTbl8`, `knockGainTbl9`, `knockGainTbl10`, `knockGainTbl11`, `knockGainTbl12`, `tractionControlEtb`, `etbDialog`, `pedalToTpsTbl`, `ewgDialog`
+`cylinderBankSelect`, `ignTrimTbl5`, `ignTrimTbl6`, `ignTrimTbl7`, `ignTrimTbl8`, `ignTrimTbl9`, `ignTrimTbl10`, `ignTrimTbl11`, `ignTrimTbl12`, `knockGainTbl1`, `knockGainTbl2`, `knockGainTbl3`, `knockGainTbl4`, `knockGainTbl5`, `knockGainTbl6`, `knockGainTbl7`, `knockGainTbl8`, `knockGainTbl9`, `knockGainTbl10`, `knockGainTbl11`, `knockGainTbl12`, `softwareKnock`, `maxKnockRetardTbl`, `ewgDialog`, `tractionControlEtb`, `etbDialog`, `pedalToTpsTbl`
+
+## Pages of features this board turns off
+
+`fuelTrimTbl5`, `fuelTrimTbl6`, `fuelTrimTbl7`, `fuelTrimTbl8`, `fuelTrimTbl9`, `fuelTrimTbl10`, `fuelTrimTbl11`, `fuelTrimTbl12`, `etbTpsBiasCurve`, `throttle2TrimTbl`, `ewgBiasCurve`, `pedalSensor`, `idleValvePosDialog`, `wastegatePosDialog`, `tractionTimingTableTbl`, `tractionIgnitionSkipDialog`, `knock_controllerDialog`, `high_pressure_fuel_pumpDialog`, `electronic_throttle0Dialog`, `electronic_throttle1Dialog`, `dc_motorsDialog`, `mc33810_stateDialog`

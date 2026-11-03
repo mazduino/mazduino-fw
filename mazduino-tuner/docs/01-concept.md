@@ -22,9 +22,10 @@ Inputs, Outputs, Diagnostics, Tuning, etc.) with short labels.
 2. **Conditions are inherited.** If the layout does not specify a condition, the original INI condition is used
    (`{isInjectionEnabled == 1}`, `uiMode`, etc.). Visibility/enable logic still follows the firmware.
 3. **No feature is lost.** Every INI page that is not placed automatically goes into
-   **Expert**, grouped by its original TunerStudio menu.
-4. **Safe across boards.** IDs that do not exist on a given board (e.g. ETB on Lite) are skipped, and empty
-   groups/menus are hidden. One layout is used for all boards.
+   **Expert**, grouped by its original TunerStudio menu. The only exception is a page of a feature the board does not have.
+4. **Each board shows what it has.** One layout serves all boards. IDs a board's INI lacks are skipped, and pages the
+   INI leaves in although the board turns their feature off are hidden through `requires` (see `03-layout-format.md`).
+   Empty groups and menus disappear, so a board without an electronic throttle has no E-Throttle menu.
 5. **Firmware and INI are not modified.** The signature stays the same, so the preview INI can be opened in TunerStudio
    to try the new menu without reflashing.
 
@@ -41,13 +42,13 @@ When Mazduino Tuner connects to the ECU:
 1. Read the signature (`S`), then find the matching INI, for example
    `https://mazduino.github.io/mazduino-fw/ini/<branch>/<yyyy>/<mm>/<dd>/<board>/<hash>.ini`.
 2. Parse the INI for fields, tables, and channels.
-3. Use `<board>.tuner-menu.json` to display the menu tree. If the JSON is not available, run the same generator
-   logic in the app with the built-in layout.
+3. Display the menu tree from `<hash>.tuner-menu.json`, published beside that INI. If it is not available
+   (offline, or firmware built before menus were published), use the `<board>.tuner-menu.json` the app ships with.
 
 ## Branch strategy
 
 - The **`mazduino-tuner`** branch is created from `master`.
-- Changes only **add** files in `mazduino-tuner/` plus one CI workflow, so merging back into `master`
-  or rebasing onto `master` will not conflict.
-- The `ext/rusefi` submodule (rusefi-core) is not modified. If tuner-specific firmware changes are needed later
-  (for example a new protocol command), make them on a separate branch of `rusefi-core` with the same name.
+- Its files are in `mazduino-tuner/`, plus one CI workflow and the menu step in `nightly-release.yaml`, so merging
+  back into `master` or rebasing onto `master` will not conflict.
+- Firmware changes the tuner needs live on the `mazduino-tuner-fixes` branch of `rusefi-core`, and the `ext/rusefi`
+  submodule points there.

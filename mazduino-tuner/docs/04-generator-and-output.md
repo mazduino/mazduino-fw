@@ -27,7 +27,7 @@ For the latest INI without building, use `gen_all_from_gh_pages.sh`.
 
 Summary on stderr:
 ```
-mazduino-lite: 304 INI items -> 207 placed, 97 Expert, 27 skipped
+mazduino-lite: 304 INI items -> 193 placed, 89 Expert, 27 skipped, 22 hidden
 ```
 Exit code `1` means the layout is invalid (duplicate ID, `groupChildMenu` without a group, syntax error).
 
@@ -46,7 +46,7 @@ Exit code `1` means the layout is invalid (duplicate ID, `groupChildMenu` withou
   "generator": "mazduino-tuner/tools/gen_tuner_menu.sh",
   "board": "mazduino-lite",
   "signature": "rusEFI master.2026.10.31.mazduino-lite.3546743249",
-  "stats": { "iniItems": 304, "placed": 207, "expert": 97, "skippedNotOnBoard": 27 },
+  "stats": { "iniItems": 304, "placed": 193, "expert": 89, "skippedNotOnBoard": 27, "hiddenByBoardFlag": 22 },
   "menus": [
     {
       "title": "Fuel",
@@ -90,11 +90,21 @@ Tunes (`.msq`) are not affected because the memory layout is exactly the same.
 
 `.github/workflows/mazduino-tuner-menu.yaml` runs on push to the `mazduino-tuner` branch, on PRs that
 touch `mazduino-tuner/**`, or manually. The workflow:
-1. Generates the menu for all boards from the nightly INIs on gh-pages.
-2. Fails if the layout is invalid.
-3. Warns if the committed `generated/` no longer matches the latest output.
+1. Runs `tools/check_generated.sh`, which regenerates each committed menu from the INI named by its `signature`.
+   It **fails** if the result differs: the layout or generator changed without regenerating.
+2. Generates the menu for all boards from the latest nightly INIs on gh-pages, and fails if the layout is invalid.
+3. Warns if that output differs from `generated/`: a newer nightly INI changed the menu, so a regenerate is due.
 4. Uploads the output as the `mazduino-tuner-menu` artifact.
 
-The nightly release workflow is **not changed**. If the JSON later needs to be published alongside the INI on gh-pages
-(`.../<hash>.tuner-menu.json`), add a `gen_tuner_menu.sh` call to the
-"Extract INI files from bundles" step in `nightly-release.yaml`.
+## Publishing
+
+`nightly-release.yaml` generates the menu for every INI it publishes and stores it beside that INI on gh-pages:
+
+```
+ini/<branch>/<yyyy>/<mm>/<dd>/<board>/<hash>.ini
+ini/<branch>/<yyyy>/<mm>/<dd>/<board>/<hash>.tuner-menu.json
+```
+
+Mazduino Tuner derives both URLs from the ECU signature, so a page added to the firmware reaches the
+menu without an app release. A generator failure only produces a warning: the INI is still published, and the
+app uses the menu it ships with. It does the same for firmware built before menus were published.

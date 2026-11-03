@@ -1,17 +1,19 @@
 name: Mazduino Tuner menu
 
-# Validate the Mazduino Tuner menu layout against the latest nightly INI of all boards.
-# Does not build firmware and does not publish anything.
+# Validate the Mazduino Tuner menu layout and its committed output for all boards.
+# Does not build firmware and does not publish anything (nightly-release.yaml publishes the menus).
 
 on:
   push:
     branches: [mazduino-tuner]
     paths:
       - 'mazduino-tuner/**'
+      - 'boards/**'
       - '.github/workflows/mazduino-tuner-menu.yaml'
   pull_request:
     paths:
       - 'mazduino-tuner/**'
+      - 'boards/**'
   workflow_dispatch:
 
 jobs:
@@ -23,15 +25,21 @@ jobs:
           fetch-depth: 1
           submodules: false
 
-      - name: Generate menu for all boards
+      # Regenerates from the INI each committed menu was built from, so only a layout or generator
+      # change committed without regenerating can fail this.
+      - name: Check committed output matches the layout
         run: |
           chmod +x mazduino-tuner/tools/*.sh
-          mazduino-tuner/tools/gen_all_from_gh_pages.sh master
+          mazduino-tuner/tools/check_generated.sh
 
-      - name: Check committed output is up to date
+      - name: Generate menu for all boards
+        run: mazduino-tuner/tools/gen_all_from_gh_pages.sh master
+
+      # A newer nightly INI is expected to differ: it only means a regenerate is due.
+      - name: Report changes from the latest nightly INI
         run: |
           if ! git diff --quiet -- mazduino-tuner/generated; then
-            echo "::warning::mazduino-tuner/generated differs from the latest generated output (nightly INI changed or layout changed without regenerating)."
+            echo "::warning::The latest nightly INI changes the menu. Run gen_all_from_gh_pages.sh and commit generated/."
             git --no-pager diff --stat -- mazduino-tuner/generated
           fi
 

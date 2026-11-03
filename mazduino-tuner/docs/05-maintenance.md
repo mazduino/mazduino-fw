@@ -17,8 +17,9 @@ for **all** boards, and the page with the new ID goes into Expert. Fix the ID in
 
 - [ ] Short labels in English (consistent with firmware help).
 - [ ] No conditions written unless an override is really needed.
+- [ ] A page that shows on a board without its feature gets a `requires` line.
 - [ ] Generator passes for all boards (`gen_all_from_gh_pages.sh` exits 0).
-- [ ] `generated/` is committed too.
+- [ ] `generated/` is committed too (`check_generated.sh` exits 0; CI fails otherwise).
 - [ ] When adding/moving a top-level menu, update the table in `02-menu-structure.md`.
 
 ## Commit convention

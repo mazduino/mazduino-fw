@@ -170,6 +170,17 @@ jobs:
             mkdir -p "$DEST"
             cp "$ini" "$DEST/${HASH}.ini"
             echo "Staged: $DEST/${HASH}.ini"
+            # The Mazduino Tuner menu for this exact INI. A layout problem must not stop the INI
+            # from being published: the app falls back to the menu it ships with.
+            MENU_TMP=$(mktemp -d)
+            cp "$ini" "$MENU_TMP/rusefi_$TARGET.ini"
+            if bash mazduino-tuner/tools/gen_tuner_menu.sh "$MENU_TMP/rusefi_$TARGET.ini" "$MENU_TMP/out" < /dev/null; then
+              cp "$MENU_TMP/out/$TARGET.tuner-menu.json" "$DEST/${HASH}.tuner-menu.json"
+              echo "Staged: $DEST/${HASH}.tuner-menu.json"
+            else
+              echo "::warning::No Mazduino Tuner menu for $TARGET: the generator failed"
+            fi
+            rm -rf "$MENU_TMP"
           done < <(find downloaded/ -name "*.ini" -type f)
           ls -lR ini-pages/
 
