@@ -131,12 +131,15 @@ jobs:
             ${{ steps.changelog.outputs.body }}
 
             ## Boards included
-            - mazduino-compact (STM32F407VGT6, knock enabled)
-            - mazduino-lite (STM32F407VGT6, no knock)
-            - mazduino-mini6ch (STM32F427VGT6, ETB + traction control)
-            - mazduino-core (STM32F427ZGT6, Proteus F4 pinout, dual ETB + traction control)
-            - mazduino-mega100 (STM32F407VGT6, 1MB, full features, USB + CAN)
+            - mazduino-compact (STM32F407VGT6)
+            - mazduino-lite (STM32F407VGT6, no knock input)
+            - mazduino-mini6ch (STM32F427VGT6 or STM32F407, one binary for both; ETB + traction control)
+            - mazduino-core (STM32F427ZGT6, Proteus F4 pinout, dual ETB + traction control, 2 CAN)
+            - mazduino-mega100 (STM32F407VGT6, 1MB, ETB + traction control)
             - mazduino-mega100-512 (STM32F407VET6, 512KB, reduced feature set)
+            - mazduino-compact-bigfuel, mazduino-core-bigfuel, mazduino-lite-bigfuel, mazduino-mini6ch-bigfuel: same hardware as the board they are named after, with 32x32 VE and ignition tables. Tunes do not carry over between a board and its BIGFUEL variant
+
+            Features per board: [boards/FEATURES.md](https://github.com/mazduino/mazduino-fw/blob/master/boards/FEATURES.md)
 
             ## Bundle contents
             Each `.zip` contains:
