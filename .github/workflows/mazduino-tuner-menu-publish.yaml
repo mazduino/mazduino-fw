@@ -1,0 +1,54 @@
+name: Mazduino Tuner menu publish
+
+# Rebuild the published menu of EVERY firmware INI on gh-pages with the current layout, so firmware
+# from earlier nightlies shows the same menu as the latest one. Runs when the layout or the
+# generator changes on master, and by hand. nightly-release.yaml still publishes the menu of each
+# new nightly.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'mazduino-tuner/menu/**'
+      - 'mazduino-tuner/tools/**'
+      - 'boards/**'
+      - '.github/workflows/mazduino-tuner-menu-publish.yaml'
+  workflow_dispatch:
+
+concurrency:
+  group: gh-pages-menus
+  cancel-in-progress: false
+
+jobs:
+  republish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          submodules: false
+
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          fetch-depth: 1
+          ssh-key: ${{ secrets.GHPAGES_DEPLOY_KEY }}
+
+      - name: Rebuild every published menu
+        run: |
+          chmod +x mazduino-tuner/tools/*.sh
+          mazduino-tuner/tools/republish_menus.sh gh-pages/ini
+
+      - name: Push changed menus
+        working-directory: gh-pages
+        run: |
+          git add -A ini
+          if git diff --cached --quiet; then
+            echo "No menu changed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -q -m "Republish Mazduino Tuner menus for all firmware (${GITHUB_SHA::8})"
+          git push -q origin gh-pages
