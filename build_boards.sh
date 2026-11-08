@@ -56,6 +56,18 @@ fi
 
 echo "=== Boards to build: ${BOARDS[*]} ==="
 
+# In a git worktree the .git files point into the main checkout's .git, outside the repo folder, and
+# the firmware signature needs git. Mount the main checkout at its own path so those links resolve.
+WS="/workspace"
+WS_MOUNT=(-v "$REPO_ROOT:/workspace")
+GIT_COMMON="$(git -C "$REPO_ROOT" rev-parse --path-format=absolute --git-common-dir 2>/dev/null || true)"
+if [ -n "$GIT_COMMON" ] && [ "$GIT_COMMON" != "$REPO_ROOT/.git" ]; then
+    MAIN_ROOT="$(dirname "$GIT_COMMON")"
+    WS="$REPO_ROOT"
+    WS_MOUNT=(-v "$MAIN_ROOT:$MAIN_ROOT")
+    echo "=== git worktree: mounting $MAIN_ROOT ==="
+fi
+
 # The rusefi submodule's date_stamp.h (VCS_DATE, the firmware version date) is
 # frozen at whenever set-date last ran. Stamp today's date so local builds
 # report the actual build date instead of a stale one, matching the CI stamp.
@@ -75,13 +87,13 @@ for BOARD in "${BOARDS[@]}"; do
     echo "========================================="
 
     docker run --rm --platform "$DOCKER_PLATFORM" \
-        -v "$REPO_ROOT:/workspace" \
+        "${WS_MOUNT[@]}" \
         "${CCACHE_MOUNTS[@]+"${CCACHE_MOUNTS[@]}"}" \
-        -w /workspace/ext/rusefi/firmware \
+        -w "$WS/ext/rusefi/firmware" \
         -e META_OUTPUT_ROOT_FOLDER=../../../generated/ \
         -e AUTOMATION_REF="$(git -C "$REPO_ROOT" branch --show-current 2>/dev/null || echo mazduino)" \
         "$IMAGE_NAME" \
-        bash -c "${COMPILE_WRAPPER}bash bin/compile.sh /workspace/boards/$BOARD/meta-info.env"
+        bash -c "${COMPILE_WRAPPER}bash bin/compile.sh $WS/boards/$BOARD/meta-info.env"
 
     echo "=== $BOARD: DONE ==="
 done
