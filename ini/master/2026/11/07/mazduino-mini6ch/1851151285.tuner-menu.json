@@ -2,7 +2,7 @@
   "generator": "mazduino-tuner/tools/gen_tuner_menu.sh",
   "board": "mazduino-mini6ch",
   "signature": "rusEFI master.2026.11.07.mazduino-mini6ch.1851151285",
-  "stats": { "iniItems": 333, "placed": 234, "expert": 97, "skippedNotOnBoard": 0, "hiddenByBoardFlag": 2 },
+  "stats": { "iniItems": 333, "placed": 233, "expert": 98, "skippedNotOnBoard": 0, "hiddenByBoardFlag": 2 },
   "menus": [
     {"title": "Configuration", "visible": "", "items": [
       {"type": "page", "id": "engineChars", "label": "Engine settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
@@ -71,8 +71,7 @@
         {"type": "page", "id": "fuelTrimTbl11", "label": "Fuel trim cyl 11", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 11", "visible": "", "origin": "layout"},
         {"type": "page", "id": "fuelTrimTbl12", "label": "Fuel trim cyl 12", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 12", "visible": "", "origin": "layout"}
       ]},
-      {"type": "page", "id": "fuelConsumptionSettings", "label": "Fuel usage", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
-      {"type": "page", "id": "fuelPressureSensor", "label": "Fuel pressure sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      {"type": "page", "id": "fuelConsumptionSettings", "label": "Fuel usage", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"}
     ]},
     {"title": "Ignition", "visible": "", "items": [
       {"type": "group", "title": "Ignition settings", "visible": "", "items": [
@@ -102,7 +101,6 @@
         {"type": "page", "id": "ignTrimTbl11", "label": "Ignition trim cyl 11", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 11", "visible": "", "origin": "layout"},
         {"type": "page", "id": "ignTrimTbl12", "label": "Ignition trim cyl 12", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 12", "visible": "", "origin": "layout"}
       ]},
-      {"type": "page", "id": "rotaryDialog", "label": "Trailing ignition (rotary)", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
       {"type": "group", "title": "Knock sensing (gain per cylinder)", "visible": "", "items": [
         {"type": "page", "id": "knockGainTbl1", "label": "Knock gain cyl 1", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 1", "visible": "", "origin": "layout"},
         {"type": "page", "id": "knockGainTbl2", "label": "Knock gain cyl 2", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 2", "visible": "", "origin": "layout"},
@@ -252,7 +250,8 @@
         {"type": "page", "id": "tpsSensor", "label": "TPS sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
         {"type": "page", "id": "mapSettings", "label": "MAP sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
         {"type": "page", "id": "mapCurves", "label": "MAP sampling", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
-        {"type": "page", "id": "baroSettings", "label": "Baro sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+        {"type": "page", "id": "baroSettings", "label": "Baro sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "fuelPressureSensor", "label": "Fuel pressure sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
       ]},
       {"type": "page", "id": "analogEgoSettings", "label": "Lambda sensors", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
       {"type": "group", "title": "Multi position switch", "visible": "", "items": [
@@ -404,6 +403,7 @@
         {"type": "page", "id": "harleyAcr", "label": "Harley", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Controller"},
         {"type": "page", "id": "idleFlowEstimate", "label": "Idle flow estimate", "kind": "curve", "enable": "modeledFlowIdle", "visible": "", "origin": "expert:Controller"},
         {"type": "page", "id": "idleAirmassTimingEquivalence", "label": "Idle airmass/timing equivalence", "kind": "curve", "enable": "modeledFlowIdle", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "rotaryDialog", "label": "Rotary", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Controller"},
         {"type": "page", "id": "throttleEffectiveArea", "label": "Torque - Throttle effective area", "kind": "curve", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "expert:Controller"},
         {"type": "page", "id": "torqueTableTbl", "label": "Torque - Torque", "kind": "table", "enable": "", "visible": "", "origin": "expert:Controller"},
         {"type": "page", "id": "torqueTableGenerator", "label": "Torque - Torque Table Generator", "kind": "other", "enable": "", "visible": "", "origin": "expert:Controller"},

@@ -2,7 +2,7 @@
   "generator": "mazduino-tuner/tools/gen_tuner_menu.sh",
   "board": "mazduino-mega100-512",
   "signature": "rusEFI master.2026.11.04.mazduino-mega100-512.3674242959",
-  "stats": { "iniItems": 293, "placed": 166, "expert": 68, "skippedNotOnBoard": 33, "hiddenByBoardFlag": 59 },
+  "stats": { "iniItems": 293, "placed": 166, "expert": 68, "skippedNotOnBoard": 32, "hiddenByBoardFlag": 59 },
   "menus": [
     {"title": "Configuration", "visible": "", "items": [
       {"type": "page", "id": "engineChars", "label": "Engine settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
@@ -70,8 +70,7 @@
         {"type": "page", "id": "fuelTrimTbl11", "label": "Fuel trim cyl 11", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 11", "visible": "", "origin": "layout"},
         {"type": "page", "id": "fuelTrimTbl12", "label": "Fuel trim cyl 12", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 12", "visible": "", "origin": "layout"}
       ]},
-      {"type": "page", "id": "fuelConsumptionSettings", "label": "Fuel usage", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
-      {"type": "page", "id": "fuelPressureSensor", "label": "Fuel pressure sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      {"type": "page", "id": "fuelConsumptionSettings", "label": "Fuel usage", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"}
     ]},
     {"title": "Ignition", "visible": "", "items": [
       {"type": "group", "title": "Ignition settings", "visible": "", "items": [
@@ -163,7 +162,8 @@
         {"type": "page", "id": "tpsSensor", "label": "TPS sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
         {"type": "page", "id": "mapSettings", "label": "MAP sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
         {"type": "page", "id": "mapCurves", "label": "MAP sampling", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
-        {"type": "page", "id": "baroSettings", "label": "Baro sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+        {"type": "page", "id": "baroSettings", "label": "Baro sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "fuelPressureSensor", "label": "Fuel pressure sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
       ]},
       {"type": "page", "id": "analogEgoSettings", "label": "Lambda sensors", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
       {"type": "group", "title": "Multi position switch", "visible": "", "items": [

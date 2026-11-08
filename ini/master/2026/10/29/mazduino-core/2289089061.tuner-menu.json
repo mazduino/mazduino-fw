@@ -1,0 +1,459 @@
+{
+  "generator": "mazduino-tuner/tools/gen_tuner_menu.sh",
+  "board": "mazduino-core",
+  "signature": "rusEFI master.2026.10.29.mazduino-core.2289089061",
+  "stats": { "iniItems": 331, "placed": 233, "expert": 96, "skippedNotOnBoard": 0, "hiddenByBoardFlag": 2 },
+  "menus": [
+    {"title": "Configuration", "visible": "", "items": [
+      {"type": "page", "id": "engineChars", "label": "Engine settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "engineTypeDialog", "label": "Base tunes", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "sdCard", "label": "ECU logging settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "connection", "label": "Connection settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "ecuPasswordPanel", "label": "ECU lock", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+    ]},
+    {"title": "Limits", "visible": "", "items": [
+      {"type": "page", "id": "limitsAndFallback", "label": "Rev limit / boost cut", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "lambdaProtection", "label": "Lean power cut", "kind": "dialog", "enable": "isInjectionEnabled", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "celSensorChecksDialog", "label": "Warnings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "Oil pressure cut", "visible": "", "items": [
+        {"type": "page", "id": "lowOilPressureProtection", "label": "Low oil pressure", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "highOilPressureProtection", "label": "High oil pressure", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+      ]}
+    ]},
+    {"title": "Fuel", "visible": "", "items": [
+      {"type": "group", "title": "Fuel general", "visible": "", "items": [
+        {"type": "page", "id": "injectorConfig", "label": "Injector configuration", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "injectionSettings", "label": "Injector hardware", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "injectorsDeadTime", "label": "Injector deadtime", "kind": "table", "enable": "isInjectionEnabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "injectorNonlinear", "label": "Injector small-pulse correction", "kind": "other", "enable": "isInjectionEnabled == 1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "injPhaseTableTbl", "label": "Injection timing", "kind": "table", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "cylinderBankSelect", "label": "Cylinder bank selection", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "Staged injection", "visible": "", "items": [
+        {"type": "page", "id": "stagedInjection", "label": "Staged injection settings", "kind": "dialog", "enable": "isInjectionEnabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "stagedInjectionOutputs", "label": "Staged injection outputs", "kind": "dialog", "enable": "isInjectionEnabled && enableStagedInjection", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "stagedInjectionTbl", "label": "Staged injection table", "kind": "table", "enable": "isInjectionEnabled && enableStagedInjection", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "Start/warmup/ase", "visible": "", "items": [
+        {"type": "page", "id": "crankingDialog", "label": "Cranking settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "crankingCycleFuelMultTbl", "label": "Cranking base fuel", "kind": "table", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "crankingCltCurve", "label": "Cranking fuel vs CLT", "kind": "curve", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "crankingTpsCurve", "label": "Cranking fuel vs TPS", "kind": "curve", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "cltFuelCorrCurveDialog", "label": "Warmup enrichment", "kind": "other", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "postCrankingEnrichmentTbl", "label": "After-start enrichment (ASE)", "kind": "table", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      ]},
+      {"type": "page", "id": "primingFuelPulsePanel", "label": "Fuel priming", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+      {"type": "page", "id": "iatFuelCorrCurve", "label": "IAT trim", "kind": "curve", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "Acceleration enrichment", "visible": "", "items": [
+        {"type": "page", "id": "AccelEnrich", "label": "Acceleration enrichment", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "tpsTpsDialog", "label": "TPS acceleration extra fuel", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "tpsTspRpmCorrection", "label": "TPS extra fuel RPM correction", "kind": "curve", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "page", "id": "baroCorrTbl", "label": "Baro trim", "kind": "table", "enable": "isInjectionEnabled == 1 && fuelAlgorithm == 0", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+      {"type": "page", "id": "fuelClosedLoopDialog", "label": "Lambda control", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "Fuel adaptation", "visible": "", "items": [
+        {"type": "page", "id": "fuelLTFCDialog", "label": "Adaptation settings", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ltftBank1Tbl", "label": "Adaptation table bank 1", "kind": "table", "enable": "ltft_enabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ltftBank2Tbl", "label": "Adaptation table bank 2", "kind": "table", "enable": "ltft_enabled", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "page", "id": "coastingFuelCutControl", "label": "Overrun cut", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "Cylinder adjustments", "visible": "", "items": [
+        {"type": "page", "id": "fuelTrimTbl1", "label": "Fuel trim cyl 1", "kind": "table", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTrimTbl2", "label": "Fuel trim cyl 2", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 2", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTrimTbl3", "label": "Fuel trim cyl 3", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 3", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTrimTbl4", "label": "Fuel trim cyl 4", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 4", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTrimTbl5", "label": "Fuel trim cyl 5", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 5", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTrimTbl6", "label": "Fuel trim cyl 6", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 6", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTrimTbl7", "label": "Fuel trim cyl 7", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 7", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTrimTbl8", "label": "Fuel trim cyl 8", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 8", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTrimTbl9", "label": "Fuel trim cyl 9", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 9", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTrimTbl10", "label": "Fuel trim cyl 10", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 10", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTrimTbl11", "label": "Fuel trim cyl 11", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 11", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTrimTbl12", "label": "Fuel trim cyl 12", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 12", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "page", "id": "fuelConsumptionSettings", "label": "Fuel usage", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"}
+    ]},
+    {"title": "Ignition", "visible": "", "items": [
+      {"type": "group", "title": "Ignition settings", "visible": "", "items": [
+        {"type": "page", "id": "ignitionSettings", "label": "Ignition settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "dwellSettings", "label": "Dwell", "kind": "dialog", "enable": "isIgnitionEnabled == 1", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "crankingAdvanceCurve", "label": "Cranking ignition", "kind": "curve", "enable": "useSeparateAdvanceForCranking == 1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "Ignition correction", "visible": "", "items": [
+        {"type": "page", "id": "ignitionCltCorrTable", "label": "CLT ignition correction", "kind": "table", "enable": "isIgnitionEnabled == 1", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignitionIatCorrTableTbl", "label": "IAT ignition correction", "kind": "table", "enable": "isIgnitionEnabled == 1", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "Ignition lock/idle control", "visible": "", "items": [
+        {"type": "page", "id": "idleTimingPidCorrDialog", "label": "Idle ignition control", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "idleAdvanceCurve", "label": "Idle ignition angle", "kind": "curve", "enable": "useSeparateAdvanceForIdle == 1", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "Cylinder angle trim", "visible": "", "items": [
+        {"type": "page", "id": "ignTrimTbl1", "label": "Ignition trim cyl 1", "kind": "table", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignTrimTbl2", "label": "Ignition trim cyl 2", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 2", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignTrimTbl3", "label": "Ignition trim cyl 3", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 3", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignTrimTbl4", "label": "Ignition trim cyl 4", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 4", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignTrimTbl5", "label": "Ignition trim cyl 5", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 5", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignTrimTbl6", "label": "Ignition trim cyl 6", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 6", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignTrimTbl7", "label": "Ignition trim cyl 7", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 7", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignTrimTbl8", "label": "Ignition trim cyl 8", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 8", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignTrimTbl9", "label": "Ignition trim cyl 9", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 9", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignTrimTbl10", "label": "Ignition trim cyl 10", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 10", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignTrimTbl11", "label": "Ignition trim cyl 11", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 11", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignTrimTbl12", "label": "Ignition trim cyl 12", "kind": "table", "enable": "isInjectionEnabled && cylindersCount >= 12", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "Knock sensing (gain per cylinder)", "visible": "", "items": [
+        {"type": "page", "id": "knockGainTbl1", "label": "Knock gain cyl 1", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 1", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "knockGainTbl2", "label": "Knock gain cyl 2", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 2", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "knockGainTbl3", "label": "Knock gain cyl 3", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 3", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "knockGainTbl4", "label": "Knock gain cyl 4", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 4", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "knockGainTbl5", "label": "Knock gain cyl 5", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 5", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "knockGainTbl6", "label": "Knock gain cyl 6", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 6", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "knockGainTbl7", "label": "Knock gain cyl 7", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 7", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "knockGainTbl8", "label": "Knock gain cyl 8", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 8", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "knockGainTbl9", "label": "Knock gain cyl 9", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 9", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "knockGainTbl10", "label": "Knock gain cyl 10", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 10", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "knockGainTbl11", "label": "Knock gain cyl 11", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 11", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "knockGainTbl12", "label": "Knock gain cyl 12", "kind": "table", "enable": "enableSoftwareKnock && cylindersCount >= 12", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "page", "id": "softwareKnock", "label": "Knock control", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "maxKnockRetardTbl", "label": "Knock max retard", "kind": "table", "enable": "", "visible": "", "origin": "layout"}
+    ]},
+    {"title": "Idle control", "visible": "", "items": [
+      {"type": "page", "id": "idleSettings", "label": "Idle control settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "idlehw", "label": "Idle hardware", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "cltIdleTable", "label": "Idle position vs CLT", "kind": "table", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "cltCrankingCurveDialog", "label": "Cranking idle position vs CLT", "kind": "other", "enable": "uiMode == 0 || uiMode == 1", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "afterCrankingIACtaperDurationDialog", "label": "After-start idle taper", "kind": "other", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "iacPidMultTbl", "label": "Idle PID multiplier", "kind": "table", "enable": "idleMode == 0 && useIacPidMultTable == 1", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "iacCoastingCurve", "label": "Coasting idle position", "kind": "curve", "enable": "useIacTableForCoasting == 1", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "cltIdleRPMCurve", "label": "Idle control target RPM", "kind": "curve", "enable": "", "visible": "", "origin": "layout"}
+    ]},
+    {"title": "Boost control", "visible": "", "items": [
+      {"type": "page", "id": "boostDialog", "label": "Boost control settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "boostOpenLoopDialog", "label": "Boost control (open loop)", "kind": "dialog", "enable": "isBoostControlEnabled", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "boostOpenLoopGearAdderDialog", "label": "Open loop gear adjustment", "kind": "dialog", "enable": "isBoostControlEnabled", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "boostPidDialog", "label": "Closed loop boost, PID", "kind": "dialog", "enable": "isBoostControlEnabled && boostType == 1", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "boostTargetDialog", "label": "Closed loop boost, targets", "kind": "dialog", "enable": "isBoostControlEnabled && boostType == 1", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "Boost corrections", "visible": "", "items": [
+        {"type": "page", "id": "cltBoostCorrCurve", "label": "CLT duty multiplier", "kind": "curve", "enable": "isBoostControlEnabled", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "iatBoostCorrCurve", "label": "IAT duty multiplier", "kind": "curve", "enable": "isBoostControlEnabled", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "cltBoostAdderCurve", "label": "CLT target adder", "kind": "curve", "enable": "isBoostControlEnabled && boostType == 1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "iatBoostAdderCurve", "label": "IAT target adder", "kind": "curve", "enable": "isBoostControlEnabled && boostType == 1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      ]},
+      {"type": "page", "id": "ewgDialog", "label": "Electronic wastegate", "kind": "dialog", "enable": "(etbFunctions1 == 4 || etbFunctions2 == 4) && isBoostControlEnabled", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "ewgBiasCurve", "label": "Electronic wastegate feed forward", "kind": "curve", "enable": "(etbFunctions1 == 4 || etbFunctions2 == 4) && isBoostControlEnabled", "visible": "", "origin": "layout"}
+    ]},
+    {"title": "Motorsport", "visible": "", "items": [
+      {"type": "page", "id": "antiLagDialog", "label": "Anti-lag", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "smLaunchControl", "label": "Launch control", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "Shiftcut", "visible": "", "items": [
+        {"type": "page", "id": "ShiftTorqueReductionDialog", "label": "Shiftcut settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "torqueReductionTimeDialog", "label": "Shiftcut time", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "torqueReductionIgnitionRetardDialog", "label": "Shiftcut ignition retard", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "torqueReductionIgnitionCutDialog", "label": "Shiftcut ignition cut", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+      ]}
+    ]},
+    {"title": "VVT", "visible": "", "items": [
+      {"type": "page", "id": "vvtPidDialog", "label": "VVT cam position inputs & control", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+      {"type": "page", "id": "vvtIntakeTargetDialog", "label": "VVT intake cam target", "kind": "dialog", "enable": "vvtMode1 != 0 && vvtPins1 != 0", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "vvtTable2Tbl", "label": "VVT exhaust cam target", "kind": "table", "enable": "vvtMode2 != 0 && vvtPins2 != 0", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "VvlControlDialog", "label": "VVL / VTEC control", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+    ]},
+    {"title": "Speed/Gear", "visible": "", "items": [
+      {"type": "page", "id": "speedSensor", "label": "Speed/Gear", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "Traction control setup", "visible": "", "items": [
+        {"type": "page", "id": "tractionTimingTableTbl", "label": "Traction control ignition retard", "kind": "table", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "tractionIgnitionSkipDialog", "label": "Traction control ignition cut", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "tractionControlEtb", "label": "Traction control throttle drop", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+      ]}
+    ]},
+    {"title": "Nitrous", "visible": "", "items": [
+      {"type": "page", "id": "NitrousControlDialog", "label": "Nitrous control", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+    ]},
+    {"title": "E-Throttle", "visible": "", "items": [
+      {"type": "page", "id": "etbDialog", "label": "Throttle control", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "pedalSensor", "label": "Pedal position", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "pedalToTpsTbl", "label": "Throttle targets", "kind": "table", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "etbTpsBiasCurve", "label": "Throttle feed forward", "kind": "curve", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "throttle2TrimTbl", "label": "Throttle #2 trim", "kind": "table", "enable": "isTps2Primary", "visible": "", "origin": "layout"}
+    ]},
+    {"title": "Transmission control", "visible": "", "items": [
+      {"type": "page", "id": "tcuControls", "label": "General settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "gearControls", "label": "Gear selector", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "inputSpeedSensor", "label": "Input speed sensor", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "shiftSpeedDialog", "label": "Shift points", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "tcuSolenoidTableTbl", "label": "Shift solenoids", "kind": "table", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "Line pressure", "visible": "", "items": [
+        {"type": "page", "id": "pcPerGearDialog", "label": "Line pressure per gear", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "pcPerShiftDialog", "label": "Line pressure per shift", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "32Dialog", "label": "3-2 shift solenoid", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "page", "id": "tccCurves", "label": "Lockup converter", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "rangeMatrixDialog", "label": "Range selector matrix", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+    ]},
+    {"title": "CAN Bus", "visible": "", "items": [
+      {"type": "page", "id": "canBusMain", "label": "CAN bus settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "msIoBox", "label": "CAN modules (IO box)", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "CAN inputs", "visible": "", "items": [
+        {"type": "page", "id": "canAnalogInputsDialog", "label": "CAN analog inputs", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "canSensorInputsDialog", "label": "CAN sensor inputs", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "canVirtualInputs", "label": "CAN switch inputs", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "speedSensorCan", "label": "CAN vehicle speed", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "egtInputsCan", "label": "CAN EGT", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "CAN outputs", "visible": "", "items": [
+        {"type": "page", "id": "canOutput1Dialog", "label": "CAN Output 1", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "canOutput2Dialog", "label": "CAN Output 2", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "canOutput3Dialog", "label": "CAN Output 3", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "canOutput4Dialog", "label": "CAN Output 4", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "canOutput5Dialog", "label": "CAN Output 5", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "canOutput6Dialog", "label": "CAN Output 6", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "canOutput7Dialog", "label": "CAN Output 7", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "canOutput8Dialog", "label": "CAN Output 8", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "CAN lambda module setup", "visible": "", "items": [
+        {"type": "page", "id": "uegoCan", "label": "CAN lambda sensors", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "canReWidebandTools", "label": "Wideband tools", "kind": "dialog", "enable": "canReadEnabled && canWriteEnabled", "visible": "", "origin": "layout"}
+      ]}
+    ]},
+    {"title": "Advanced", "visible": "", "items": [
+      {"type": "group", "title": "User tables", "visible": "", "items": [
+        {"type": "page", "id": "scriptTable1TblSettings", "label": "Script Table #1", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "scriptTable2TblSettings", "label": "Script Table #2", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "scriptTable3TblSettings", "label": "Script Table #3", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "scriptTable4TblSettings", "label": "Script Table #4", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "scriptCurve1Settings", "label": "Script Curve #1", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "scriptCurve2Settings", "label": "Script Curve #2", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "scriptCurve3Settings", "label": "Script Curve #3", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "scriptCurve4Settings", "label": "Script Curve #4", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "scriptCurve5Settings", "label": "Script Curve #5", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "scriptCurve6Settings", "label": "Script Curve #6", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "User scripts (Lua)", "visible": "", "items": [
+        {"type": "page", "id": "scriptSetting", "label": "Script settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "auxInputsDialog", "label": "Script analog inputs", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "luaDigitalInputsDialog", "label": "Script digital inputs", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "luaOutputs", "label": "Script PWM outputs", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "luaCommands", "label": "Script buttons", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      ]}
+    ]},
+    {"title": "Inputs", "visible": "", "items": [
+      {"type": "page", "id": "allPinsInputs", "label": "Input summary", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "Trigger/Home inputs", "visible": "", "items": [
+        {"type": "page", "id": "triggerConfiguration", "label": "Trigger", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "trigger_advanced", "label": "Advanced trigger options", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "triggerConfiguration_gap", "label": "Trigger gap override", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "Sensors", "visible": "", "items": [
+        {"type": "page", "id": "iatSensorDialog", "label": "IAT sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "cltSensor", "label": "CLT sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "tpsSensor", "label": "TPS sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "mapSettings", "label": "MAP sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "mapCurves", "label": "MAP sampling", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "baroSettings", "label": "Baro sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "fuelPressureSensor", "label": "Fuel pressure sensor", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      ]},
+      {"type": "page", "id": "analogEgoSettings", "label": "Lambda sensors", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+      {"type": "group", "title": "Multi position switch", "visible": "", "items": [
+        {"type": "page", "id": "analogMultiSwitchSettings1", "label": "Analog multi-switch 1", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "analogMultiSwitchSettings2", "label": "Analog multi-switch 2", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "analogMultiSwitchSettings3", "label": "Analog multi-switch 3", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "analogMultiSwitchSettings4", "label": "Analog multi-switch 4", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "Analog inputs", "visible": "", "items": [
+        {"type": "page", "id": "analogInputSettings", "label": "Analog input settings", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "auxLinearSensors", "label": "Aux linear sensors", "kind": "other", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "auxTempSensor1Sensor", "label": "Aux temperature 1", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "auxTempSensor2Sensor", "label": "Aux temperature 2", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "Other sensors", "visible": "", "items": [
+        {"type": "page", "id": "oilPressureSensor", "label": "Oil pressure", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "oilTempSensor", "label": "Oil temperature", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fuelTempSensor", "label": "Fuel temperature", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "fuelLevelDialog", "label": "Fuel level", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "ambientTempSensor", "label": "Ambient temperature", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "acPressureSensor", "label": "A/C pressure", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "compressorDischargeTemperature", "label": "Compressor discharge temperature", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "otherSensorInputs", "label": "Misc sensors", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      ]},
+      {"type": "page", "id": "flexSensorDialog", "label": "Ethanol sensor", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "egtInputs", "label": "EGT sensors", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "sentInputs", "label": "SENT protocol input", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "ECU supply", "visible": "", "items": [
+        {"type": "page", "id": "energySystems", "label": "Battery and alternator", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignitionInputDialog", "label": "Ignition key input", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+      ]}
+    ]},
+    {"title": "Outputs", "visible": "", "items": [
+      {"type": "page", "id": "outputsDialog", "label": "Output config", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "allPinsOutputs", "label": "Output summary", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "Fans", "visible": "", "items": [
+        {"type": "page", "id": "fanSettings", "label": "Fan settings", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fan1PwmCurveDialog", "label": "Fan 1 PWM", "kind": "dialog", "enable": "fan1PwmEnabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "fan2PwmCurveDialog", "label": "Fan 2 PWM", "kind": "dialog", "enable": "fan2PwmEnabled", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "page", "id": "acSettings", "label": "A/C control", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "GP PWM", "visible": "", "items": [
+        {"type": "page", "id": "gppwm1", "label": "General Purpose PWM 1", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "gppwm2", "label": "General Purpose PWM 2", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "gppwm3", "label": "General Purpose PWM 3", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"},
+        {"type": "page", "id": "gppwm4", "label": "General Purpose PWM 4", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+      ]},
+      {"type": "page", "id": "statusLeds", "label": "Status LEDs", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"}
+    ]},
+    {"title": "Diagnostics", "visible": "", "items": [
+      {"type": "page", "id": "ioTest", "label": "Output test", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "injTest", "label": "Injector test", "kind": "dialog", "enable": "", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "OutputDiagDialog", "label": "Output diagnostics", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "layout"}
+    ]},
+    {"title": "Tuning", "visible": "", "items": [
+      {"type": "page", "id": "veTableDialog", "label": "Fuel table", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "lambdaTableDialog", "label": "Lambda table", "kind": "dialog", "enable": "isInjectionEnabled == 1 && useLambdaOnInterface", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "afrTableDialog", "label": "AFR table", "kind": "dialog", "enable": "isInjectionEnabled == 1 && !useLambdaOnInterface", "visible": "", "origin": "layout"},
+      {"type": "page", "id": "IgnitionTableDialog", "label": "Ignition angle table", "kind": "dialog", "enable": "isIgnitionEnabled", "visible": "", "origin": "layout"},
+      {"type": "group", "title": "Extra fuel tables", "visible": "", "items": [
+        {"type": "page", "id": "secondVeTableDialog", "label": "Second fuel table", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "veBlend1Cfg", "label": "VE blend 1 settings", "kind": "dialog", "enable": "isInjectionEnabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "veBlend1Table", "label": "VE blend table 1", "kind": "table", "enable": "isInjectionEnabled && veBlends1_blendParameter != 0", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "veBlend2Cfg", "label": "VE blend 2 settings", "kind": "dialog", "enable": "isInjectionEnabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "veBlend2Table", "label": "VE blend table 2", "kind": "table", "enable": "isInjectionEnabled && veBlends2_blendParameter != 0", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "veBlend3Cfg", "label": "VE blend 3 settings", "kind": "dialog", "enable": "isInjectionEnabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "veBlend3Table", "label": "VE blend table 3", "kind": "table", "enable": "isInjectionEnabled && veBlends3_blendParameter != 0", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "veBlend4Cfg", "label": "VE blend 4 settings", "kind": "dialog", "enable": "isInjectionEnabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "veBlend4Table", "label": "VE blend table 4", "kind": "table", "enable": "isInjectionEnabled && veBlends4_blendParameter != 0", "visible": "", "origin": "layout"}
+      ]},
+      {"type": "group", "title": "Extra ignition tables", "visible": "", "items": [
+        {"type": "page", "id": "secondIgnitionTableDialog", "label": "Second ignition table", "kind": "dialog", "enable": "isIgnitionEnabled == 1", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignAdder1Cfg", "label": "Ignition blend 1 bias", "kind": "dialog", "enable": "isIgnitionEnabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignAdder1Table", "label": "Ignition blend table 1", "kind": "table", "enable": "isIgnitionEnabled && ignBlends1_blendParameter != 0", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignAdder2Cfg", "label": "Ignition blend 2 bias", "kind": "dialog", "enable": "isIgnitionEnabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignAdder2Table", "label": "Ignition blend table 2", "kind": "table", "enable": "isIgnitionEnabled && ignBlends2_blendParameter != 0", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignAdder3Cfg", "label": "Ignition blend 3 bias", "kind": "dialog", "enable": "isIgnitionEnabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignAdder3Table", "label": "Ignition blend table 3", "kind": "table", "enable": "isIgnitionEnabled && ignBlends3_blendParameter != 0", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignAdder4Cfg", "label": "Ignition blend 4 bias", "kind": "dialog", "enable": "isIgnitionEnabled", "visible": "", "origin": "layout"},
+        {"type": "page", "id": "ignAdder4Table", "label": "Ignition blend table 4", "kind": "table", "enable": "isIgnitionEnabled && ignBlends4_blendParameter != 0", "visible": "", "origin": "layout"}
+      ]}
+    ]},
+    {"title": "Expert", "visible": "", "items": [
+      {"type": "group", "title": "Setup", "visible": "", "items": [
+        {"type": "page", "id": "misfireDetectionDialog", "label": "Limits and protection - Misfire Detection", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Setup"}
+      ]},
+      {"type": "group", "title": "Fuel", "visible": "", "items": [
+        {"type": "page", "id": "veTableMap", "label": "VE 3D view", "kind": "table3d", "enable": "isInjectionEnabled", "visible": "", "origin": "expert:Fuel"},
+        {"type": "page", "id": "targetAfrBlend1Cfg", "label": "Target AFR adder tables - Target AFR 1 settings", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Fuel"},
+        {"type": "page", "id": "targetAfrBlend1Table", "label": "Target AFR adder tables - Target AFR 1 table", "kind": "table", "enable": "targetAfrBlends1_blendParameter != 0", "visible": "", "origin": "expert:Fuel"},
+        {"type": "page", "id": "targetAfrBlend2Cfg", "label": "Target AFR adder tables - Target AFR 2 settings", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Fuel"},
+        {"type": "page", "id": "targetAfrBlend2Table", "label": "Target AFR adder tables - Target AFR 2 table", "kind": "table", "enable": "targetAfrBlends2_blendParameter != 0", "visible": "", "origin": "expert:Fuel"},
+        {"type": "page", "id": "tChargeSettings", "label": "Fuel Corrections - Charge temperature estimation", "kind": "dialog", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "expert:Fuel"},
+        {"type": "page", "id": "mapEstimateTableTbl", "label": "TPS Acceleration Enrichment / Wall Wetting AE - MAP estimate table", "kind": "table", "enable": "isInjectionEnabled == 1 && fuelAlgorithm == 0", "visible": "uiMode == 0 || uiMode == 1", "origin": "expert:Fuel"},
+        {"type": "page", "id": "predictiveMapBlendDuration", "label": "TPS Acceleration Enrichment / Wall Wetting AE - Predictive Map Blend Duration", "kind": "curve", "enable": "isInjectionEnabled == 1", "visible": "", "origin": "expert:Fuel"},
+        {"type": "page", "id": "flexAeMultDialog", "label": "TPS Acceleration Enrichment / Wall Wetting AE - Flex fuel: accel enrichment multiplier", "kind": "dialog", "enable": "isInjectionEnabled == 1 && flexFuelTransientComp == 1", "visible": "", "origin": "expert:Fuel"},
+        {"type": "page", "id": "flexWwTauMultDialog", "label": "TPS Acceleration Enrichment / Wall Wetting AE - Flex fuel: wall wetting tau multiplier", "kind": "dialog", "enable": "isInjectionEnabled == 1 && flexFuelTransientComp == 1", "visible": "", "origin": "expert:Fuel"},
+        {"type": "page", "id": "flexWwBetaMultDialog", "label": "TPS Acceleration Enrichment / Wall Wetting AE - Flex fuel: wall wetting beta multiplier", "kind": "dialog", "enable": "isInjectionEnabled == 1 && flexFuelTransientComp == 1", "visible": "", "origin": "expert:Fuel"},
+        {"type": "page", "id": "wwTauCurves", "label": "Wall wetting AE - Evap time", "kind": "dialog", "enable": "complexWallModel != 0", "visible": "", "origin": "expert:Fuel"},
+        {"type": "page", "id": "wwBetaCurves", "label": "Wall wetting AE - Impact fraction", "kind": "dialog", "enable": "complexWallModel != 0", "visible": "", "origin": "expert:Fuel"}
+      ]},
+      {"type": "group", "title": "Ignition", "visible": "", "items": [
+        {"type": "page", "id": "multisparkSettings", "label": "Multispark", "kind": "dialog", "enable": "isIgnitionEnabled == 1", "visible": "", "origin": "expert:Ignition"}
+      ]},
+      {"type": "group", "title": "Cranking", "visible": "", "items": [
+        {"type": "page", "id": "crankingCltCurveE100", "label": "Fuel Engine Temp (Flex Fuel E85)", "kind": "curve", "enable": "flexSensorPin != 0 && flexCranking", "visible": "uiMode == 0 || uiMode == 1", "origin": "expert:Cranking"}
+      ]},
+      {"type": "group", "title": "Idle", "visible": "", "items": [
+        {"type": "page", "id": "idleVeTableTbl", "label": "Idle VE", "kind": "table", "enable": "useSeparateVeForIdle == 1", "visible": "", "origin": "expert:Idle"},
+        {"type": "page", "id": "rotIdleMainDialog", "label": "Rotational Idle", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Idle"}
+      ]},
+      {"type": "group", "title": "Advanced", "visible": "", "items": [
+        {"type": "page", "id": "ignitionCylExtra", "label": "Cylinder offsets", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Advanced"},
+        {"type": "page", "id": "boostOpenBlend1Cfg", "label": "Boost blend tables - Open loop 1 bias", "kind": "dialog", "enable": "isBoostControlEnabled", "visible": "", "origin": "expert:Advanced"},
+        {"type": "page", "id": "boostOpenBlend1Table", "label": "Boost blend tables - Open loop 1 adder", "kind": "table", "enable": "isBoostControlEnabled && boostOpenLoopBlends1_blendParameter != 0", "visible": "", "origin": "expert:Advanced"},
+        {"type": "page", "id": "boostOpenBlend2Cfg", "label": "Boost blend tables - Open loop 2 bias", "kind": "dialog", "enable": "isBoostControlEnabled", "visible": "", "origin": "expert:Advanced"},
+        {"type": "page", "id": "boostOpenBlend2Table", "label": "Boost blend tables - Open loop 2 adder", "kind": "table", "enable": "isBoostControlEnabled && boostOpenLoopBlends2_blendParameter != 0", "visible": "", "origin": "expert:Advanced"},
+        {"type": "page", "id": "boostClosedBlend1Cfg", "label": "Boost blend tables - Closed loop 1 bias", "kind": "dialog", "enable": "isBoostControlEnabled && boostType == 1", "visible": "", "origin": "expert:Advanced"},
+        {"type": "page", "id": "boostClosedBlend1Table", "label": "Boost blend tables - Closed loop 1 adder", "kind": "table", "enable": "isBoostControlEnabled && boostType == 1 && boostClosedLoopBlends1_blendParameter != 0", "visible": "", "origin": "expert:Advanced"},
+        {"type": "page", "id": "boostClosedBlend2Cfg", "label": "Boost blend tables - Closed loop 2 bias", "kind": "dialog", "enable": "isBoostControlEnabled && boostType == 1", "visible": "", "origin": "expert:Advanced"},
+        {"type": "page", "id": "boostClosedBlend2Table", "label": "Boost blend tables - Closed loop 2 adder", "kind": "table", "enable": "isBoostControlEnabled && boostType == 1 && boostClosedLoopBlends2_blendParameter != 0", "visible": "", "origin": "expert:Advanced"}
+      ]},
+      {"type": "group", "title": "Sensors", "visible": "", "items": [
+        {"type": "page", "id": "mafSettings", "label": "MAF sensor", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Sensors"},
+        {"type": "page", "id": "mafDecodingCurve", "label": "MAF transfer function", "kind": "curve", "enable": "mafAdcChannel != 0", "visible": "", "origin": "expert:Sensors"},
+        {"type": "page", "id": "egoSettings", "label": "CAN O2 sensors", "kind": "dialog", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "expert:Sensors"},
+        {"type": "page", "id": "idleValvePosDialog", "label": "ETB-style Idle valve position sensor", "kind": "dialog", "enable": "etbFunctions1 == 3 || etbFunctions2 == 3", "visible": "1", "origin": "expert:Sensors"},
+        {"type": "page", "id": "wastegatePosDialog", "label": "Turbo sensors - Electronic Wastegate position sensor", "kind": "dialog", "enable": "etbFunctions1 == 4 || etbFunctions2 == 4", "visible": "1", "origin": "expert:Sensors"}
+      ]},
+      {"type": "group", "title": "CAN-bus", "visible": "", "items": [
+        {"type": "page", "id": "triggeredCanOutput1Dialog", "label": "Triggered CAN Outputs - Triggered CAN Output 1", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:CAN-bus"},
+        {"type": "page", "id": "triggeredCanOutput2Dialog", "label": "Triggered CAN Outputs - Triggered CAN Output 2", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:CAN-bus"},
+        {"type": "page", "id": "triggeredCanOutput3Dialog", "label": "Triggered CAN Outputs - Triggered CAN Output 3", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:CAN-bus"},
+        {"type": "page", "id": "triggeredCanOutput4Dialog", "label": "Triggered CAN Outputs - Triggered CAN Output 4", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:CAN-bus"},
+        {"type": "page", "id": "triggeredCanOutput5Dialog", "label": "Triggered CAN Outputs - Triggered CAN Output 5", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:CAN-bus"},
+        {"type": "page", "id": "triggeredCanOutput6Dialog", "label": "Triggered CAN Outputs - Triggered CAN Output 6", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:CAN-bus"},
+        {"type": "page", "id": "triggeredCanOutput7Dialog", "label": "Triggered CAN Outputs - Triggered CAN Output 7", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:CAN-bus"},
+        {"type": "page", "id": "triggeredCanOutput8Dialog", "label": "Triggered CAN Outputs - Triggered CAN Output 8", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:CAN-bus"}
+      ]},
+      {"type": "group", "title": "Controller", "visible": "", "items": [
+        {"type": "page", "id": "ecuStimulator", "label": "ECU stimulator", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "spiBuses", "label": "SPI Buses", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "spiDevices", "label": "SPI Devices", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "monitoringSettings", "label": "rusEFI console", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "allPinsInternal", "label": "Full pinout - Internal", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "kLineDialog", "label": "K-Line", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "harleyAcr", "label": "Harley", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "idleFlowEstimate", "label": "Idle flow estimate", "kind": "curve", "enable": "modeledFlowIdle", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "idleAirmassTimingEquivalence", "label": "Idle airmass/timing equivalence", "kind": "curve", "enable": "modeledFlowIdle", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "rotaryDialog", "label": "Rotary", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "throttleEffectiveArea", "label": "Torque - Throttle effective area", "kind": "curve", "enable": "1", "visible": "uiMode == 0 || uiMode == 1", "origin": "expert:Controller"},
+        {"type": "page", "id": "torqueTableTbl", "label": "Torque - Torque", "kind": "table", "enable": "", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "torqueTableGenerator", "label": "Torque - Torque Table Generator", "kind": "other", "enable": "", "visible": "", "origin": "expert:Controller"},
+        {"type": "page", "id": "torque2TableTbl", "label": "Torque - TMF", "kind": "table", "enable": "", "visible": "", "origin": "expert:Controller"}
+      ]},
+      {"type": "group", "title": "View", "visible": "", "items": [
+        {"type": "page", "id": "fuel_computerDialog", "label": "fuel_computer", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "ignition_stateDialog", "label": "ignition_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "knock_controllerDialog", "label": "knock_controller", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "prime_injectionDialog", "label": "prime_injection", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "tcu_controllerDialog", "label": "tcu_controller", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "throttle_modelDialog", "label": "throttle_model", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "injector_modelDialog", "label": "injector_model", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "launch_control_stateDialog", "label": "launch_control_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "shift_torque_reduction_stateDialog", "label": "shift_torque_reduction_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "antilag_system_stateDialog", "label": "antilag_system_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "boost_controlDialog", "label": "boost_control", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "ac_controlDialog", "label": "ac_control", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "nitrous_control_stateDialog", "label": "nitrous_control_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "fan_control0Dialog", "label": "fan_control0", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "fan_control1Dialog", "label": "fan_control1", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "fuel_pump_controlDialog", "label": "fuel_pump_control", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "main_relayDialog", "label": "main_relay", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "tps_accel_stateDialog", "label": "tps_accel_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "trigger_centralDialog", "label": "trigger_central", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "trigger_state0Dialog", "label": "trigger_state0", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "trigger_state1Dialog", "label": "trigger_state1", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "trigger_state2Dialog", "label": "trigger_state2", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "trigger_state3Dialog", "label": "trigger_state3", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "trigger_state4Dialog", "label": "trigger_state4", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "trigger_state_primaryDialog", "label": "trigger_state_primary", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "wall_fuel_stateDialog", "label": "wall_fuel_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "closed_loop_idleDialog", "label": "closed_loop_idle", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "misfire_detection_stateDialog", "label": "misfire_detection_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "live_data_exampleDialog", "label": "live_data_example", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "idle_stateDialog", "label": "idle_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "electronic_throttle0Dialog", "label": "electronic_throttle0", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "electronic_throttle1Dialog", "label": "electronic_throttle1", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "wideband_state0Dialog", "label": "wideband_state0", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "wideband_state1Dialog", "label": "wideband_state1", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "dc_motorsDialog", "label": "dc_motors", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "sent_stateDialog", "label": "sent_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "vvtDialog", "label": "vvt", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "lambda_monitorDialog", "label": "lambda_monitor", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "long_term_fuel_trim_stateDialog", "label": "long_term_fuel_trim_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "short_term_fuel_trim_stateDialog", "label": "short_term_fuel_trim_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "vvl_controller_stateDialog", "label": "vvl_controller_state", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"},
+        {"type": "page", "id": "live_data_rotational_idleDialog", "label": "live_data_rotational_idle", "kind": "dialog", "enable": "", "visible": "", "origin": "expert:View"}
+      ]}
+    ]},
+    {"title": "Help", "visible": "", "items": [
+      {"type": "page", "id": "helpGeneral", "label": "Mazduino help", "kind": "other", "enable": "", "visible": "", "origin": "layout"}
+    ]}
+  ]
+}
