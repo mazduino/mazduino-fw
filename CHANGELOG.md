@@ -32,6 +32,7 @@ All notable changes to Mazduino firmware are documented here.
 - mazduino-mega100-512: STM32F407VET6 (512KB) board with reduced feature set; firmware constrained to 384KB to keep tune storage sector (sector 7, 0x08060000) free
 
 ### Changed
+- Live data is served at most every 10 ms (100 Hz). A client that polls back to back, such as a tuner set to its fastest rate, used to keep the USB thread busy at about 260 Hz and a third of the CPU; it now gets 100 Hz. Measured on a Mazduino Lite: 263 Hz before, 100.0 Hz after
 - CI (nightly-release): the release body lists all 10 boards, including the four BIGFUEL variants, and links `boards/FEATURES.md`. It listed only 6 boards, and still called mini6ch an F427-only board
 - mazduino-core: software knock is off by default. The firmware still supports it, but the 48-pin carrier connector does not bring the knock input out. A tune that already has it on keeps its setting
 - CI (nightly-release): release notes list only what changed since the previous nightly tag (the CHANGELOG lines added since then, or the commits when there are none). They used to repeat the whole `[Unreleased]` section, which is never cut, so every release showed every change ever made
