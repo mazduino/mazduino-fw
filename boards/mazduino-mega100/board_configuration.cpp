@@ -22,18 +22,6 @@ Gpio getCommsLedPin() {
 Gpio getRunningLedPin() { return Gpio::Unassigned; }
 Gpio getWarningLedPin() { return Gpio::Unassigned; }
 
-static void setPinout_board04() {
-    engineConfiguration->injectionPins[0] = Gpio::B15;
-    engineConfiguration->injectionPins[1] = Gpio::B14;
-    engineConfiguration->injectionPins[2] = Gpio::B12;
-    engineConfiguration->injectionPins[3] = Gpio::B13;
-
-    engineConfiguration->ignitionPins[0] = Gpio::E2;
-    engineConfiguration->ignitionPins[1] = Gpio::E3;
-    engineConfiguration->ignitionPins[2] = Gpio::C13;
-    engineConfiguration->ignitionPins[3] = Gpio::E7;
-}
-
 void customBoardTsAction(uint16_t subSystem, uint16_t index) {
     if (subSystem != (uint16_t)TS_BOARD_ACTION) {
         return;
@@ -48,17 +36,15 @@ void customBoardTsAction(uint16_t subSystem, uint16_t index) {
 static void customBoardDefaultConfiguration() {
     config->communityCommsLedPin = Gpio::Unassigned;
 
-    // Trigger inputs
-    engineConfiguration->triggerInputPins[0] = Gpio::D3;   // CKP
+    // Secondary TS channel (Bluetooth) on USART3. rusEFI defaults these to PC10/PC11, which this board
+    // uses for the SD card on SPI3. Wiring: PB10 -> HC-05 RXD, PB11 <- HC-05 TXD.
+    // These are D16/D17 on the Mega header; a preset whose board uses them (v0.4: stepper) frees them.
+    engineConfiguration->binarySerialTxPin = Gpio::B10;
+    engineConfiguration->binarySerialRxPin = Gpio::B11;
 
-    // Analog sensors - ADC1
-    // PA3 (EFI_ADC_3) reserved for knock via ADC3
-    engineConfiguration->map.sensor.hwChannel  = EFI_ADC_0;  // PA0
-    engineConfiguration->afr.hwChannel         = EFI_ADC_1;  // PA1
-    engineConfiguration->vbattAdcChannel        = EFI_ADC_2;  // PA2
-    engineConfiguration->tps1_1AdcChannel       = EFI_ADC_6;  // PA6
-    engineConfiguration->clt.adcChannel         = EFI_ADC_4;  // PA4
-    engineConfiguration->iat.adcChannel         = EFI_ADC_5;  // PA5
+    // Pins: Speeduino v0.4 through the Mega converter v1.3 (speeduino_presets.cpp). Software knock
+    // samples PA3, which is MAP (A3) on that board, so leave knock off with this layout.
+    applySpeeduinoPreset(SPEEDUINO_PRESET_V04);
 
     engineConfiguration->analogInputDividerCoefficient = (470.0f + 910.0f) / 910.0f; // 470R high side/910R low side
     engineConfiguration->vbattDividerCoeff = (82.0f + 10.0f) / 10.0f; // 82k high side/10k low side
@@ -66,29 +52,9 @@ static void customBoardDefaultConfiguration() {
     engineConfiguration->clt.config.bias_resistor = 2700;
     engineConfiguration->iat.config.bias_resistor = 2700;
 
-    // Default to board_04 pinout
-    setPinout_board04();
-
-    // Aux outputs
-    engineConfiguration->fuelPumpPin               = Gpio::C8;
-    engineConfiguration->mainRelayPin               = Gpio::E8;
-    engineConfiguration->idle.solenoidPin           = Gpio::D9;
-    engineConfiguration->fanPin                     = Gpio::A15;
-    engineConfiguration->tachOutputPin              = Gpio::C9;
-    engineConfiguration->acSwitch                   = Gpio::B0;
-    engineConfiguration->acRelayPin                 = Gpio::C7;
-    engineConfiguration->vehicleSpeedSensorInputPin = Gpio::D7;
-    engineConfiguration->clutchDownPin              = Gpio::E13;
-    engineConfiguration->clutchDownPinMode          = PI_INVERTED_PULLUP;
-
     // CAN
     engineConfiguration->canTxPin = Gpio::D1;
     engineConfiguration->canRxPin = Gpio::D0;
-
-    // Secondary TS channel (Bluetooth) on USART3. rusEFI defaults these to PC10/PC11, which this board
-    // uses for the SD card on SPI3. Wiring: PB10 -> HC-05 RXD, PB11 <- HC-05 TXD.
-    engineConfiguration->binarySerialTxPin = Gpio::B10;
-    engineConfiguration->binarySerialRxPin = Gpio::B11;
 
     // SD card - SPI3
     engineConfiguration->is_enabled_spi_3  = true;
