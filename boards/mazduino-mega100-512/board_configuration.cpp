@@ -4,20 +4,39 @@
  * Arduino Mega socket form factor
  * Reference: https://github.com/rusefi/fw-custom-mega100-f4
  *
- * Uses board_04 pinout (INJ: B15/B14/B12/B13, IGN: E2/E3/C13/E7).
- * Runtime pinout switching disabled to reduce flash usage.
+ * Uses board_04 pinout (INJ: B15/B14/B12/B13, IGN: E2/E3/C13/E7) by default.
+ * TunerStudio board actions set the pins for a Speeduino board on the Mega converter v1.3,
+ * shared with mazduino-mega100 (../mazduino-mega100/speeduino_presets.cpp).
  * No SD card, no Lua (EFI_LUA=FALSE in board.mk). USB enabled for TunerStudio.
  */
 
 #include "pch.h"
 #include "board_overrides.h"
+#include "flash_main.h"
+#include "tunerstudio.h"
+#include "../mazduino-mega100/speeduino_presets.h"
 
-Gpio getCommsLedPin() { return config->communityCommsLedPin; }
+// PB7 is the critical error LED (LED_CRITICAL_ERROR_BRAIN_PIN in board.mk); a tune that still has the
+// comms LED there would stop the ECU with a pin conflict, so that setting is ignored.
+Gpio getCommsLedPin() {
+    return config->communityCommsLedPin == LED_CRITICAL_ERROR_BRAIN_PIN ? Gpio::Unassigned : config->communityCommsLedPin;
+}
 Gpio getRunningLedPin() { return Gpio::Unassigned; }
 Gpio getWarningLedPin() { return Gpio::Unassigned; }
 
+void customBoardTsAction(uint16_t subSystem, uint16_t index) {
+    if (subSystem != (uint16_t)TS_BOARD_ACTION) {
+        return;
+    }
+    if (!applySpeeduinoPreset(index)) {
+        return;
+    }
+    writeToFlashNow();
+    onApplyPreset();
+}
+
 static void customBoardDefaultConfiguration() {
-    config->communityCommsLedPin = Gpio::B7;
+    config->communityCommsLedPin = Gpio::Unassigned;
 
     // Trigger inputs
     engineConfiguration->triggerInputPins[0] = Gpio::D3;   // CKP
@@ -75,4 +94,5 @@ static void customBoardDefaultConfiguration() {
 
 void setup_custom_board_overrides() {
     custom_board_DefaultConfiguration = customBoardDefaultConfiguration;
+    custom_board_ts_command = customBoardTsAction;
 }
