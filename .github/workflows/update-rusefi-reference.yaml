@@ -1,13 +1,47 @@
 name: Update rusEFI Reference
 
+# Moves the ext/rusefi submodule to the tip of rusefi-core master and pushes that to master.
+# The steps live here: rusefi-core is private, and a public repo cannot call its workflows.
+
 on:
   schedule:
-    - cron: '5 17 * * *' # update rusEFI reference daily at 5:05 pm
+    - cron: '5 17 * * *' # daily at 17:05 UTC
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+concurrency:
+  group: update-rusefi-reference
+  cancel-in-progress: false
+
 jobs:
-  call-workflow-passing-data:
-    uses: mazduino/rusefi-core/.github/workflows/custom-board-update-rusefi-reference.yaml@master
-    permissions:
-      contents: write
-    secrets: inherit
+  update-submodule:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          submodules: false
+          token: ${{ secrets.MY_REPO_PAT }}
+
+      - name: Move ext/rusefi to rusefi-core master
+        run: |
+          git config --global url."https://x-access-token:${{ secrets.MY_REPO_PAT }}@github.com/".insteadOf "git@github.com:"
+          git submodule update --init --force --depth=1 ext/rusefi
+          OLD=$(git -C ext/rusefi rev-parse HEAD)
+          git -C ext/rusefi fetch --depth=1 origin master
+          git -C ext/rusefi checkout --quiet FETCH_HEAD
+          NEW=$(git -C ext/rusefi rev-parse HEAD)
+          echo "OLD=$OLD" >> "$GITHUB_ENV"
+          echo "NEW=$NEW" >> "$GITHUB_ENV"
+          echo "ext/rusefi: $OLD -> $NEW"
+
+      - name: Commit and push
+        if: env.OLD != env.NEW
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ext/rusefi
+          git commit -m "update ext/rusefi to rusefi-core ${NEW:0:10}"
+          git push origin HEAD:master
