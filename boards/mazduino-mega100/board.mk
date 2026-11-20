@@ -8,8 +8,10 @@ endif
 DDEFS += -DEFI_WIDEBAND_FIRMWARE_UPDATE=FALSE
 DDEFS += -DRAM_UNUSED_SIZE=100
 DDEFS += -DSTM32_ADC_USE_ADC3=TRUE
+# Software knock without the knock spectrogram (KNOCK_SPECTROGRAM, an #ifdef: leave it undefined
+# rather than FALSE). Detection and retard are unaffected; leaving out the 12KB spectrogram buffer
+# gives that RAM to the Lua heap.
 DDEFS += -DEFI_SOFTWARE_KNOCK=TRUE -DSTM32_ADC_USE_ADC3=TRUE
-DDEFS += -DKNOCK_SPECTROGRAM=TRUE
 
 # Status LED at PB7
 DDEFS += -DLED_CRITICAL_ERROR_BRAIN_PIN=Gpio::B7

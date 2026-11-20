@@ -7,8 +7,10 @@ endif
 DDEFS += -DEFI_WIDEBAND_FIRMWARE_UPDATE=FALSE
 DDEFS += -DRAM_UNUSED_SIZE=100
 DDEFS += -DSTM32_ADC_USE_ADC3=TRUE
+# Software knock without the knock spectrogram (KNOCK_SPECTROGRAM, an #ifdef: leave it undefined
+# rather than FALSE). Detection and retard are unaffected; leaving out the 12KB spectrogram buffer
+# gives that RAM to the Lua heap.
 DDEFS += -DEFI_SOFTWARE_KNOCK=TRUE -DSTM32_ADC_USE_ADC3=TRUE
-DDEFS += -DKNOCK_SPECTROGRAM=TRUE
 
 # INI embedded in flash overflows the 768KB budget with CAN feature additions.
 # INI is published as a GitHub Releases artifact instead.

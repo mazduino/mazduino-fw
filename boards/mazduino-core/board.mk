@@ -21,8 +21,10 @@ DDEFS += -DEFI_CONSOLE_TX_BRAIN_PIN=Gpio::D5 -DEFI_CONSOLE_RX_BRAIN_PIN=Gpio::D6
 DDEFS += -DEFI_WIDEBAND_FIRMWARE_UPDATE=FALSE
 DDEFS += -DRAM_UNUSED_SIZE=100
 DDEFS += -DSTM32_ADC_USE_ADC3=TRUE
+# Software knock without the knock spectrogram (KNOCK_SPECTROGRAM, an #ifdef: leave it undefined
+# rather than FALSE). Detection and retard are unaffected; leaving out the 12KB spectrogram buffer
+# gives that RAM to the Lua heap.
 DDEFS += -DEFI_SOFTWARE_KNOCK=TRUE -DSTM32_ADC_USE_ADC3=TRUE
-DDEFS += -DKNOCK_SPECTROGRAM=TRUE
 
 # Comms/Running/Warning LEDs at PE4/PE5/PE6, error LED at PE3 - same as official Proteus F4
 DDEFS += -DLED_CRITICAL_ERROR_BRAIN_PIN=Gpio::E3
@@ -32,7 +34,7 @@ DDEFS += -DLED_CRITICAL_ERROR_BRAIN_PIN=Gpio::E3
 DDEFS += -DEFI_EMBED_INI_MSD=FALSE
 
 # Same as official Proteus F4: EGO/DYNO view and RTC don't fit the F4 flash budget
-# alongside ETB + 12x12 outputs + knock spectrogram.
+# alongside ETB + 12x12 outputs.
 DDEFS += -DEFI_DYNO_VIEW=FALSE
 DDEFS += -DEFI_RTC=FALSE
 
