@@ -53,6 +53,10 @@
 #define ts_show_idle_stepper false
 #define ts_show_hbridge_function false
 #define ts_show_dc_hardware false
+! VR threshold curves for the Compact v3.0 VR inputs; the PWM pins are fixed by the board
+#define ts_show_vr_threshold_all true
+#define ts_show_vr_threshold_pins false
+#define ts_show_vr_threshold_2 true
 
 ! VVT target tables: 16x16 instead of the rusEFI default 8x8
 #define VVT_TABLE_SIZE 16

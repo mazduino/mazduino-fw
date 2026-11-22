@@ -54,6 +54,15 @@ pins:
     class: [switch_inputs, event_inputs]
     ts_name: CMP (PD4)
 
+  # Compact v3.0 only: VR conditioner outputs, on the same connector pins as CKP / CMP
+  - id: E0
+    class: event_inputs
+    ts_name: CKP VR (PE0, v3.0)
+
+  - id: E1
+    class: event_inputs
+    ts_name: CMP VR (PE1, v3.0)
+
   # Injector outputs
   - id: D8
     class: outputs

@@ -71,6 +71,10 @@ const char* getBoardSpecificPinName(brain_pin_e brainPin) {
 			return "INJ 1 (PD8)";
 		case Gpio::D9:
 			return "Idle Solenoid (PD9)";
+		case Gpio::E0:
+			return "CKP VR (PE0, v3.0)";
+		case Gpio::E1:
+			return "CMP VR (PE1, v3.0)";
 		case Gpio::E13:
 			return "Clutch (PE13)";
 		case Gpio::E14:

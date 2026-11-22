@@ -1,11 +1,51 @@
 /**
  * @file board_configuration.cpp
- * Mazduino Compact 4CH v2.5
+ * Mazduino Compact 4CH v2.5, plus the v3.0 VR/Hall trigger inputs
  * https://wiki.mazduino.com/mazduino-compact-4ch-v2.5/
  */
 
 #include "pch.h"
 #include "board_overrides.h"
+
+/**
+ * Compact v3.0 trigger inputs. Each of CKP and CMP has one Trigger+/Trigger- pair on the connector:
+ * - Hall: read as a digital input on PD3 (CKP) / PD4 (CMP), as on v2.5. Needs the switched pull-up.
+ * - VR: read from the VR conditioner output on PE0 (CKP) / PE1 (CMP). Its threshold comes from the
+ *   vrThreshold curves, PWM on PA8 (CKP) / PC6 (CMP). The pull-up must be off, it would load the sensor.
+ * The pin chosen for the trigger input is the only setting: picking the VR pin turns that pull-up off,
+ * any other pin leaves it on. The pull-up enables are active high and the board defaults them to on.
+ * On v2.5 and older these MCU pins are not connected, so driving them there has no effect.
+ */
+static constexpr Gpio crankVrPin = Gpio::E0;
+static constexpr Gpio camVrPin = Gpio::E1;
+
+static OutputPin crankHallPullUp;
+static OutputPin camHallPullUp;
+
+static bool isUsedAsTriggerInput(Gpio pin) {
+    for (auto input : engineConfiguration->triggerInputPins) {
+        if (input == pin) {
+            return true;
+        }
+    }
+    for (auto input : engineConfiguration->camInputs) {
+        if (input == pin) {
+            return true;
+        }
+    }
+    return false;
+}
+
+static void customBoardInitHardware() {
+    crankHallPullUp.initPin("CKP Hall pull-up", Gpio::E4);
+    camHallPullUp.initPin("CMP Hall pull-up", Gpio::E6);
+}
+
+// Also runs once at boot, right after customBoardInitHardware
+static void customBoardOnConfigurationChange(const engine_configuration_s * /*previousConfiguration*/) {
+    crankHallPullUp.setValue(!isUsedAsTriggerInput(crankVrPin));
+    camHallPullUp.setValue(!isUsedAsTriggerInput(camVrPin));
+}
 
 Gpio getCommsLedPin() { return config->communityCommsLedPin; }
 Gpio getRunningLedPin() { return Gpio::Unassigned; }
@@ -15,7 +55,7 @@ static void customBoardDefaultConfiguration() {
     config->communityCommsLedPin = Gpio::B7;
 
     // Trigger inputs
-    engineConfiguration->triggerInputPins[0] = Gpio::D3;   // CKP
+    engineConfiguration->triggerInputPins[0] = Gpio::D3;   // CKP, Hall (PE0 for VR on v3.0)
 
     // Analog sensors - ADC1
     // PA3 (EFI_ADC_3) is reserved for knock via ADC3 - do not assign here
@@ -77,6 +117,17 @@ static void customBoardDefaultConfiguration() {
     engineConfiguration->sdCardCsPin        = Gpio::D2;
 }
 
+// Applied after every tune load and reset, so a tune made on another board still gets the threshold PWM
+// (the pins are hidden in TunerStudio). The threshold PWM starts once at boot.
+static void customBoardConfigOverrides() {
+    // VR threshold PWM for the v3.0 VR conditioners, it matters only while PE0 / PE1 is the input
+    engineConfiguration->vrThreshold[0].pin = Gpio::A8;    // CKP, TIM1_CH1
+    engineConfiguration->vrThreshold[1].pin = Gpio::C6;    // CMP, TIM3_CH1
+}
+
 void setup_custom_board_overrides() {
+    custom_board_ConfigOverrides = customBoardConfigOverrides;
+    custom_board_InitHardware = customBoardInitHardware;
+    custom_board_OnConfigurationChange = customBoardOnConfigurationChange;
     custom_board_DefaultConfiguration = customBoardDefaultConfiguration;
 }
