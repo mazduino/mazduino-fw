@@ -12,8 +12,11 @@
  * - Hall: read as a digital input on PD3 (CKP) / PD4 (CMP), as on v2.5. Needs the switched pull-up.
  * - VR: read from the VR conditioner output on PE0 (CKP) / PE1 (CMP). Its threshold comes from the
  *   vrThreshold curves, PWM on PA8 (CKP) / PC6 (CMP). The pull-up must be off, it would load the sensor.
- * The pin chosen for the trigger input is the only setting: picking the VR pin turns that pull-up off,
- * any other pin leaves it on. The pull-up enables are active high and the board defaults them to on.
+ * The pin chosen for the trigger input picks the mode. The Hall pull-up is a user setting of its own
+ * (boardCkpHallPullUpOff / boardCmpHallPullUpOff, 0 = on, so a new or older tune has it on), turned
+ * off in piggyback mode where the OEM ECU already pulls the line up. While the VR pin of an input is
+ * used, its pull-up is forced off whatever the setting says. The pull-up enables are active high and
+ * the board holds them off until firmware drives them.
  * On v2.5 and older these MCU pins are not connected, so driving them there has no effect.
  */
 static constexpr Gpio crankVrPin = Gpio::E0;
@@ -43,8 +46,8 @@ static void customBoardInitHardware() {
 
 // Also runs once at boot, right after customBoardInitHardware
 static void customBoardOnConfigurationChange(const engine_configuration_s * /*previousConfiguration*/) {
-    crankHallPullUp.setValue(!isUsedAsTriggerInput(crankVrPin));
-    camHallPullUp.setValue(!isUsedAsTriggerInput(camVrPin));
+    crankHallPullUp.setValue(!config->boardCkpHallPullUpOff && !isUsedAsTriggerInput(crankVrPin));
+    camHallPullUp.setValue(!config->boardCmpHallPullUpOff && !isUsedAsTriggerInput(camVrPin));
 }
 
 Gpio getCommsLedPin() { return config->communityCommsLedPin; }

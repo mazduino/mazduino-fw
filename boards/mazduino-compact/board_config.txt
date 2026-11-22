@@ -1,1 +1,3 @@
+bit boardCkpHallPullUpOff,"Off","On";Compact v3.0: switched pull-up on the CKP Hall input. Turn it off in piggyback mode, where the OEM ECU already pulls the line up. It is always off while the CKP VR pin (PE0) is used.
+bit boardCmpHallPullUpOff,"Off","On";Compact v3.0: switched pull-up on the CMP Hall input. Turn it off in piggyback mode, where the OEM ECU already pulls the line up. It is always off while the CMP VR pin (PE1) is used.
 Gpio communityCommsLedPin
