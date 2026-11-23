@@ -8,6 +8,8 @@
 #define WIKI_MATH_CHANNELS https://wiki.mazduino.com/firmware/math-channels/
 #define ts_show_etb true
 #define ts_show_etb_pins true
+#define ts_show_hbridge_function true
+#define ts_show_dc_hardware false
 #define ts_show_traction_control true
 #define ts_show_tcu true
 #define ts_show_software_knock true
