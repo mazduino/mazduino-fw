@@ -60,7 +60,16 @@ static void customBoardDefaultConfiguration() {
     // No SD card (EFI_FILE_LOGGING=FALSE, USE_FATFS=no in board.mk)
 }
 
+// ETB is not built in. Applied after every tune load and reset, so a tune made on an ETB board
+// does not keep a throttle assigned, which would also keep the TPS grab buttons disabled.
+static void clearEtbFunctions() {
+    for (auto &function : engineConfiguration->etbFunctions) {
+        function = DC_None;
+    }
+}
+
 void setup_custom_board_overrides() {
+    custom_board_ConfigOverrides = clearEtbFunctions;
     custom_board_DefaultConfiguration = customBoardDefaultConfiguration;
     custom_board_ts_command = customBoardTsAction;
 }

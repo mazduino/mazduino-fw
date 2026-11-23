@@ -82,6 +82,11 @@ static void setupEtb() {
 
 	// we only have pwm/dir, no dira/dirb
 	engineConfiguration->etb_use_two_wires = false;
+
+	// Off by default, so a cable throttle can use the TPS grab buttons. Set H-Bridge #1 function to
+	// Throttle 1 to use the ETB.
+	engineConfiguration->etbFunctions[0] = DC_None;
+	engineConfiguration->etbFunctions[1] = DC_None;
 }
 
 static void setupDefaultSensorInputs() {

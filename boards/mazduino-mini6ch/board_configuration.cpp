@@ -107,6 +107,11 @@ static void setupEtb() {
     engineConfiguration->etbIo[0].directionPin1 = Gpio::B8;  // DIR
     engineConfiguration->etbIo[0].disablePin    = Gpio::B9;  // DIS
     engineConfiguration->etb_use_two_wires = false;
+
+    // Off by default, so a cable throttle can use the TPS grab buttons. Set H-Bridge #1 function to
+    // Throttle 1 to use the ETB.
+    engineConfiguration->etbFunctions[0] = DC_None;
+    engineConfiguration->etbFunctions[1] = DC_None;
 }
 
 static void customBoardDefaultConfiguration() {

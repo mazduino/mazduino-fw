@@ -80,6 +80,15 @@ static void customBoardDefaultConfiguration() {
     engineConfiguration->sdCardCsPin        = Gpio::D2;
 }
 
+// No H-bridge on this board. Applied after every tune load and reset, so a tune made on an ETB board
+// does not keep a throttle assigned, which would also keep the TPS grab buttons disabled.
+static void clearEtbFunctions() {
+    for (auto &function : engineConfiguration->etbFunctions) {
+        function = DC_None;
+    }
+}
+
 void setup_custom_board_overrides() {
+    custom_board_ConfigOverrides = clearEtbFunctions;
     custom_board_DefaultConfiguration = customBoardDefaultConfiguration;
 }

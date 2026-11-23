@@ -120,10 +120,16 @@ static void customBoardDefaultConfiguration() {
     engineConfiguration->sdCardCsPin        = Gpio::D2;
 }
 
-// Applied after every tune load and reset, so a tune made on another board still gets the threshold PWM
-// (the pins are hidden in TunerStudio). The threshold PWM starts once at boot.
+// Applied after every tune load and reset, so a tune made on another board still gets these settings.
 static void customBoardConfigOverrides() {
-    // VR threshold PWM for the v3.0 VR conditioners, it matters only while PE0 / PE1 is the input
+    // No H-bridge on this board: a throttle left assigned by a tune from an ETB board would also keep
+    // the TPS grab buttons disabled
+    for (auto &function : engineConfiguration->etbFunctions) {
+        function = DC_None;
+    }
+
+    // VR threshold PWM for the v3.0 VR conditioners, it matters only while PE0 / PE1 is the input.
+    // The pins are hidden in TunerStudio; the threshold PWM starts once at boot.
     engineConfiguration->vrThreshold[0].pin = Gpio::A8;    // CKP, TIM1_CH1
     engineConfiguration->vrThreshold[1].pin = Gpio::C6;    // CMP, TIM3_CH1
 }
