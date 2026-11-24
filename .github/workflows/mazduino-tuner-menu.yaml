@@ -5,7 +5,7 @@ name: Mazduino Tuner menu
 
 on:
   push:
-    branches: [mazduino-tuner]
+    branches: [master]
     paths:
       - 'mazduino-tuner/**'
       - 'boards/**'
