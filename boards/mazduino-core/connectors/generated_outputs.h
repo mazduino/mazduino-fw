@@ -14,9 +14,9 @@ Gpio GENERATED_OUTPUTS[] = {
 	Gpio::G14, // LS 7 (PG14)
 	Gpio::B4, // LS 8 (PB4)
 	Gpio::B5, // LS 9 (PB5)
-	Gpio::B6, // LS 10 - Fuel Pump (PB6)
-	Gpio::B7, // LS 11 - Fan (PB7)
-	Gpio::B8, // LS 12 - Main Relay (PB8)
+	Gpio::B6, // LS 10 (PB6)
+	Gpio::B7, // LS 11 (PB7)
+	Gpio::B8, // LS 12 (PB8)
 	Gpio::B9, // LS 13 (PB9)
 	Gpio::E0, // LS 14 (PE0)
 	Gpio::E1, // LS 15 (PE1)
@@ -52,9 +52,9 @@ Gpio GENERATED_OUTPUTS[] = {
 // "LS 7 (PG14)",
 // "LS 8 (PB4)",
 // "LS 9 (PB5)",
-// "LS 10 - Fuel Pump (PB6)",
-// "LS 11 - Fan (PB7)",
-// "LS 12 - Main Relay (PB8)",
+// "LS 10 (PB6)",
+// "LS 11 (PB7)",
+// "LS 12 (PB8)",
 // "LS 13 (PB9)",
 // "LS 14 (PE0)",
 // "LS 15 (PE1)",

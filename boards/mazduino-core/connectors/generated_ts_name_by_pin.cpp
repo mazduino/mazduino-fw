@@ -12,13 +12,13 @@ const char* getBoardSpecificPinName(brain_pin_e brainPin) {
 		case Gpio::A1:
 			return "Analog Volt 6 (PA1)";
 		case Gpio::A2:
-			return "Analog Volt 7 - PPS2 (PA2)";
+			return "Analog Volt 7 (PA2)";
 		case Gpio::A3:
 			return "Analog Volt 8 (PA3)";
 		case Gpio::A4:
-			return "Analog Volt 9 - PPS (PA4)";
+			return "Analog Volt 9 (PA4)";
 		case Gpio::A5:
-			return "Analog Volt 10 - AFR (PA5)";
+			return "Analog Volt 10 (PA5)";
 		case Gpio::A6:
 			return "Analog Volt 11 (PA6)";
 		case Gpio::A8:
@@ -26,7 +26,7 @@ const char* getBoardSpecificPinName(brain_pin_e brainPin) {
 		case Gpio::A9:
 			return "HS 1 (PA9)";
 		case Gpio::B0:
-			return "Analog Temp 3 - CLT (PB0)";
+			return "Analog Temp 3 (PB0)";
 		case Gpio::B1:
 			return "Analog Temp 4 (PB1)";
 		case Gpio::B4:
@@ -34,27 +34,27 @@ const char* getBoardSpecificPinName(brain_pin_e brainPin) {
 		case Gpio::B5:
 			return "LS 9 (PB5)";
 		case Gpio::B6:
-			return "LS 10 - Fuel Pump (PB6)";
+			return "LS 10 (PB6)";
 		case Gpio::B7:
-			return "LS 11 - Fan (PB7)";
+			return "LS 11 (PB7)";
 		case Gpio::B8:
-			return "LS 12 - Main Relay (PB8)";
+			return "LS 12 (PB8)";
 		case Gpio::B9:
 			return "LS 13 (PB9)";
 		case Gpio::C0:
-			return "Analog Volt 1 - MAP (PC0)";
+			return "Analog Volt 1 (PC0)";
 		case Gpio::C1:
-			return "Analog Volt 2 - TPS (PC1)";
+			return "Analog Volt 2 (PC1)";
 		case Gpio::C2:
-			return "Analog Volt 3 - TPS2 (PC2)";
+			return "Analog Volt 3 (PC2)";
 		case Gpio::C3:
 			return "Analog Volt 4 (PC3)";
 		case Gpio::C4:
 			return "Analog Temp 1 (PC4)";
 		case Gpio::C5:
-			return "Analog Temp 2 - IAT (PC5)";
+			return "Analog Temp 2 (PC5)";
 		case Gpio::C6:
-			return "Digital 1 - CKP (PC6)";
+			return "Digital 1 (PC6)";
 		case Gpio::C7:
 			return "IGN 5 (PC7)";
 		case Gpio::C8:

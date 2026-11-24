@@ -2,15 +2,15 @@ pins:
   # Analog inputs - same numbering as official Proteus F4 (Analog Volt 1-11, Analog Temp 1-4)
   - id: [C0, EFI_ADC_10]
     class: [switch_inputs, analog_inputs]
-    ts_name: Analog Volt 1 - MAP (PC0)
+    ts_name: Analog Volt 1 (PC0)
 
   - id: [C1, EFI_ADC_11]
     class: [switch_inputs, analog_inputs]
-    ts_name: Analog Volt 2 - TPS (PC1)
+    ts_name: Analog Volt 2 (PC1)
 
   - id: [C2, EFI_ADC_12]
     class: [switch_inputs, analog_inputs]
-    ts_name: Analog Volt 3 - TPS2 (PC2)
+    ts_name: Analog Volt 3 (PC2)
 
   - id: [C3, EFI_ADC_13]
     class: [switch_inputs, analog_inputs]
@@ -26,7 +26,7 @@ pins:
 
   - id: [A2, EFI_ADC_2]
     class: [switch_inputs, analog_inputs]
-    ts_name: Analog Volt 7 - PPS2 (PA2)
+    ts_name: Analog Volt 7 (PA2)
 
   - id: [A3, EFI_ADC_3]
     class: [switch_inputs, analog_inputs]
@@ -34,11 +34,11 @@ pins:
 
   - id: [A4, EFI_ADC_4]
     class: [switch_inputs, analog_inputs]
-    ts_name: Analog Volt 9 - PPS (PA4)
+    ts_name: Analog Volt 9 (PA4)
 
   - id: [A5, EFI_ADC_5]
     class: [switch_inputs, analog_inputs]
-    ts_name: Analog Volt 10 - AFR (PA5)
+    ts_name: Analog Volt 10 (PA5)
 
   - id: [A6, EFI_ADC_6]
     class: [switch_inputs, analog_inputs]
@@ -50,11 +50,11 @@ pins:
 
   - id: [C5, EFI_ADC_15]
     class: [switch_inputs, analog_inputs]
-    ts_name: Analog Temp 2 - IAT (PC5)
+    ts_name: Analog Temp 2 (PC5)
 
   - id: [B0, EFI_ADC_8]
     class: [switch_inputs, analog_inputs]
-    ts_name: Analog Temp 3 - CLT (PB0)
+    ts_name: Analog Temp 3 (PB0)
 
   - id: [B1, EFI_ADC_9]
     class: [switch_inputs, analog_inputs]
@@ -67,7 +67,7 @@ pins:
   # Digital trigger/switch inputs - Digital 1-6, same as official Proteus F4
   - id: [C6, C6]
     class: [switch_inputs, event_inputs]
-    ts_name: Digital 1 - CKP (PC6)
+    ts_name: Digital 1 (PC6)
 
   - id: [E11, E11]
     class: [switch_inputs, event_inputs]
@@ -137,15 +137,15 @@ pins:
 
   - id: B6
     class: outputs
-    ts_name: LS 10 - Fuel Pump (PB6)
+    ts_name: LS 10 (PB6)
 
   - id: B7
     class: outputs
-    ts_name: LS 11 - Fan (PB7)
+    ts_name: LS 11 (PB7)
 
   - id: B8
     class: outputs
-    ts_name: LS 12 - Main Relay (PB8)
+    ts_name: LS 12 (PB8)
 
   - id: B9
     class: outputs
